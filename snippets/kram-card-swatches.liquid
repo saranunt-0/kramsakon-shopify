@@ -1,0 +1,141 @@
+{% comment %}
+  KRAMSAKON — variant swatches under a product card.
+
+  For indigo textiles the variants are usually shades and patterns, so showing
+  them on the card is genuinely useful: a customer sees the range without
+  opening the product. It is also the one place a calm store can show breadth
+  without resorting to badges or urgency (§2.2.3).
+
+  Everything here is read from Shopify's NATIVE catalog — nothing is modelled
+  in the theme. Two sources, in order of preference:
+
+  1. Native swatches. If the owner has set swatch colours or swatch images on
+     an option's values in the admin (Products → Options → the value's swatch),
+     those are used. This is Shopify's built-in feature and the owner manages
+     it entirely from the admin.
+  2. Variant images. Otherwise, the distinct images across the product's
+     variants are used as thumbnails. This needs no setup at all — assigning an
+     image to a variant is ordinary catalog work.
+
+  If neither exists, or the product has one variant, nothing renders.
+
+  Accepts:
+  - card_product: {Object} Product Liquid object. Required.
+  - limit:        {Number} Max swatches before overflowing to "+N". Default 4.
+
+  Usage:
+    {% render 'kram-card-swatches', card_product: card_product %}
+{% endcomment %}
+
+{%- liquid
+  assign swatch_limit = limit | default: settings.kram_card_swatch_limit | default: 4
+
+  comment
+    Same detection idiom Dawn uses in snippets/product-variant-picker.liquid:
+    an option qualifies when any of its values carries a swatch.
+  endcomment
+  assign swatch_option = null
+  for option in card_product.options_with_values
+    assign swatch_count = option.values | map: 'swatch' | compact | size
+    if swatch_count > 0
+      assign swatch_option = option
+      break
+    endif
+  endfor
+-%}
+
+{%- if swatch_option -%}
+  {%- comment -%} Source 1 — native option swatches {%- endcomment -%}
+  {%- liquid
+    assign total = swatch_option.values.size
+    assign overflow = total | minus: swatch_limit
+  -%}
+  <ul
+    class="kram-card-swatches list-unstyled"
+    role="list"
+    aria-label="{{ 'kramsakon.product.available_options' | t: option: swatch_option.name }}"
+  >
+    {%- for value in swatch_option.values limit: swatch_limit -%}
+      <li class="kram-card-swatches__item">
+        <a
+          href="{{ value.product_url | default: card_product.url }}"
+          class="kram-card-swatches__link"
+          aria-label="{{ card_product.title | escape }} — {{ value | escape }}"
+        >
+          {% render 'swatch', swatch: value.swatch, shape: 'square' %}
+        </a>
+      </li>
+    {%- endfor -%}
+    {%- if overflow > 0 -%}
+      <li class="kram-card-swatches__more" aria-hidden="true">+{{ overflow }}</li>
+    {%- endif -%}
+  </ul>
+
+{%- else -%}
+  {%- comment -%}
+    Source 2 — distinct variant images.
+    Variants often share one image, so collect distinct image ids first and
+    count the true total before deciding what overflows. Without the
+    de-duplication a product with 12 variants across 3 photographs would
+    claim "+9" more choices than it has.
+  {%- endcomment -%}
+  {%- liquid
+    assign seen_ids = ''
+    assign distinct_total = 0
+    for variant in card_product.variants
+      if variant.image == blank
+        continue
+      endif
+      assign key = variant.image.id | append: ','
+      unless seen_ids contains key
+        assign seen_ids = seen_ids | append: key
+        assign distinct_total = distinct_total | plus: 1
+      endunless
+    endfor
+    assign overflow = distinct_total | minus: swatch_limit
+  -%}
+
+  {%- if distinct_total > 1 -%}
+    <ul class="kram-card-swatches list-unstyled" role="list">
+      {%- liquid
+        assign rendered_ids = ''
+        assign shown = 0
+      -%}
+      {%- for variant in card_product.variants -%}
+        {%- if variant.image == blank -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- assign key = variant.image.id | append: ',' -%}
+        {%- unless rendered_ids contains key -%}
+          {%- assign rendered_ids = rendered_ids | append: key -%}
+          {%- if shown < swatch_limit -%}
+            {%- assign shown = shown | plus: 1 -%}
+            <li class="kram-card-swatches__item">
+              <a
+                href="{{ variant.url }}"
+                class="kram-card-swatches__link"
+                aria-label="{{ card_product.title | escape }} — {{ variant.title | escape }}"
+              >
+                <img
+                  src="{{ variant.image | image_url: width: 96 }}"
+                  srcset="
+                    {{ variant.image | image_url: width: 48 }} 48w,
+                    {{ variant.image | image_url: width: 96 }} 96w
+                  "
+                  sizes="48px"
+                  alt=""
+                  width="48"
+                  height="48"
+                  loading="lazy"
+                >
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endunless -%}
+      {%- endfor -%}
+      {%- if overflow > 0 -%}
+        <li class="kram-card-swatches__more" aria-hidden="true">+{{ overflow }}</li>
+      {%- endif -%}
+    </ul>
+  {%- endif -%}
+{%- endif -%}

@@ -753,24 +753,118 @@ h6,
 /* --------------------------------------------------------------------------
    13. Product & collection surfaces — calm commerce (§7.2, §7.3)
    -------------------------------------------------------------------------- */
+/* Product cards.
+   Card style "card" + the soft-indigo scheme (set in Theme settings → Cards)
+   makes each product a single tinted panel — image and text on one surface —
+   so a grid reads as one calm field of colour rather than photos floating on
+   the page. Everything below is typography and spacing on top of that. */
 .card__heading {
   font-family: var(--font-heading-family);
   font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.45;
   letter-spacing: 0.01em;
+  font-variation-settings: 'opsz' 24;
+}
+
+.card__heading a {
+  text-decoration: none;
+}
+
+/* Dawn lays .card__content out as a three-row grid; leave that alone and set
+   the breathing room on the text block itself. */
+.card__information {
+  padding: 1.4rem 1.4rem 1.8rem;
+}
+
+.card__heading + .card-information {
+  margin-top: 0.6rem;
+}
+
+.card-information {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .card-information .price {
   font-family: var(--font-body-family);
-  font-size: 1.5rem;
-  color: rgba(var(--color-foreground), 0.85);
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+  color: rgba(var(--color-foreground), 0.75);
 }
 
 .card__media .media img {
   transition: transform var(--kram-duration) var(--kram-ease);
 }
 
-.card__inner:hover .media img:first-child {
-  transform: scale(1.02);
+.card:hover .media img:first-child {
+  transform: scale(1.03);
+}
+
+/* Variant swatches — the range of shades and patterns, shown on the card.
+   Squares, not circles: the pieces are woven cloth, and a square reads as a
+   scrap of fabric rather than a paint chip. */
+.kram-card-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kram-card-swatches__item {
+  display: block;
+  line-height: 0;
+}
+
+.kram-card-swatches__item .swatch,
+.kram-card-swatches__link img {
+  display: block;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 0;
+  border: 1px solid rgba(var(--color-foreground), 0.18);
+  object-fit: cover;
+  transition: border-color 200ms var(--kram-ease);
+}
+
+.kram-card-swatches__link {
+  display: block;
+  line-height: 0;
+}
+
+.kram-card-swatches__link:hover img,
+.kram-card-swatches__item:hover .swatch {
+  border-color: rgba(var(--color-foreground), 0.55);
+}
+
+.kram-card-swatches__link:focus-visible img {
+  outline: 2px solid var(--indigo-mid);
+  outline-offset: 2px;
+}
+
+.kram-card-swatches__more {
+  font-size: 1.2rem;
+  letter-spacing: 0.04em;
+  color: rgba(var(--color-foreground), 0.6);
+  line-height: 2.4rem;
+}
+
+/* "Sold out" is the only badge that survives (§2.2.3) — keep it quiet. */
+.card__badge .badge {
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 0;
+  padding: 0.4rem 0.8rem;
+}
+
+:lang(th) .card__badge .badge {
+  text-transform: none;
+  letter-spacing: 0.02em;
 }
 
 /* Collection intro / description reads as editorial copy, not a promo line. */

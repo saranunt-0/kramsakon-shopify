@@ -24,10 +24,21 @@
         "filter_type": "horizontal",
         "enable_sorting": true,
         "columns_mobile": "2",
-        "padding_top": 40,
-        "padding_bottom": 88
+        "padding_top": 32,
+        "padding_bottom": 72
+      }
+    },
+    "essence": {
+      "type": "kram-essence-strip",
+      "settings": {
+        "text": "Every piece is dyed with natural indigo and woven by hand in Sakon Nakhon.",
+        "link_label": "Our Story",
+        "link": "shopify://pages/our-story",
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 80
       }
     }
   },
-  "order": ["banner", "product-grid"]
+  "order": ["banner", "product-grid", "essence"]
 }

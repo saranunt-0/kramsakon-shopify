@@ -27,6 +27,15 @@
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
   {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+
+  {%- comment -%}
+    KRAMSAKON: cards show variant swatches, and Dawn only loads the swatch
+    stylesheet on product and facet templates. Load it here so swatches are
+    styled wherever a card appears — home, collections, search, related.
+  {%- endcomment -%}
+  {%- if settings.kram_show_card_swatches -%}
+    {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
 {%- endunless -%}
 {%- if card_product and card_product != empty -%}
   {%- liquid
@@ -210,6 +219,16 @@
               {%- endif -%}
 
               {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
+
+              {%- comment -%}
+                KRAMSAKON — show the range of shades/patterns on the card
+                itself. Reads native swatches or variant images; renders
+                nothing when the product has a single look.
+              {%- endcomment -%}
+              {%- if settings.kram_show_card_swatches -%}
+                {% render 'kram-card-swatches', card_product: card_product %}
+              {%- endif -%}
+
               {%- if card_product.quantity_price_breaks_configured? -%}
                 {% if card_product.variants_count == 1 and quick_add == 'bulk' %}
                   {% liquid

@@ -40,13 +40,40 @@
         "image_position": "left",
         "eyebrow": "Natural",
         "heading": "From the indigo plant",
-        "heading_size": "h2",
         "text": "<p>Our colour comes from the indigo plant — a natural dye at the heart of a craft passed down for generations in Sakon Nakhon. Every piece is dyed by hand, so no two are exactly alike.</p>",
-        "link_label": "",
+        "heading_size": "h2",
         "width": "page",
         "color_scheme": "scheme-1",
         "padding_top": 88,
         "padding_bottom": 40
+      }
+    },
+    "new_arrivals": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "New arrivals",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
+        "enable_desktop_slider": false,
+        "swipe_on_mobile": true,
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "padding_top": 40,
+        "padding_bottom": 56
       }
     },
     "story_handcraft": {
@@ -58,32 +85,12 @@
         "image_position": "right",
         "eyebrow": "Handcraft",
         "heading": "Made by hand",
-        "heading_size": "h2",
         "text": "<p>Prepared, dyed, and woven by hand using traditional methods. The small variations in tone and pattern are the mark of real handcraft — and make every piece one of a kind.</p>",
-        "link_label": "",
-        "width": "page",
-        "color_scheme": "scheme-1",
-        "padding_top": 40,
-        "padding_bottom": 40
-      }
-    },
-    "story_community": {
-      "type": "kram-story-block",
-      "settings": {
-        "image_label": "The community of makers together, or the place. Group or craft-in-context — never a single person as the brand's face.",
-        "image_alt": "Weavers and dyers of the Sakon Nakhon community at work",
-        "ratio": "4 / 5",
-        "image_position": "left",
-        "eyebrow": "Made by local",
-        "heading": "Made by a local community",
         "heading_size": "h2",
-        "text": "<p>KRAMSAKON works hand in hand with growers, dyers, and weavers in Sakon Nakhon. As a social enterprise, we help the value of this craft return to the community that keeps it alive.</p>",
-        "link_label": "Read our story",
-        "link": "shopify://pages/our-story",
         "width": "page",
         "color_scheme": "scheme-1",
-        "padding_top": 40,
-        "padding_bottom": 88
+        "padding_top": 56,
+        "padding_bottom": 56
       }
     },
     "craft_journey": {
@@ -148,32 +155,42 @@
         "padding_bottom": 88
       }
     },
-    "new_arrivals": {
-      "type": "featured-collection",
+    "editorial_products": {
+      "type": "kram-editorial-products",
       "settings": {
-        "title": "New arrivals",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
+        "image_label": "Lifestyle: pieces styled simply at home or worn — natural daylight, unfussy.",
+        "image_alt": "Indigo-dyed textiles styled in natural light",
+        "ratio": "4 / 5",
+        "image_position": "right",
+        "eyebrow": "The collection",
+        "heading": "Woven for everyday",
+        "intro": "<p>Pieces dyed with natural indigo and woven by hand — made to be lived with.</p>",
         "collection": "",
         "products_to_show": 4,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "link",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": true,
         "image_ratio": "portrait",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
+        "link_label": "View all",
+        "color_scheme": "scheme-1",
         "padding_top": 88,
-        "padding_bottom": 56
+        "padding_bottom": 88
+      }
+    },
+    "story_community": {
+      "type": "kram-story-block",
+      "settings": {
+        "image_label": "The community of makers together, or the place. Group or craft-in-context — never a single person as the brand's face.",
+        "image_alt": "Weavers and dyers of the Sakon Nakhon community at work",
+        "ratio": "3 / 2",
+        "image_position": "left",
+        "eyebrow": "Made by local",
+        "heading": "Made by a local community",
+        "text": "<p>KRAMSAKON works hand in hand with growers, dyers, and weavers in Sakon Nakhon. As a social enterprise, we help the value of this craft return to the community that keeps it alive.</p>",
+        "heading_size": "h2",
+        "link_label": "Read our story",
+        "link": "shopify://pages/our-story",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 72
       }
     },
     "category_tiles": {
@@ -202,9 +219,6 @@
     "promo_band": {
       "type": "kram-promo-band",
       "settings": {
-        "heading": "",
-        "text": "",
-        "button_label": "",
         "text_alignment": "center",
         "color_scheme": "scheme-2",
         "padding_top": 48,
@@ -216,10 +230,11 @@
     "hero",
     "essence",
     "story_natural",
-    "story_handcraft",
-    "story_community",
-    "craft_journey",
     "new_arrivals",
+    "story_handcraft",
+    "craft_journey",
+    "editorial_products",
+    "story_community",
     "category_tiles",
     "promo_band"
   ]

@@ -48,6 +48,30 @@
       },
       {
         "type": "header",
+        "content": "Product cards"
+      },
+      {
+        "type": "paragraph",
+        "content": "Controls how products appear everywhere they are listed — home, collections, search and related products. The tinted panel behind each card is Shopify's own card setting: Theme settings → Cards → Style \"Card\" with the soft indigo colour scheme."
+      },
+      {
+        "type": "checkbox",
+        "id": "kram_show_card_swatches",
+        "label": "Show shade / pattern options on cards",
+        "default": true,
+        "info": "Uses the swatches you set on product options in the admin, or falls back to your variant images. Nothing shows for products with a single look."
+      },
+      {
+        "type": "range",
+        "id": "kram_card_swatch_limit",
+        "label": "Swatches before \"+N\"",
+        "min": 2,
+        "max": 8,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "header",
         "content": "Contact"
       },
       {
