@@ -1,0 +1,231 @@
+{% comment %}
+  KRAMSAKON — Story block: image + text (guideline §7.1.4–6, §8.3).
+
+  The workhorse of the editorial layout. Repeat it down the homepage and the
+  Our Story page, alternating the image side, so story and product interleave
+  rather than sitting in separate silos.
+
+  Also does duty as a full-bleed image band (layout = "band"), which is the
+  same content model with the text removed.
+{% endcomment %}
+
+{{ 'kramsakon.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div
+    class="
+      {% if section.settings.width == 'full' %}kram-section--flush{% else %}page-width{% endif %}
+      section-{{ section.id }}-padding
+    "
+  >
+    <div
+      class="
+        kram-story kram-story--image-{{ section.settings.image_position }}
+        {%- if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}
+      "
+      {% if settings.animations_reveal_on_scroll %}
+        data-cascade
+      {% endif %}
+    >
+      <div class="kram-story__media">
+        {%- render 'kram-image-mockup',
+          image: section.settings.image,
+          ratio: section.settings.ratio,
+          label: section.settings.image_label,
+          alt: section.settings.image_alt,
+          sizes: '(min-width: 990px) 50vw, 100vw'
+        -%}
+      </div>
+
+      <div class="kram-story__body">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="kram-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <hr class="kram-rule" aria-hidden="true">
+          <h2 class="kram-story__heading {{ section.settings.heading_size }}">
+            {{ section.settings.heading | escape }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.text != blank -%}
+          <div class="rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.link_label != blank and section.settings.link != blank -%}
+          <a href="{{ section.settings.link }}" class="kram-story__link link">
+            {{ section.settings.link_label | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "KRAM · Story block",
+  "tag": "section",
+  "class": "kram-section-story",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Image beside text. Alternate the image side between consecutive blocks so the page reads as an editorial rhythm. Write truthfully: 'natural indigo', 'hand-dyed', 'handwoven' — never 'chemical-free' or '100% natural process'."
+    },
+    {
+      "type": "header",
+      "content": "Image [OWNER INPUT]"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_label",
+      "label": "Placeholder brief",
+      "default": "Hands at work, indigo vat, or close-up weave — natural daylight.",
+      "info": "Shown in the empty placeholder to tell the owner what belongs here."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Alt text",
+      "default": "",
+      "info": "Describe the photograph for screen readers and search. Translate per locale in Translate & Adapt."
+    },
+    {
+      "type": "select",
+      "id": "ratio",
+      "label": "Aspect ratio",
+      "options": [
+        { "value": "4 / 5", "label": "Portrait (4:5)" },
+        { "value": "1 / 1", "label": "Square (1:1)" },
+        { "value": "3 / 2", "label": "Landscape (3:2)" },
+        { "value": "16 / 9", "label": "Wide (16:9)" },
+        { "value": "21 / 9", "label": "Panoramic (21:9)" }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image side (desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "From the indigo plant"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h3", "label": "Small" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "h1", "label": "Large" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Body",
+      "default": "<p>Our colour comes from the indigo plant — a natural dye at the heart of a craft passed down for generations in Sakon Nakhon. Every piece is dyed by hand, so no two are exactly alike.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": ""
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "options": [
+        { "value": "page", "label": "Page width" },
+        { "value": "full", "label": "Full bleed" }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "KRAM · Story block"
+    }
+  ]
+}
+{% endschema %}

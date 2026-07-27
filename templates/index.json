@@ -1,75 +1,226 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "hero": {
+      "type": "kram-hero",
+      "settings": {
+        "image_label": "Full-bleed: indigo-dyed cloth hanging, or an indigo vat. Natural daylight, earthy, unretouched.",
+        "image_alt": "Naturally indigo-dyed cloth from Sakon Nakhon",
+        "ratio_desktop": "16 / 7",
+        "ratio_mobile": "4 / 5",
+        "layout": "overlay",
+        "overlay_opacity": 35,
+        "color_scheme": "scheme-1",
+        "heading": "Naturally dyed by hand, in Sakon Nakhon.",
+        "heading_size": "h0",
+        "tagline": "Learning from Nature. Creating the Future.",
+        "button_label_1": "Shop",
+        "button_link_1": "shopify://collections/all",
+        "button_label_2": "Our Story",
+        "button_link_2": "shopify://pages/our-story",
+        "padding_bottom": 72
+      }
+    },
+    "essence": {
+      "type": "kram-essence-strip",
+      "settings": {
+        "text": "Premium textiles, dyed with natural indigo and woven by hand — created by a community of makers in Sakon Nakhon.",
+        "link_label": "Our Story",
+        "link": "shopify://pages/our-story",
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "story_natural": {
+      "type": "kram-story-block",
+      "settings": {
+        "image_label": "Indigo plants, or indigo dye in the vat. Close, natural daylight.",
+        "image_alt": "Indigo plants growing near Sakon Nakhon",
+        "ratio": "4 / 5",
+        "image_position": "left",
+        "eyebrow": "Natural",
+        "heading": "From the indigo plant",
+        "heading_size": "h2",
+        "text": "<p>Our colour comes from the indigo plant — a natural dye at the heart of a craft passed down for generations in Sakon Nakhon. Every piece is dyed by hand, so no two are exactly alike.</p>",
+        "link_label": "",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 88,
+        "padding_bottom": 40
+      }
+    },
+    "story_handcraft": {
+      "type": "kram-story-block",
+      "settings": {
+        "image_label": "Hands at work — dipping cloth, or at the loom. Show texture and process.",
+        "image_alt": "Hands dyeing cloth with natural indigo",
+        "ratio": "4 / 5",
+        "image_position": "right",
+        "eyebrow": "Handcraft",
+        "heading": "Made by hand",
+        "heading_size": "h2",
+        "text": "<p>Prepared, dyed, and woven by hand using traditional methods. The small variations in tone and pattern are the mark of real handcraft — and make every piece one of a kind.</p>",
+        "link_label": "",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "story_community": {
+      "type": "kram-story-block",
+      "settings": {
+        "image_label": "The community of makers together, or the place. Group or craft-in-context — never a single person as the brand's face.",
+        "image_alt": "Weavers and dyers of the Sakon Nakhon community at work",
+        "ratio": "4 / 5",
+        "image_position": "left",
+        "eyebrow": "Made by local",
+        "heading": "Made by a local community",
+        "heading_size": "h2",
+        "text": "<p>KRAMSAKON works hand in hand with growers, dyers, and weavers in Sakon Nakhon. As a social enterprise, we help the value of this craft return to the community that keeps it alive.</p>",
+        "link_label": "Read our story",
+        "link": "shopify://pages/our-story",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 88
+      }
+    },
+    "craft_journey": {
+      "type": "kram-craft-journey",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "step_plant": {
+          "type": "step",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "title": "The indigo plant",
+            "text": "Indigo is grown and harvested on the land around Sakon Nakhon.",
+            "image_label": "Indigo plants in the field.",
+            "image_alt": "Indigo plants growing in a field"
           }
         },
-        "button": {
-          "type": "buttons",
+        "step_vat": {
+          "type": "step",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "title": "The indigo vat",
+            "text": "The vat is prepared and kept alive — tended daily, read by eye and by hand.",
+            "image_label": "Indigo vat, close up.",
+            "image_alt": "A prepared natural indigo vat"
+          }
+        },
+        "step_dye": {
+          "type": "step",
+          "settings": {
+            "title": "Dyed by hand",
+            "text": "Cloth is dipped by hand, again and again, until the depth of colour is right.",
+            "image_label": "Hands lifting cloth from the indigo vat.",
+            "image_alt": "Hands lifting indigo-dyed cloth from a vat"
+          }
+        },
+        "step_weave": {
+          "type": "step",
+          "settings": {
+            "title": "Woven by hand",
+            "text": "Each piece is woven on the loom using traditional methods.",
+            "image_label": "Weaver at the loom.",
+            "image_alt": "A weaver working at a traditional loom"
+          }
+        },
+        "step_finished": {
+          "type": "step",
+          "settings": {
+            "title": "The finished piece",
+            "text": "Small variations in tone and pattern are the mark of real handcraft.",
+            "image_label": "Finished indigo cloth, folded, natural light.",
+            "image_alt": "Folded indigo-dyed cloth in natural light"
           }
         }
       },
-      "block_order": [
-        "heading",
-        "button"
-      ],
+      "block_order": ["step_plant", "step_vat", "step_dye", "step_weave", "step_finished"],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "layout": "cards",
+        "ratio": "4 / 5",
+        "eyebrow": "The craft",
+        "heading": "The journey of natural indigo",
+        "heading_size": "h2",
+        "text": "<p>From the indigo plant to the finished cloth — preparing the indigo vat, dyeing by hand, and weaving each piece. A craft rooted in nature and time.</p>",
+        "color_scheme": "scheme-2",
+        "padding_top": 88,
+        "padding_bottom": 88
       }
     },
-    "featured_collection": {
+    "new_arrivals": {
       "type": "featured-collection",
       "settings": {
-        "title": "Featured products",
+        "title": "New arrivals",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
+        "collection": "",
+        "products_to_show": 4,
         "columns_desktop": 4,
         "color_scheme": "scheme-1",
         "full_width": false,
         "show_view_all": true,
-        "view_all_style": "solid",
+        "view_all_style": "link",
         "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
+        "swipe_on_mobile": true,
+        "image_ratio": "portrait",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",
         "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "padding_top": 88,
+        "padding_bottom": 56
+      }
+    },
+    "category_tiles": {
+      "type": "collection-list",
+      "blocks": {
+        "cat_1": { "type": "featured_collection", "settings": { "collection": "" } },
+        "cat_2": { "type": "featured_collection", "settings": { "collection": "" } },
+        "cat_3": { "type": "featured_collection", "settings": { "collection": "" } },
+        "cat_4": { "type": "featured_collection", "settings": { "collection": "" } },
+        "cat_5": { "type": "featured_collection", "settings": { "collection": "" } }
+      },
+      "block_order": ["cat_1", "cat_2", "cat_3", "cat_4", "cat_5"],
+      "settings": {
+        "title": "Shop by category",
+        "heading_size": "h2",
+        "image_ratio": "portrait",
+        "columns_desktop": 5,
+        "color_scheme": "scheme-1",
+        "show_view_all": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 56,
+        "padding_bottom": 88
+      }
+    },
+    "promo_band": {
+      "type": "kram-promo-band",
+      "settings": {
+        "heading": "",
+        "text": "",
+        "button_label": "",
+        "text_alignment": "center",
+        "color_scheme": "scheme-2",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "hero",
+    "essence",
+    "story_natural",
+    "story_handcraft",
+    "story_community",
+    "craft_journey",
+    "new_arrivals",
+    "category_tiles",
+    "promo_band"
   ]
 }

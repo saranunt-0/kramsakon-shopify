@@ -1,0 +1,68 @@
+{% comment %}
+  KRAMSAKON — image slot with a labelled mockup placeholder.
+
+  Guideline §0 / §4.4: every image area on this store is a placeholder at a
+  fixed aspect ratio until the owner drops in final photography. The label is
+  real DOM text and the ratio is enforced by CSS, so nothing shifts when the
+  photo lands, and no text is ever baked into an image (§3).
+
+  Accepts:
+  - image:      {Object}  Shopify image object. Blank -> placeholder renders.
+  - ratio:      {String}  CSS aspect-ratio value, e.g. '3 / 2'. Default '3 / 2'.
+  - label:      {String}  What the owner should put here, e.g.
+                          'Indigo vat, natural daylight'. Shown in the
+                          placeholder only.
+  - alt:        {String}  Alt text for the real image. Falls back to the alt
+                          set on the image in Shopify admin.
+  - sizes:      {String}  `sizes` attribute. Default '100vw'.
+  - widths:     {String}  srcset widths. Default a wide responsive set.
+  - class:      {String}  Extra classes on the wrapper.
+  - preload:    {Boolean} true for above-the-fold images (hero LCP).
+  - loading:    {String}  'eager' or 'lazy'. Default 'lazy'.
+
+  Usage:
+    {% render 'kram-image-mockup',
+        image: section.settings.image,
+        ratio: '16 / 7',
+        label: section.settings.image_label,
+        alt: section.settings.image_alt,
+        preload: true %}
+{% endcomment %}
+
+{%- liquid
+  assign kram_ratio = ratio | default: '3 / 2'
+  assign kram_sizes = sizes | default: '100vw'
+  assign kram_widths = widths | default: '375, 550, 750, 1100, 1500, 1780, 2000, 3000'
+  assign kram_loading = loading | default: 'lazy'
+  assign kram_alt = alt | default: image.alt | default: ''
+  assign kram_label = label | default: 'Add your photograph here.'
+-%}
+
+<div
+  class="kram-media kram-media--ratio{% if class %} {{ class }}{% endif %}"
+  style="--kram-ratio: {{ kram_ratio }};"
+>
+  {%- if image != blank -%}
+    {{
+      image
+      | image_url: width: 3000
+      | image_tag:
+        widths: kram_widths,
+        sizes: kram_sizes,
+        alt: kram_alt,
+        loading: kram_loading,
+        preload: preload,
+        class: 'kram-media__image'
+    }}
+  {%- else -%}
+    {%- comment -%}
+      Decorative-by-necessity: there is no image to describe yet. The brief for
+      the owner is exposed as text, and screen readers skip the empty frame.
+    {%- endcomment -%}
+    <div class="kram-placeholder" aria-hidden="true">
+      <span class="kram-placeholder__tag">[OWNER INPUT] — Image</span>
+      <p class="kram-placeholder__label">{{ kram_label }}</p>
+      <span class="kram-placeholder__ratio">{{ kram_ratio | replace: ' ', '' | replace: '/', ' : ' }}</span>
+    </div>
+  {%- endif -%}
+</div>

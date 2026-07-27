@@ -8,6 +8,112 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
+    "name": "KRAMSAKON — brand & contact",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Single source of truth for brand and contact details. Used by the footer, the contact page and the storefront's Organization structured data. Leave anything blank and it simply will not render."
+      },
+      {
+        "type": "header",
+        "content": "Brand"
+      },
+      {
+        "type": "text",
+        "id": "kram_tagline",
+        "label": "Tagline",
+        "default": "Learning from Nature. Creating the Future.",
+        "info": "Translate per locale in Translate & Adapt. Thai: เรียนรู้จากธรรมชาติ สร้างสรรค์สู่อนาคต"
+      },
+      {
+        "type": "textarea",
+        "id": "kram_brand_essence",
+        "label": "Brand one-liner",
+        "default": "Premium textiles, dyed with natural indigo and woven by hand — created by a community of makers in Sakon Nakhon.",
+        "info": "Shown in the footer and used as the fallback description in structured data."
+      },
+      {
+        "type": "textarea",
+        "id": "kram_social_enterprise_line",
+        "label": "Social-enterprise one-liner",
+        "default": "KRAMSAKON is a social enterprise. Value from this craft returns to the community of makers in Sakon Nakhon.",
+        "info": "A factual statement of the model — no claims that cannot be substantiated."
+      },
+      {
+        "type": "text",
+        "id": "kram_founder_credit",
+        "label": "Founder credit (fine print)",
+        "default": "Founded in Sakon Nakhon with a community of indigo makers.",
+        "info": "Low-key fine print only. Never a headline, never a portrait — the brand's protagonists are nature and the community."
+      },
+      {
+        "type": "header",
+        "content": "Contact"
+      },
+      {
+        "type": "paragraph",
+        "content": "[OWNER INPUT] Confirm the phone number before launch. Numbers on file: 080-582-6655 / 092-515-9455."
+      },
+      {
+        "type": "text",
+        "id": "kram_phone",
+        "label": "Phone",
+        "info": "Leave blank until confirmed — the contact page will show a 'pending confirmation' note instead of a wrong number."
+      },
+      {
+        "type": "text",
+        "id": "kram_line_id",
+        "label": "LINE ID",
+        "default": "@kramsakon1"
+      },
+      {
+        "type": "text",
+        "id": "kram_email",
+        "label": "Email"
+      },
+      {
+        "type": "text",
+        "id": "kram_hours",
+        "label": "Opening hours",
+        "default": "Open daily 08:00–17:00"
+      },
+      {
+        "type": "header",
+        "content": "Address"
+      },
+      {
+        "type": "text",
+        "id": "kram_address_street",
+        "label": "Street",
+        "default": "212 Moo 2, Ban Phanao, Tambon Huai Yang"
+      },
+      {
+        "type": "text",
+        "id": "kram_address_locality",
+        "label": "District / city",
+        "default": "Mueang Sakon Nakhon District"
+      },
+      {
+        "type": "text",
+        "id": "kram_address_region",
+        "label": "Province",
+        "default": "Sakon Nakhon"
+      },
+      {
+        "type": "text",
+        "id": "kram_address_postal",
+        "label": "Postal code",
+        "default": "47000"
+      },
+      {
+        "type": "text",
+        "id": "kram_map_embed_src",
+        "label": "Google Maps embed URL",
+        "info": "[OWNER INPUT] In Google Maps: Share → Embed a map → copy only the src=\"…\" URL (starts with https://www.google.com/maps/embed?pb=). Leave blank to hide the map."
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.logo.name",
     "settings": [
       {

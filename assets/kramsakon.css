@@ -1,0 +1,873 @@
+/* ==========================================================================
+   KRAMSAKON — brand layer on top of Dawn
+   Implements guideline §4 (visual & design direction).
+
+   Loaded AFTER base.css in layout/theme.liquid so the overrides below win.
+   Everything here is presentational only — no commercial messaging,
+   no discount / urgency UI (guideline §2.2.3).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design tokens — guideline §4.1
+   -------------------------------------------------------------------------- */
+:root {
+  --indigo-deep: #1e2f4d;
+  --indigo-mid: #35507e;
+  --indigo-soft: #e8ecf3;
+  --cream: #f6f3ea;
+  --gold: #b0863a;
+  --sage: #3a5a40;
+  --ink: #2b2b2b;
+  --line: #d8dee7;
+
+  /* RGB triplets, for use with rgba() */
+  --indigo-deep-rgb: 30, 47, 77;
+  --indigo-mid-rgb: 53, 80, 126;
+  --cream-rgb: 246, 243, 234;
+  --gold-rgb: 176, 134, 58;
+  --ink-rgb: 43, 43, 43;
+
+  /* Editorial rhythm */
+  --kram-space-xs: 0.8rem;
+  --kram-space-sm: 1.6rem;
+  --kram-space-md: 3.2rem;
+  --kram-space-lg: 5.6rem;
+  --kram-space-xl: 9rem;
+
+  --kram-rule: 1px solid var(--line);
+  --kram-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --kram-duration: 600ms;
+
+  /* Scheme-aware roles.
+     Headings are indigo on the light schemes (§4.1: "primary text on light,
+     headers") but must follow the scheme's own foreground on the dark ones,
+     or indigo-on-indigo would render them invisible. Same for the gold
+     accent, which does not hold WCAG contrast against deep indigo. Both are
+     inherited from whichever .color-scheme-N wrapper a section carries. */
+  --kram-heading-color: var(--indigo-deep);
+  --kram-accent: var(--gold);
+}
+
+.color-scheme-1,
+.color-scheme-2 {
+  --kram-heading-color: var(--indigo-deep);
+  --kram-accent: var(--gold);
+}
+
+.color-scheme-3,
+.color-scheme-4,
+.color-scheme-5 {
+  --kram-heading-color: rgb(var(--color-foreground));
+  --kram-accent: rgba(var(--color-foreground), 0.8);
+}
+
+/* --------------------------------------------------------------------------
+   2. Typography — guideline §4.2
+   Trirong for display/headings, Sarabun for body/UI.
+   Both carry full Thai glyph + combining-mark coverage.
+   Fallback chain always keeps a Thai-capable face in play.
+   -------------------------------------------------------------------------- */
+:root {
+  --font-heading-family: 'Trirong', 'Noto Serif Thai', Georgia, 'Times New Roman', serif;
+  --font-heading-style: normal;
+  --font-heading-weight: 400;
+
+  --font-body-family: 'Sarabun', 'Noto Sans Thai', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body-style: normal;
+  --font-body-weight: 400;
+  --font-body-weight-bold: 600;
+}
+
+body {
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  /* Thai vowels/tone marks stack above and below the baseline — give them room. */
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h0,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5 {
+  font-family: var(--font-heading-family);
+  font-weight: 400;
+  color: var(--kram-heading-color);
+  letter-spacing: 0.005em;
+  line-height: 1.35; /* headroom for Thai tone marks at display sizes */
+  text-wrap: balance;
+}
+
+/* Quiet, editorial eyebrow label used above section headings. */
+.kram-eyebrow {
+  font-family: var(--font-body-family);
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--kram-accent);
+  margin: 0 0 var(--kram-space-sm);
+}
+
+/* Thai text sets slightly larger than Latin at the same nominal size. */
+:lang(th) .kram-eyebrow {
+  letter-spacing: 0.08em;
+  text-transform: none;
+}
+
+.kram-lede {
+  font-size: 1.8rem;
+  line-height: 1.85;
+  max-width: 62ch;
+  color: rgba(var(--color-foreground), 0.9);
+}
+
+/* --------------------------------------------------------------------------
+   3. Layout rhythm — generous whitespace, restrained decoration (§4.3)
+   -------------------------------------------------------------------------- */
+.kram-section {
+  padding-top: var(--kram-space-lg);
+  padding-bottom: var(--kram-space-lg);
+}
+
+@media screen and (min-width: 750px) {
+  .kram-section {
+    padding-top: var(--kram-space-xl);
+    padding-bottom: var(--kram-space-xl);
+  }
+}
+
+.kram-section--flush {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.kram-measure {
+  max-width: 62ch;
+}
+
+.kram-center {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.kram-center .kram-measure {
+  margin-inline: auto;
+}
+
+.kram-rule {
+  border: 0;
+  border-top: 1px solid var(--kram-accent);
+  opacity: 0.55;
+  width: 4.8rem;
+  margin: 0 0 var(--kram-space-sm);
+}
+
+.kram-center .kram-rule {
+  margin-inline: auto;
+}
+
+/* --------------------------------------------------------------------------
+   4. Image mockup placeholders — guideline §4.4 / §0
+   Every image slot is an owner-fillable placeholder at a fixed aspect ratio.
+   The label is DOM text, never baked into an image.
+   -------------------------------------------------------------------------- */
+.kram-media {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--indigo-soft);
+}
+
+.kram-media > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.kram-media--ratio {
+  width: 100%;
+  aspect-ratio: var(--kram-ratio, 3 / 2);
+}
+
+.kram-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: var(--kram-space-sm);
+  text-align: center;
+  background-color: var(--indigo-soft);
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent,
+    transparent 11px,
+    rgba(var(--indigo-deep-rgb), 0.05) 11px,
+    rgba(var(--indigo-deep-rgb), 0.05) 12px
+  );
+  border: 1px dashed rgba(var(--indigo-deep-rgb), 0.28);
+  color: var(--indigo-deep);
+}
+
+.kram-placeholder__tag {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.kram-placeholder__label {
+  font-size: 1.4rem;
+  line-height: 1.5;
+  max-width: 30ch;
+  margin: 0;
+}
+
+.kram-placeholder__ratio {
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  color: rgba(var(--indigo-deep-rgb), 0.6);
+}
+
+/* In the theme editor the dashed frame is a feature; on a live store with
+   images supplied it never renders at all. */
+
+/* --------------------------------------------------------------------------
+   5. Hero — large, calm, full-bleed (§4.3, §7.1.2)
+   -------------------------------------------------------------------------- */
+.kram-hero {
+  position: relative;
+  display: grid;
+  isolation: isolate;
+}
+
+.kram-hero__media {
+  grid-area: 1 / 1;
+  width: 100%;
+  aspect-ratio: var(--kram-ratio, 4 / 3);
+}
+
+@media screen and (min-width: 750px) {
+  .kram-hero__media {
+    aspect-ratio: var(--kram-ratio-desktop, 16 / 7);
+  }
+}
+
+/* The hero is the one place where the frame differs between mobile and
+   desktop, so the wrapper owns the ratio and the image slot simply fills it.
+   Everywhere else the slot itself sets the ratio. */
+.kram-hero__media > .kram-media {
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+.kram-hero__overlay {
+  grid-area: 1 / 1;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--indigo-deep-rgb), calc(var(--kram-overlay, 0.35) * 0.5)),
+    rgba(var(--indigo-deep-rgb), var(--kram-overlay, 0.35))
+  );
+}
+
+.kram-hero__content {
+  grid-area: 1 / 1;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+  /* Vertical only. The overlay variant adds its own gutter below; the
+     text-below variant carries Dawn's .page-width, which supplies the
+     horizontal padding — overriding it here would narrow the gutter. */
+  padding: var(--kram-space-md) 0 var(--kram-space-lg);
+  color: var(--cream);
+}
+
+.kram-hero--overlay .kram-hero__content {
+  padding-inline: var(--kram-space-sm);
+}
+
+.kram-hero--text-below .kram-hero__content {
+  color: rgb(var(--color-foreground));
+}
+
+.kram-hero__heading {
+  color: inherit;
+  max-width: 20ch;
+  margin: 0 0 var(--kram-space-sm);
+}
+
+.kram-hero__tagline {
+  font-family: var(--font-heading-family);
+  font-style: italic;
+  font-size: 1.7rem;
+  letter-spacing: 0.04em;
+  margin: 0 0 var(--kram-space-md);
+  color: inherit;
+  opacity: 0.95;
+}
+
+.kram-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  justify-content: center;
+}
+
+/* Hero text placed under the image instead of over it — better contrast when
+   the owner's photograph is busy or light. */
+.kram-hero--text-below {
+  display: block;
+}
+
+.kram-hero--text-below .kram-hero__overlay {
+  display: none;
+}
+
+.kram-hero--text-below .kram-hero__content {
+  padding-top: var(--kram-space-md);
+  padding-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. Brand-essence strip (§7.1.3)
+   -------------------------------------------------------------------------- */
+.kram-essence {
+  border-top: 1px solid rgba(var(--color-foreground), 0.12);
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
+  text-align: center;
+}
+
+.kram-essence__text {
+  font-family: var(--font-heading-family);
+  font-size: 2rem;
+  line-height: 1.7;
+  max-width: 68ch;
+  margin: 0 auto;
+  color: var(--kram-heading-color);
+}
+
+@media screen and (min-width: 750px) {
+  .kram-essence__text {
+    font-size: 2.4rem;
+  }
+}
+
+.kram-essence__link {
+  display: inline-block;
+  margin-top: var(--kram-space-sm);
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: inherit;
+  text-underline-offset: 0.5rem;
+  text-decoration-thickness: 1px;
+}
+
+:lang(th) .kram-essence__link {
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+/* --------------------------------------------------------------------------
+   7. Story block — image + text, alternating sides (§7.1.4–6, §8.3)
+   -------------------------------------------------------------------------- */
+.kram-story {
+  display: grid;
+  gap: var(--kram-space-md);
+  align-items: center;
+}
+
+@media screen and (min-width: 990px) {
+  .kram-story {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--kram-space-lg);
+  }
+
+  .kram-story--image-right .kram-story__media {
+    order: 2;
+  }
+}
+
+.kram-story__body > * + * {
+  margin-top: var(--kram-space-sm);
+}
+
+.kram-story__body p {
+  font-size: 1.7rem;
+  line-height: 1.9;
+  max-width: 56ch;
+  color: rgba(var(--color-foreground), 0.9);
+}
+
+.kram-story__heading {
+  margin: 0;
+}
+
+.kram-story__link {
+  display: inline-block;
+  margin-top: var(--kram-space-xs);
+  color: inherit;
+  text-underline-offset: 0.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   8. Craft-journey / steps band (§7.1.7)
+   Two layouts: image cards, or a compact arrow path.
+   -------------------------------------------------------------------------- */
+.kram-journey__steps {
+  display: grid;
+  gap: var(--kram-space-md);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: kram-step;
+}
+
+@media screen and (min-width: 750px) {
+  .kram-journey__steps--cards {
+    grid-template-columns: repeat(var(--kram-columns, 5), minmax(0, 1fr));
+    gap: var(--kram-space-sm);
+  }
+}
+
+.kram-journey__step {
+  counter-increment: kram-step;
+}
+
+.kram-journey__step-media {
+  width: 100%;
+  margin-bottom: var(--kram-space-sm);
+}
+
+.kram-journey__step-index {
+  display: block;
+  font-size: 1.1rem;
+  letter-spacing: 0.16em;
+  color: var(--kram-accent);
+  margin-bottom: 0.4rem;
+}
+
+.kram-journey__step-index::before {
+  content: counter(kram-step, decimal-leading-zero);
+}
+
+.kram-journey__step-title {
+  font-family: var(--font-heading-family);
+  font-size: 1.8rem;
+  color: var(--kram-heading-color);
+  margin: 0 0 0.6rem;
+}
+
+.kram-journey__step-text {
+  font-size: 1.5rem;
+  line-height: 1.75;
+  margin: 0;
+  color: rgba(var(--color-foreground), 0.85);
+}
+
+/* Path layout — Nature → Wisdom → Culture … (§10.2) */
+.kram-journey__steps--path {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem 1.6rem;
+}
+
+.kram-journey__steps--path .kram-journey__step {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  counter-increment: none;
+}
+
+.kram-journey__steps--path .kram-journey__step-title {
+  font-size: 1.6rem;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.kram-journey__steps--path .kram-journey__step:not(:last-child)::after {
+  content: '';
+  width: 2.4rem;
+  height: 1px;
+  background-color: var(--kram-accent);
+  opacity: 0.7;
+  flex: none;
+}
+
+/* --------------------------------------------------------------------------
+   9. Quote / statement band (§7.4)
+   -------------------------------------------------------------------------- */
+.kram-quote {
+  text-align: center;
+}
+
+.kram-quote__text {
+  font-family: var(--font-heading-family);
+  font-style: italic;
+  font-size: 2.2rem;
+  line-height: 1.65;
+  max-width: 26ch;
+  margin: 0 auto;
+  color: inherit;
+  text-wrap: balance;
+}
+
+@media screen and (min-width: 750px) {
+  .kram-quote__text {
+    font-size: 3rem;
+    max-width: 30ch;
+  }
+}
+
+.kram-quote__attribution {
+  margin-top: var(--kram-space-sm);
+  font-size: 1.3rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+:lang(th) .kram-quote__attribution {
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+/* --------------------------------------------------------------------------
+   10. Value grid — Seven Dimensions of Value (§10.2, optional block)
+   -------------------------------------------------------------------------- */
+.kram-values__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background-color: rgba(var(--color-foreground), 0.15);
+  border: 1px solid rgba(var(--color-foreground), 0.15);
+  list-style: none;
+  padding: 0;
+  margin: var(--kram-space-md) 0 0;
+}
+
+@media screen and (min-width: 750px) {
+  .kram-values__grid {
+    grid-template-columns: repeat(var(--kram-columns, 4), minmax(0, 1fr));
+  }
+}
+
+.kram-values__item {
+  background-color: rgb(var(--color-background));
+  padding: var(--kram-space-md) var(--kram-space-sm);
+  text-align: center;
+}
+
+.kram-values__title {
+  font-family: var(--font-heading-family);
+  font-size: 1.7rem;
+  color: var(--kram-heading-color);
+  margin: 0 0 0.6rem;
+}
+
+.kram-values__text {
+  font-size: 1.4rem;
+  line-height: 1.7;
+  margin: 0;
+  color: rgba(var(--color-foreground), 0.82);
+}
+
+/* --------------------------------------------------------------------------
+   11. Contact (§7.5)
+   -------------------------------------------------------------------------- */
+.kram-contact {
+  display: grid;
+  gap: var(--kram-space-lg);
+}
+
+@media screen and (min-width: 990px) {
+  .kram-contact {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--kram-space-lg);
+    align-items: start;
+  }
+}
+
+.kram-contact__details {
+  list-style: none;
+  padding: 0;
+  margin: var(--kram-space-md) 0 0;
+}
+
+.kram-contact__detail {
+  display: grid;
+  gap: 0.2rem;
+  padding: var(--kram-space-sm) 0;
+  border-top: 1px solid rgba(var(--color-foreground), 0.15);
+}
+
+.kram-contact__detail:last-child {
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.15);
+}
+
+.kram-contact__detail-label {
+  font-size: 1.2rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--kram-accent);
+}
+
+:lang(th) .kram-contact__detail-label {
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+.kram-contact__detail-value {
+  font-size: 1.6rem;
+  line-height: 1.7;
+  color: inherit;
+  font-style: normal; /* <address> defaults to italic */
+}
+
+.kram-contact__detail-value a {
+  color: inherit;
+  text-underline-offset: 0.4rem;
+}
+
+.kram-contact__pending {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: rgba(var(--color-foreground), 0.65);
+}
+
+.kram-contact__map {
+  margin-top: var(--kram-space-md);
+  border: var(--kram-rule);
+  background-color: var(--indigo-soft);
+}
+
+.kram-contact__map iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.kram-contact__map--ratio {
+  aspect-ratio: 16 / 10;
+}
+
+.kram-contact__form .field {
+  margin-bottom: var(--kram-space-sm);
+}
+
+/* --------------------------------------------------------------------------
+   12. Buttons — solid indigo primary, quiet outline secondary (§4.3)
+   -------------------------------------------------------------------------- */
+.button,
+.shopify-challenge__button,
+.customer button {
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  min-height: 4.8rem;
+  padding: 0 3.2rem;
+  transition: background-color 240ms var(--kram-ease), color 240ms var(--kram-ease);
+}
+
+:lang(th) .button {
+  letter-spacing: 0.02em;
+}
+
+/* When hero text sits over a photograph the buttons need their own contrast —
+   the section colour scheme describes the page, not the image. With text
+   below the image the scheme applies normally, so nothing is overridden. */
+.kram-hero--overlay .kram-hero__actions .button--secondary {
+  --color-secondary-button-text: var(--cream-rgb);
+  border-color: rgba(var(--cream-rgb), 0.85);
+  color: var(--cream);
+  background: transparent;
+}
+
+.kram-hero--overlay .kram-hero__actions .button:not(.button--secondary) {
+  --color-button: var(--cream-rgb);
+  --color-button-text: var(--indigo-deep-rgb);
+}
+
+/* --------------------------------------------------------------------------
+   13. Product & collection surfaces — calm commerce (§7.2, §7.3)
+   -------------------------------------------------------------------------- */
+.card__heading {
+  font-family: var(--font-heading-family);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.card-information .price {
+  font-family: var(--font-body-family);
+  font-size: 1.5rem;
+  color: rgba(var(--color-foreground), 0.85);
+}
+
+.card__media .media img {
+  transition: transform var(--kram-duration) var(--kram-ease);
+}
+
+.card__inner:hover .media img:first-child {
+  transform: scale(1.02);
+}
+
+/* Collection intro / description reads as editorial copy, not a promo line. */
+.collection-hero__description,
+.collection__description,
+.rte--collection-description {
+  font-size: 1.7rem;
+  line-height: 1.9;
+  max-width: 62ch;
+  color: rgba(var(--color-foreground), 0.88);
+}
+
+/* Natural-variation note on the product page (§10.4) */
+.kram-variation-note {
+  margin-top: var(--kram-space-sm);
+  padding: var(--kram-space-sm);
+  background-color: rgba(var(--color-foreground), 0.05);
+  border-left: 2px solid var(--kram-accent);
+  font-size: 1.5rem;
+  line-height: 1.8;
+  color: rgba(var(--color-foreground), 0.92);
+}
+
+.kram-variation-note p:last-child {
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   14. Guardrail suppressions — guideline §2.2.3
+   Belt-and-braces: the sale-badge markup is also removed at source in
+   snippets/card-product.liquid and snippets/price.liquid. These rules catch
+   any badge reintroduced by an app or a future Dawn upgrade.
+   -------------------------------------------------------------------------- */
+.price__badge-sale,
+.badge--sale,
+.card__badge .badge[class*='sale'],
+.product__badge--sale {
+  display: none !important;
+}
+
+/* Compare-at ("was") pricing is not struck through in a discount style —
+   it simply is not shown. No price-slash UI anywhere. */
+.price--on-sale .price__sale s,
+.price__sale s,
+.price-item--regular s,
+.variant-item__old-price {
+  display: none !important;
+}
+
+.price--on-sale .price-item--sale {
+  color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   15. Header, footer, localization switcher (§6, §5)
+   -------------------------------------------------------------------------- */
+.header__menu-item,
+.header__inline-menu .list-menu__item {
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+}
+
+:lang(th) .header__menu-item {
+  letter-spacing: 0.02em;
+}
+
+.header-wrapper {
+  border-bottom: var(--kram-rule);
+}
+
+/* The language / currency switcher stays unobtrusive but reachable. */
+.localization-form__select {
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
+}
+
+.disclosure__button:focus-visible,
+.localization-form__select:focus-visible {
+  outline: 2px solid var(--indigo-mid);
+  outline-offset: 2px;
+}
+
+.footer {
+  border-top: var(--kram-rule);
+}
+
+.footer__content-top {
+  padding-bottom: var(--kram-space-md);
+}
+
+.kram-footer-note {
+  font-size: 1.3rem;
+  line-height: 1.7;
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+/* --------------------------------------------------------------------------
+   16. Motion & accessibility (§4.3, §8.5)
+   -------------------------------------------------------------------------- */
+/* Scroll reveal is Dawn's own (assets/animations.js + `scroll-trigger
+   animate--slide-in` classes), gated by the theme setting
+   "Reveal sections on scroll". We only slow it down to match the brand's
+   unhurried motion. */
+.scroll-trigger.animate--slide-in {
+  animation-duration: var(--kram-duration);
+  animation-timing-function: var(--kram-ease);
+}
+
+:where(a, button, summary, input, select, textarea):focus-visible {
+  outline: 2px solid var(--indigo-mid);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card__media .media img,
+  .button {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   17. Bilingual resilience (§3, §4.3)
+   EN and TH differ in length; nothing may clip or overflow.
+   -------------------------------------------------------------------------- */
+.kram-hero__heading,
+.kram-story__heading,
+.kram-journey__step-title,
+.kram-values__title,
+.card__heading,
+.button {
+  overflow-wrap: break-word;
+  hyphens: manual;
+}
+
+.button {
+  white-space: normal;
+  height: auto;
+  padding-block: 1.2rem;
+}

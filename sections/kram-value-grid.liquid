@@ -1,0 +1,176 @@
+{% comment %}
+  KRAMSAKON — Value grid / Seven Dimensions of Value (guideline §7.4, §10.2).
+
+  Optional block for the Our Story page: a grid of short value statements
+  showing that good development creates balanced value across every
+  dimension — Functional, Emotional, Cultural, Wellness, Community,
+  Spiritual, Future — not economic value alone.
+{% endcomment %}
+
+{{ 'kramsakon.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div
+      class="kram-center kram-measure{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      {% if settings.animations_reveal_on_scroll %}
+        data-cascade
+      {% endif %}
+    >
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="kram-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <hr class="kram-rule" aria-hidden="true">
+        <h2 class="h1">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <div class="rte">{{ section.settings.subheading }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="kram-values__grid" style="--kram-columns: {{ section.settings.columns_desktop }};">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'value' -%}
+              <li
+                class="kram-values__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {%- if block.settings.title != blank -%}
+                  <h3 class="kram-values__title">{{ block.settings.title | escape }}</h3>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <p class="kram-values__text">{{ block.settings.text | escape }}</p>
+                {%- endif -%}
+              </li>
+          {%- endcase -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "KRAM · Value grid",
+  "tag": "section",
+  "class": "kram-section-value-grid",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "The optional 'Seven Dimensions of Value' block for the Our Story page — balanced value across every dimension, not economic value alone."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "info": "Optional small label shown above the heading."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Seven Dimensions of Value"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Good development creates balanced value across every dimension, not economic value alone.</p>"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "info": "Optional."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KRAM · Value grid",
+      "blocks": [
+        { "type": "value", "settings": { "title": "Functional" } },
+        { "type": "value", "settings": { "title": "Emotional" } },
+        { "type": "value", "settings": { "title": "Cultural" } },
+        { "type": "value", "settings": { "title": "Wellness" } },
+        { "type": "value", "settings": { "title": "Community" } },
+        { "type": "value", "settings": { "title": "Spiritual" } },
+        { "type": "value", "settings": { "title": "Future" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

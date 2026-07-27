@@ -120,12 +120,22 @@
                   href="{{ card_product.url }}"
                   id="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}"
                   class="full-unstyled-link"
-                  aria-labelledby="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}{% if card_product.available == false or card_product.compare_at_price > card_product.price %} NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}{% endif %}"
+                  {%- comment -%}
+                    The sale badge is gone (§2.2.3), so only reference the
+                    sold-out badge — pointing at an id that no longer renders
+                    would break the accessible name.
+                  {%- endcomment -%}
+                  aria-labelledby="StandardCardNoMediaLink-{{ section_id }}-{{ card_product.id }}{% if card_product.available == false %} NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}{% endif %}"
                 >
                   {{ card_product.title | escape }}
                 </a>
               </h3>
             </div>
+            {%- comment -%}
+              KRAMSAKON guardrail §2.2.3: no sale / discount badges anywhere.
+              Only "Sold out" remains — it is a statement of fact about
+              availability, not a scarcity or urgency device.
+            {%- endcomment -%}
             <div class="card__badge {{ settings.badge_position }}">
               {%- if card_product.available == false -%}
                 <span
@@ -133,13 +143,6 @@
                   class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
                 >
                   {{- 'products.product.sold_out' | t -}}
-                </span>
-              {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
-                <span
-                  id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
-                  class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
-                >
-                  {{- 'products.product.on_sale' | t -}}
                 </span>
               {%- endif -%}
             </div>
@@ -157,7 +160,7 @@
                 href="{{ card_product.url }}"
                 id="CardLink-{{ section_id }}-{{ card_product.id }}"
                 class="full-unstyled-link"
-                aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }}{% if card_product.available == false or card_product.compare_at_price > card_product.price %} Badge-{{ section_id }}-{{ card_product.id }}{% endif %}"
+                aria-labelledby="CardLink-{{ section_id }}-{{ card_product.id }}{% if card_product.available == false %} Badge-{{ section_id }}-{{ card_product.id }}{% endif %}"
               >
                 {{ card_product.title | escape }}
               </a>
@@ -550,6 +553,9 @@
               </div>
             {% endif %}
           {% endif %}
+          {%- comment -%}
+            KRAMSAKON guardrail §2.2.3 — see note above. Sold out only.
+          {%- endcomment -%}
           <div class="card__badge {{ settings.badge_position }}">
             {%- if card_product.available == false -%}
               <span
@@ -557,13 +563,6 @@
                 class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
               >
                 {{- 'products.product.sold_out' | t -}}
-              </span>
-            {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
-              <span
-                id="Badge-{{ section_id }}-{{ card_product.id }}"
-                class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
-              >
-                {{- 'products.product.on_sale' | t -}}
               </span>
             {%- endif -%}
           </div>

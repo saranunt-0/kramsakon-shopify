@@ -1,0 +1,11 @@
+.claude
+
+# Internal briefs, specs and handoff docs — not part of the deployable theme
+markdown/
+
+# Shopify CLI
+.shopify/
+node_modules/
+*.log
+.DS_Store
+Thumbs.db

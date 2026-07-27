@@ -1,0 +1,285 @@
+{% comment %}
+  KRAMSAKON — Craft journey / steps band (guideline §7.1.7, §8.3).
+
+  Two layouts from one content model:
+  - "cards": plant → vat → hand-dye → weave → finished piece, each with an
+    image mockup. Used on the homepage (the old Craft page, folded in).
+  - "path":  a compact typographic chain — Nature → Wisdom → Culture →
+    Innovation → Wellness → Community → Future. Used on Our Story.
+
+  Copy rule: describe the natural dye and the traditional hand process
+  truthfully. A chemical catalyst is used in dyeing, so this section must
+  never carry "chemical-free", "no chemicals" or "100% natural process".
+{% endcomment %}
+
+{{ 'kramsakon.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="kram-journey">
+      {%- if section.settings.eyebrow != blank
+        or section.settings.heading != blank
+        or section.settings.text != blank
+      -%}
+        <div
+          class="kram-center{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+          {% endif %}
+        >
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="kram-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h2 class="{{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+
+          {%- if section.settings.text != blank -%}
+            <div class="rte kram-measure kram-lede">{{ section.settings.text }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ol
+          class="kram-journey__steps kram-journey__steps--{{ section.settings.layout }}"
+          style="--kram-columns: {{ section.blocks.size | at_most: 6 }};"
+        >
+          {%- for block in section.blocks -%}
+            <li
+              class="
+                kram-journey__step
+                {%- if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}
+              "
+              {{ block.shopify_attributes }}
+              {% if settings.animations_reveal_on_scroll %}
+                data-cascade
+                style="--animation-order: {{ forloop.index }};"
+              {% endif %}
+            >
+              {%- if section.settings.layout == 'cards' -%}
+                <div class="kram-journey__step-media">
+                  {%- render 'kram-image-mockup',
+                    image: block.settings.image,
+                    ratio: section.settings.ratio,
+                    label: block.settings.image_label,
+                    alt: block.settings.image_alt,
+                    sizes: '(min-width: 750px) 20vw, 100vw'
+                  -%}
+                </div>
+                <span class="kram-journey__step-index" aria-hidden="true"></span>
+              {%- endif -%}
+
+              {%- if block.settings.title != blank -%}
+                <h3 class="kram-journey__step-title">{{ block.settings.title | escape }}</h3>
+              {%- endif -%}
+
+              {%- if section.settings.layout == 'cards' and block.settings.text != blank -%}
+                <p class="kram-journey__step-text">{{ block.settings.text | escape }}</p>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ol>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "KRAM · Craft journey",
+  "tag": "section",
+  "class": "kram-section-journey",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "The steps of the craft, or the brand's path from nature to future. Describe the natural dye and the hand process truthfully — never claim 'chemical-free', 'no chemicals' or a '100% natural process'."
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "cards", "label": "Image cards (craft steps)" },
+        { "value": "path", "label": "Text path (Nature → Wisdom → …)" }
+      ],
+      "default": "cards",
+      "info": "'Text path' hides step images and descriptions and sets the titles as a single connected line."
+    },
+    {
+      "type": "select",
+      "id": "ratio",
+      "label": "Step image aspect ratio",
+      "options": [
+        { "value": "4 / 5", "label": "Portrait (4:5)" },
+        { "value": "1 / 1", "label": "Square (1:1)" },
+        { "value": "3 / 2", "label": "Landscape (3:2)" }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The journey of natural indigo"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h3", "label": "Small" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "h1", "label": "Large" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Intro",
+      "default": "<p>From the indigo plant to the finished cloth — preparing the indigo vat, dyeing by hand, and weaving each piece. A craft rooted in nature and time.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "The indigo plant"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "",
+          "info": "Shown in the 'Image cards' layout only."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image [OWNER INPUT]"
+        },
+        {
+          "type": "text",
+          "id": "image_label",
+          "label": "Placeholder brief",
+          "default": "Photograph for this step, natural daylight."
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Alt text",
+          "default": ""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KRAM · Craft journey",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "The indigo plant",
+            "text": "Indigo is grown and harvested on the land around Sakon Nakhon.",
+            "image_label": "Indigo plants growing in the field."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "The indigo vat",
+            "text": "The vat is prepared and kept alive — tended daily, read by eye and by hand.",
+            "image_label": "Indigo vat, close up."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Dyed by hand",
+            "text": "Cloth is dipped by hand, again and again, until the depth of colour is right.",
+            "image_label": "Hands lifting cloth from the indigo vat."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Woven by hand",
+            "text": "Each piece is woven on the loom using traditional methods.",
+            "image_label": "Weaver at the loom."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "The finished piece",
+            "text": "Small variations in tone and pattern are the mark of real handcraft.",
+            "image_label": "Finished indigo cloth, folded, natural light."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

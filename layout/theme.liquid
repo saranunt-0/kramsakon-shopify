@@ -15,6 +15,28 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
+    {%- comment -%}
+      KRAMSAKON typography — guideline §4.2.
+      Trirong (display serif) + Sarabun (UI sans). Both ship complete Thai
+      glyph sets and correct vowel/tone-mark positioning at every weight used
+      here, so no heading ever falls back to a Latin-only face.
+
+      Shopify's own font library does not currently carry either family, so
+      they are loaded from Google Fonts. `assets/kramsakon.css` overrides
+      --font-heading-family / --font-body-family to point at them.
+
+      [VERIFY AT BUILD] If the store must avoid third-party font requests
+      (China readiness, §5), download the woff2 files, drop them in assets/,
+      and swap this block for local @font-face rules. The CSS variables do not
+      change — only the source.
+    {%- endcomment -%}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Trirong:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+    >
+
     <title>
       {{ page_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
@@ -27,6 +49,65 @@
     {% endif %}
 
     {% render 'meta-tags' %}
+
+    {%- comment -%}
+      hreflang / locale subfolders (guideline §5).
+      Shopify emits <link rel="alternate" hreflang="…"> for every published
+      language and market automatically inside the content_for_header object.
+      We deliberately do NOT hand-roll them here — duplicate alternates are an
+      SEO defect. [VERIFY AT BUILD] After publishing Thai in Translate & Adapt,
+      view source on /en and /th and confirm one alternate per locale plus
+      x-default. See markdown/HANDOFF.md → "Internationalisation checklist".
+    {%- endcomment -%}
+
+    {%- comment -%}
+      Organization structured data (guideline §8.5). Product structured data is
+      emitted by sections/main-product.liquid. Everything below is drawn from
+      theme settings so the owner controls it without touching code.
+    {%- endcomment -%}
+    {%- if request.page_type == 'index' -%}
+      {% liquid
+        assign org_name = shop.name
+        assign org_description = shop.description | default: settings.kram_brand_essence
+      %}
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": {{ org_name | json }},
+          "url": {{ request.origin | append: routes.root_url | json }},
+          {%- if settings.logo != blank %}
+            "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+          {%- endif %}
+          {%- if org_description != blank %}
+            "description": {{ org_description | strip_html | json }},
+          {%- endif %}
+          {%- if settings.kram_address_locality != blank %}
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": {{ settings.kram_address_street | json }},
+              "addressLocality": {{ settings.kram_address_locality | json }},
+              "addressRegion": {{ settings.kram_address_region | json }},
+              "postalCode": {{ settings.kram_address_postal | json }},
+              "addressCountry": "TH"
+            },
+          {%- endif %}
+          {%- if settings.kram_phone != blank %}
+            "telephone": {{ settings.kram_phone | json }},
+          {%- endif %}
+          "sameAs": [
+            {%- assign social_urls = '' -%}
+            {%- if settings.social_facebook_link != blank %}{% assign social_urls = social_urls | append: settings.social_facebook_link | append: '||' %}{% endif -%}
+            {%- if settings.social_instagram_link != blank %}{% assign social_urls = social_urls | append: settings.social_instagram_link | append: '||' %}{% endif -%}
+            {%- if settings.social_youtube_link != blank %}{% assign social_urls = social_urls | append: settings.social_youtube_link | append: '||' %}{% endif -%}
+            {%- assign social_list = social_urls | split: '||' -%}
+            {%- for url in social_list -%}
+              {{ url | json }}{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          ]
+        }
+      </script>
+    {%- endif -%}
 
     <script type="module">
       import * as StandardEvents from 'https://cdn.shopify.com/storefront/standard-events.js';
@@ -279,6 +360,11 @@
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {%- comment -%}
+      KRAMSAKON brand layer. Must load after base.css — it overrides Dawn's
+      tokens, typography and (as a safety net) any discount/sale UI.
+    {%- endcomment -%}
+    {{ 'kramsakon.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -289,16 +375,13 @@
       {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
 
-    {%- unless settings.type_body_font.system? -%}
-      {% comment %}theme-check-disable AssetPreload{% endcomment %}
-      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
-      {% comment %}theme-check-enable AssetPreload{% endcomment %}
-    {%- endunless -%}
-    {%- unless settings.type_header_font.system? -%}
-      {% comment %}theme-check-disable AssetPreload{% endcomment %}
-      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
-      {% comment %}theme-check-enable AssetPreload{% endcomment %}
-    {%- endunless -%}
+    {%- comment -%}
+      Dawn preloads the fonts chosen in Theme settings here. KRAMSAKON renders
+      in Trirong/Sarabun (loaded above and bound in kramsakon.css), so
+      preloading the theme-setting fonts would download two typefaces the page
+      never paints — a needless hit on a photography-heavy, mobile-first store
+      (§8.5, performance). The preloads are intentionally omitted.
+    {%- endcomment -%}
 
     {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
       {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}

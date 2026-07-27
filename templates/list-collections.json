@@ -3,15 +3,24 @@
     "main": {
       "type": "main-list-collections",
       "settings": {
-        "title": "Collections",
+        "title": "Shop by category",
         "sort": "alphabetical",
-        "image_ratio": "square",
-        "columns_desktop": 3,
+        "image_ratio": "portrait",
+        "columns_desktop": 5,
         "columns_mobile": "2"
+      }
+    },
+    "essence": {
+      "type": "kram-essence-strip",
+      "settings": {
+        "text": "Every piece is dyed with natural indigo and woven by hand in Sakon Nakhon.",
+        "link_label": "Our Story",
+        "link": "shopify://pages/our-story",
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 88
       }
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main", "essence"]
 }

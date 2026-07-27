@@ -1,4 +1,15 @@
 {
+  "kramsakon": {
+    "contact": {
+      "address": "Address",
+      "phone": "Phone",
+      "line": "LINE",
+      "email": "Email",
+      "hours": "Hours",
+      "phone_pending": "Phone number pending confirmation — please reach us on LINE in the meantime.",
+      "map_title": "Map to KRAMSAKON, Sakon Nakhon"
+    }
+  },
   "general": {
     "password_page": {
       "login_form_heading": "Enter store using password:",
@@ -255,8 +266,8 @@
         "name": "Name",
         "email": "Email",
         "phone": "Phone number",
-        "comment": "Comment",
-        "send": "Send",
+        "comment": "Message",
+        "send": "Send message",
         "post_success": "Thanks for contacting us. We'll get back to you as soon as possible.",
         "error_heading": "Please adjust the following:"
       }

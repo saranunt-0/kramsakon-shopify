@@ -210,6 +210,19 @@
                   </p>
                 {%- when 'custom_liquid' -%}
                   {{ block.settings.custom_liquid }}
+                {%- comment -%}
+                  KRAMSAKON — natural-variation note (guideline §7.3, §10.4).
+                  Sits in the buy column, visible rather than buried in an
+                  accordion: it sets an honest expectation about hand-dyeing
+                  and is itself a reason to buy. Richtext, so Translate &
+                  Adapt picks it up per locale.
+                {%- endcomment -%}
+                {%- when 'kram_variation_note' -%}
+                  {%- if block.settings.content != blank -%}
+                    <div class="kram-variation-note rte quick-add-hidden" {{ block.shopify_attributes }}>
+                      {{ block.settings.content }}
+                    </div>
+                  {%- endif -%}
                 {%- when 'collapsible_tab' -%}
                   <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
                     <details id="Details-{{ block.id }}-{{ section.id }}">
@@ -1013,6 +1026,23 @@
           "id": "open_by_default",
           "label": "t:sections.disclosures.settings.open_by_default.label",
           "default": false
+        }
+      ]
+    },
+    {
+      "type": "kram_variation_note",
+      "name": "KRAM · Natural-variation note",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "An honest note about hand-dyeing, shown in the buy column. Keep the truthful framing — 'natural indigo', 'dyed and woven by hand'. Never claim 'chemical-free', 'no chemicals' or a '100% natural process', and make no health claims about the dye."
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Note",
+          "default": "<p>Each piece is dyed and woven by hand with natural indigo, so slight differences in colour and pattern are natural — and make your piece uniquely yours.</p>"
         }
       ]
     },

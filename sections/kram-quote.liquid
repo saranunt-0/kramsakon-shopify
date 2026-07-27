@@ -1,0 +1,103 @@
+{% comment %}
+  KRAMSAKON — Quote / statement band (guideline §7.4, §10.2).
+
+  A quiet pull-quote used on the Our Story page (the "conservation" quote) or
+  anywhere a single statement should stand alone. Renders nothing at all when
+  no quote is set — there is no default visual, only a default quote value.
+{% endcomment %}
+
+{{ 'kramsakon.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.quote != blank -%}
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  <div class="color-{{ section.settings.color_scheme }} gradient">
+    <div class="page-width section-{{ section.id }}-padding">
+      <div
+        class="kram-quote{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+        {% endif %}
+      >
+        <p class="kram-quote__text">{{ section.settings.quote | escape }}</p>
+        {%- if section.settings.attribution != blank -%}
+          <p class="kram-quote__attribution">{{ section.settings.attribution | escape }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "KRAM · Quote",
+  "tag": "section",
+  "class": "kram-section-quote",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "A single quiet statement, not a promotional line. Leave 'Quote' blank to hide this section entirely."
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote",
+      "default": "The best way to preserve a craft is not to keep the past unchanged — but to keep its wisdom alive, growing, and creating value for the next generation."
+    },
+    {
+      "type": "text",
+      "id": "attribution",
+      "label": "Attribution",
+      "default": "",
+      "info": "Optional. Use a source, role, or the community — not an individual person's name as the brand's face."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "default": "scheme-3"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    }
+  ],
+  "presets": [
+    {
+      "name": "KRAM · Quote"
+    }
+  ]
+}
+{% endschema %}

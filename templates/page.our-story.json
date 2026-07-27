@@ -1,0 +1,172 @@
+{
+  "sections": {
+    "hero": {
+      "type": "kram-hero",
+      "settings": {
+        "image_label": "The land, the indigo, or the community at work. Wide, quiet, natural daylight.",
+        "image_alt": "The land and community of Sakon Nakhon",
+        "ratio_desktop": "2 / 1",
+        "ratio_mobile": "4 / 5",
+        "layout": "text-below",
+        "overlay_opacity": 0,
+        "color_scheme": "scheme-1",
+        "heading": "Our Story",
+        "heading_size": "h0",
+        "tagline": "Learning from Nature. Creating the Future.",
+        "button_label_1": "",
+        "button_label_2": "",
+        "padding_bottom": 24
+      }
+    },
+    "belief": {
+      "type": "kram-story-block",
+      "settings": {
+        "image_label": "Indigo plant, leaf, or the land at rest. Quiet and elemental.",
+        "image_alt": "An indigo plant growing in Sakon Nakhon",
+        "ratio": "4 / 5",
+        "image_position": "right",
+        "eyebrow": "",
+        "heading": "The belief we began with",
+        "heading_size": "h2",
+        "text": "<p>KRAMSAKON didn't begin as an attempt to build a brand. It began from a simple belief — that nature is the origin of all wisdom, and that wisdom, guided in the right direction, can create lasting value for people, communities, and the world.</p>",
+        "link_label": "",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 72,
+        "padding_bottom": 40
+      }
+    },
+    "heritage": {
+      "type": "kram-story-block",
+      "settings": {
+        "image_label": "Sakon Nakhon: the place, the land, or cloth drying in the open air.",
+        "image_alt": "Naturally dyed indigo cloth drying in Sakon Nakhon",
+        "ratio": "4 / 5",
+        "image_position": "left",
+        "eyebrow": "",
+        "heading": "A heritage of Sakon Nakhon",
+        "heading_size": "h2",
+        "text": "<p>Sakon Nakhon holds a rare inheritance: natural indigo cloth, born of the relationship between the land, the indigo plant, its people, and knowledge passed down over generations. The colour comes from the indigo plant, and each piece is dyed and woven by hand.</p>",
+        "link_label": "",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "community": {
+      "type": "kram-story-block",
+      "settings": {
+        "image_label": "The makers together — a group, or hands at work. Celebrate the collective, never one individual as the brand's face.",
+        "image_alt": "Growers, dyers and weavers of the Sakon Nakhon community",
+        "ratio": "4 / 5",
+        "image_position": "right",
+        "eyebrow": "",
+        "heading": "Made by a community",
+        "heading_size": "h2",
+        "text": "<p>For a long time, this value went unrewarded. Growers, dyers, and weavers held precious know-how but lacked access to markets and a way to tell the story behind each piece. Sharing one belief, the community came together so that natural indigo would be not only an inheritance of the past, but an opportunity for the future. KRAMSAKON stands alongside this community of makers.</p>",
+        "link_label": "",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 72
+      }
+    },
+    "quote": {
+      "type": "kram-quote",
+      "settings": {
+        "quote": "The best way to preserve a craft is not to keep the past unchanged — but to keep its wisdom alive, growing, and creating value for the next generation.",
+        "attribution": "",
+        "color_scheme": "scheme-3",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "social_enterprise": {
+      "type": "kram-story-block",
+      "settings": {
+        "image_label": "The community benefiting from the craft — workshop, market, or makers together.",
+        "image_alt": "Makers of the KRAMSAKON community at work",
+        "ratio": "3 / 2",
+        "image_position": "left",
+        "eyebrow": "Social enterprise",
+        "heading": "A social enterprise",
+        "heading_size": "h2",
+        "text": "<p>KRAMSAKON is a social enterprise. We help the value of this craft flow back to the community of makers — creating income, opportunity, and an economy that grows together with Sakon Nakhon.</p>",
+        "link_label": "",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 88,
+        "padding_bottom": 56
+      }
+    },
+    "journey_path": {
+      "type": "kram-craft-journey",
+      "blocks": {
+        "p1": { "type": "step", "settings": { "title": "Nature", "text": "" } },
+        "p2": { "type": "step", "settings": { "title": "Wisdom", "text": "" } },
+        "p3": { "type": "step", "settings": { "title": "Culture", "text": "" } },
+        "p4": { "type": "step", "settings": { "title": "Innovation", "text": "" } },
+        "p5": { "type": "step", "settings": { "title": "Wellness", "text": "" } },
+        "p6": { "type": "step", "settings": { "title": "Community", "text": "" } },
+        "p7": { "type": "step", "settings": { "title": "Future", "text": "" } }
+      },
+      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6", "p7"],
+      "settings": {
+        "layout": "path",
+        "ratio": "4 / 5",
+        "eyebrow": "",
+        "heading": "The Journey from Nature to Future",
+        "heading_size": "h2",
+        "text": "<p>Everything we do follows one path:</p>",
+        "color_scheme": "scheme-2",
+        "padding_top": 88,
+        "padding_bottom": 88
+      }
+    },
+    "value_grid": {
+      "type": "kram-value-grid",
+      "blocks": {
+        "v1": { "type": "value", "settings": { "title": "Functional", "text": "" } },
+        "v2": { "type": "value", "settings": { "title": "Emotional", "text": "" } },
+        "v3": { "type": "value", "settings": { "title": "Cultural", "text": "" } },
+        "v4": { "type": "value", "settings": { "title": "Wellness", "text": "" } },
+        "v5": { "type": "value", "settings": { "title": "Community", "text": "" } },
+        "v6": { "type": "value", "settings": { "title": "Spiritual", "text": "" } },
+        "v7": { "type": "value", "settings": { "title": "Future", "text": "" } }
+      },
+      "block_order": ["v1", "v2", "v3", "v4", "v5", "v6", "v7"],
+      "settings": {
+        "eyebrow": "Optional",
+        "heading": "Seven Dimensions of Value",
+        "subheading": "<p>Good development creates balanced value across every dimension, not economic value alone.</p>",
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "padding_top": 88,
+        "padding_bottom": 88
+      }
+    },
+    "closing": {
+      "type": "kram-essence-strip",
+      "settings": {
+        "text": "This is the path KRAMSAKON believes in — and continues to walk.",
+        "link_label": "Explore our pieces",
+        "link": "shopify://collections/all",
+        "color_scheme": "scheme-1",
+        "padding_top": 72,
+        "padding_bottom": 96
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "belief",
+    "heritage",
+    "community",
+    "quote",
+    "social_enterprise",
+    "journey_path",
+    "value_grid",
+    "closing"
+  ]
+}
