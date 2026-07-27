@@ -17,13 +17,23 @@
 
     {%- comment -%}
       KRAMSAKON typography — guideline §4.2.
-      Trirong (display serif) + Sarabun (UI sans). Both ship complete Thai
-      glyph sets and correct vowel/tone-mark positioning at every weight used
-      here, so no heading ever falls back to a Latin-only face.
 
-      Shopify's own font library does not currently carry either family, so
-      they are loaded from Google Fonts. `assets/kramsakon.css` overrides
-      --font-heading-family / --font-body-family to point at them.
+      Four families, paired by script rather than one family per role:
+        Headings  Fraunces          (Latin display serif)
+                  Noto Serif Thai   (Thai serif companion)
+        Body/UI   Inter             (Latin UI sans)
+                  IBM Plex Sans Thai (Thai sans companion)
+
+      Fraunces and Inter carry no Thai glyphs, so each stack lists its Thai
+      companion immediately after the Latin face. Browsers resolve font-family
+      per character, not per element: Latin renders in Fraunces/Inter and Thai
+      in Noto Serif Thai / IBM Plex Sans Thai, including inside a single mixed
+      sentence. Both Thai faces have full vowel and tone-mark coverage at every
+      weight loaded here, so no Thai character can ever fall back to a
+      Latin-only face. The stacks are bound in assets/kramsakon.css.
+
+      Shopify's own font library carries none of these families, so they are
+      loaded from Google Fonts.
 
       [VERIFY AT BUILD] If the store must avoid third-party font requests
       (China readiness, §5), download the woff2 files, drop them in assets/,
@@ -34,7 +44,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Trirong:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@300..700&family=Noto+Serif+Thai:wght@300..700&display=swap"
     >
 
     <title>

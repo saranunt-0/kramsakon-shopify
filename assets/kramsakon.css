@@ -63,19 +63,60 @@
 
 /* --------------------------------------------------------------------------
    2. Typography — guideline §4.2
-   Trirong for display/headings, Sarabun for body/UI.
-   Both carry full Thai glyph + combining-mark coverage.
-   Fallback chain always keeps a Thai-capable face in play.
+
+   Latin and Thai are handled by different families in each stack:
+     Headings  Fraunces + Noto Serif Thai
+     Body/UI   Inter    + IBM Plex Sans Thai
+
+   Fraunces and Inter have no Thai glyphs. Font-family resolution is
+   per-character, so listing the Thai companion straight after the Latin face
+   means Latin picks up Fraunces/Inter and Thai picks up its companion — even
+   within one mixed sentence. The generic keyword at the end of each stack is
+   the last resort only; no Thai character can reach it, because the Thai face
+   always matches first.
    -------------------------------------------------------------------------- */
 :root {
-  --font-heading-family: 'Trirong', 'Noto Serif Thai', Georgia, 'Times New Roman', serif;
+  --font-heading-family: 'Fraunces', 'Noto Serif Thai', Georgia, 'Times New Roman', serif;
   --font-heading-style: normal;
   --font-heading-weight: 400;
 
-  --font-body-family: 'Sarabun', 'Noto Sans Thai', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body-family: 'Inter', 'IBM Plex Sans Thai', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-body-style: normal;
   --font-body-weight: 400;
   --font-body-weight-bold: 600;
+}
+
+/* Fraunces carries an optical-size axis: display sizes get the wider,
+   more editorial cut, smaller headings a compact one. Only 'opsz' is named,
+   so font-weight keeps working normally on the 'wght' axis. Ignored
+   harmlessly by the Thai companion, which is not variable on this axis. */
+h1,
+.h0,
+.h1,
+.kram-hero__heading,
+.kram-quote__text,
+.kram-essence__text {
+  font-variation-settings: 'opsz' 96;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6,
+.h2,
+.h3,
+.h4,
+.h5 {
+  font-variation-settings: 'opsz' 36;
+}
+
+/* Thai has no italic tradition, and neither Thai face ships one — leaving
+   font-style: italic on Thai text would make the browser synthesise a slant,
+   which reads as a rendering fault. Latin keeps its true italic. */
+:lang(th) .kram-hero__tagline,
+:lang(th) .kram-quote__text {
+  font-style: normal;
 }
 
 body {

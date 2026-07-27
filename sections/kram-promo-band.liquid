@@ -6,6 +6,12 @@
   nothing — no wrapper, no padding, no border — until the owner fills it in.
   The theme itself must never auto-populate this with shipping offers,
   discounts, or countdowns (guideline §2.2.3).
+
+  Note on the schema below: none of the text settings carry a "default" key.
+  Shopify rejects `"default": ""` outright ("default can't be blank"), and any
+  non-blank default would make this band render out of the box — the opposite
+  of what §11 requires. Omitting the key entirely is what leaves the slot
+  genuinely empty. Do not add defaults here.
 {% endcomment %}
 
 {{ 'kramsakon.css' | asset_url | stylesheet_tag }}
@@ -71,20 +77,17 @@
     {
       "type": "text",
       "id": "heading",
-      "label": "Heading",
-      "default": ""
+      "label": "Heading"
     },
     {
       "type": "richtext",
       "id": "text",
-      "label": "Text",
-      "default": ""
+      "label": "Text"
     },
     {
       "type": "text",
       "id": "button_label",
-      "label": "Button label",
-      "default": ""
+      "label": "Button label"
     },
     {
       "type": "url",

@@ -29,7 +29,7 @@
           "type": "text",
           "settings": {
             "heading": "A social enterprise",
-            "subtext": "<p>KRAMSAKON is a social enterprise. Value from this craft returns to the community of makers in Sakon Nakhon.</p><p><small>Founded in Sakon Nakhon with a community of indigo makers.</small></p>"
+            "subtext": "<p>KRAMSAKON is a social enterprise. Value from this craft returns to the community of makers in Sakon Nakhon.</p><p><em>Founded in Sakon Nakhon with a community of indigo makers.</em></p>"
           }
         }
       },
