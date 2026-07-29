@@ -46,10 +46,14 @@
 
   <div class="kram-hero__content{% if section.settings.layout == 'text-below' %} page-width{% endif %}">
     {%- comment -%}
-      Heading level, not size. On the homepage Dawn already puts the shop name
-      in the <h1>, so the hero is an <h2>. On any other page (Our Story) the
-      hero headline IS the page's first-level heading — without this the page
-      would ship with no <h1> at all. Visual size stays on the class.
+      Heading level, not size — visual size stays on the class.
+
+      On the homepage Dawn wraps the header logo in the page's <h1>, so the
+      hero steps down to <h2> to avoid two first-level headings. The header
+      always renders a logo (uploaded, or the wordmark bundled at
+      assets/kram-logo.png), so that <h1> is always there. On any other page
+      the hero headline IS the page's first-level heading — without this the
+      page would ship with no <h1> at all.
     {%- endcomment -%}
     {%- liquid
       assign heading_tag = 'h1'

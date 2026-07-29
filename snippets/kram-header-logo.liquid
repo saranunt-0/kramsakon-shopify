@@ -1,0 +1,73 @@
+{% comment %}
+  KRAMSAKON — the header brand mark.
+
+  Dawn's stock behaviour is to print the shop name as *text* when no logo image
+  is set. That string comes from Settings → Store details, not from the theme's
+  locale files, so Translate & Adapt cannot switch it per language — an English
+  visitor would still be shown the Thai store name. The text fallback is
+  therefore gone, and the wordmark ships with the theme instead.
+
+  Two sources, in order:
+
+  1. Theme settings → Logo, whenever the owner has uploaded one. This is an
+     image_picker, so it gets the full responsive srcset through image_url and
+     the owner can change it without touching code.
+  2. assets/kram-logo.png — the KramSakon wordmark bundled with the theme, so
+     the header is correct from the moment it is installed. Theme assets are
+     static files rather than image objects, so image_url and its srcset are
+     not available here; the file is stored at 600 × 256 (a little over 3× the
+     default 180px display width) and scaled down by the browser.
+
+  Accepts:
+  - sizes:   {String} `sizes` attribute, uploaded-logo case only. Required.
+  - classes: {String} extra classes for the <img>. Optional.
+
+  Usage:
+    {% render 'kram-header-logo', sizes: sizes, classes: 'motion-reduce' %}
+{% endcomment %}
+
+{%- if settings.logo != blank -%}
+  {%- liquid
+    assign logo_alt = settings.logo.alt | default: shop.name | escape
+    assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio
+    capture widths
+      echo settings.logo_width
+      echo ', '
+      echo settings.logo_width | times: 1.5 | round
+      echo ', '
+      echo settings.logo_width | times: 2
+    endcapture
+  -%}
+  {{
+    settings.logo
+    | image_url: width: 600
+    | image_tag:
+      class: classes,
+      widths: widths,
+      height: logo_height,
+      width: settings.logo_width,
+      alt: logo_alt,
+      sizes: sizes,
+      preload: true
+  }}
+{%- else -%}
+  {%- comment -%}
+    The alt text deliberately transcribes the words in the wordmark rather than
+    echoing shop.name. It is the same in every language — a brand mark is not
+    translatable content — and it stays correct even before the owner replaces
+    the placeholder store name in Settings → Store details.
+
+    600 × 256 is the stored size; height is derived from the owner's chosen
+    width so the box is reserved before the image loads and nothing shifts.
+  {%- endcomment -%}
+  {%- assign kram_logo_height = settings.logo_width | times: 256 | divided_by: 600 -%}
+  <img
+    src="{{ 'kram-logo.png' | asset_url }}"
+    alt="KramSakon"
+    width="{{ settings.logo_width }}"
+    height="{{ kram_logo_height }}"
+    class="{{ classes }}"
+    loading="eager"
+    fetchpriority="high"
+  >
+{%- endif -%}

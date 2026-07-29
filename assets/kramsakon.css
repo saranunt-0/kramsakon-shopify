@@ -936,6 +936,12 @@ h6,
   border-bottom: var(--kram-rule);
 }
 
+/* The wordmark is a script logo on a transparent ground, so it needs a little
+   air around it — Dawn's stock header packs it tight against the rule. */
+.header__heading-logo-wrapper {
+  padding-block: 0.4rem;
+}
+
 /* The language / currency switcher stays unobtrusive but reachable. */
 .localization-form__select {
   font-size: 1.3rem;
