@@ -153,6 +153,7 @@
         },
         "look_02a": {
           "type": "model",
+          "disabled": true,
           "settings": {
             "bundled_image": "kram-model-02a.jpg",
             "image_alt": "A model wearing a striped shirt and carrying an indigo-dyed tote bag",
@@ -204,7 +205,7 @@
         "intro": "<p>Pieces dyed with natural indigo and woven by hand — made to be lived with.</p>",
         "collection": "",
         "products_to_show": 4,
-        "image_ratio": "portrait",
+        "image_ratio": "adapt",
         "link_label": "View all",
         "color_scheme": "scheme-1",
         "padding_top": 88,
@@ -219,6 +220,7 @@
           "settings": {
             "title": "The indigo plant",
             "text": "Indigo is grown and harvested on the land around Sakon Nakhon.",
+            "image": "shopify://shop_images/process_00.png",
             "image_label": "Indigo plants in the field.",
             "image_alt": "Indigo plants growing in a field"
           }
@@ -228,6 +230,7 @@
           "settings": {
             "title": "The indigo vat",
             "text": "The vat is prepared and kept alive — tended daily, read by eye and by hand.",
+            "image": "shopify://shop_images/process_06.png",
             "image_label": "Indigo vat, close up.",
             "image_alt": "A prepared natural indigo vat"
           }
@@ -237,6 +240,7 @@
           "settings": {
             "title": "Dyed by hand",
             "text": "Cloth is dipped by hand, again and again, until the depth of colour is right.",
+            "image": "shopify://shop_images/process_01_8694ca8e-4a4e-40dc-8e40-cfea9a311df1.jpg",
             "image_label": "Hands lifting cloth from the indigo vat.",
             "image_alt": "Hands lifting indigo-dyed cloth from a vat"
           }
@@ -246,6 +250,7 @@
           "settings": {
             "title": "Woven by hand",
             "text": "Each piece is woven on the loom using traditional methods.",
+            "image": "shopify://shop_images/process_05_2.png",
             "image_label": "Weaver at the loom.",
             "image_alt": "A weaver working at a traditional loom"
           }
@@ -255,6 +260,7 @@
           "settings": {
             "title": "The finished piece",
             "text": "Small variations in tone and pattern are the mark of real handcraft.",
+            "image": "shopify://shop_images/closeup_13.jpg",
             "image_label": "Finished indigo cloth, folded, natural light.",
             "image_alt": "Folded indigo-dyed cloth in natural light"
           }
