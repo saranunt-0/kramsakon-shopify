@@ -1,12 +1,26 @@
 {% comment %}
-  KRAMSAKON — Editorial products: story text + product grid beside one large
+  KRAMSAKON — Editorial products: story text + product grid beside a large
   lifestyle photograph (guideline §7.1.4–6, §8.3).
 
   Content model: an eyebrow/heading/intro and a small grid of real products
-  (native Shopify collection, no custom data) sit in one column; a single
-  large image via kram-image-mockup fills the other column. image_position
-  controls which side the photograph sits on, the same idea as
+  (native Shopify collection, no custom data) sit in one column; the other
+  column is a lookbook — one photograph, or several rotating one at a time.
+  image_position controls which side the lookbook sits on, the same idea as
   kram-story-block.
+
+  The lookbook is built from blocks, and runs on Dawn's own
+  <slideshow-component> (assets/global.js) so it inherits the theme's existing
+  carousel behaviour rather than a hand-rolled one: scroll-snap, keyboard
+  arrows and dots, autoplay that pauses on hover and focus, and a visible
+  pause control. Its three markup requirements are easy to miss — the scroller
+  must be id="Slider-…", each slide id="Slide-…", a .slider-buttons wrapper
+  must exist or the component bails out of its constructor, and when autoplay
+  is on a .slideshow__autoplay button must exist or setAutoPlay() reads an
+  undefined this.reducedMotion and throws. See sections/kram-story-carousel.
+
+  Products are deliberately NOT part of the lookbook: the grid always shows
+  real catalog products (or neutral placeholders before a collection is
+  picked), so nothing here interferes with catalog management.
 
   Copy rule: truthful framings only — 'natural indigo', 'hand-dyed with
   natural indigo', 'handwoven'. Never 'chemical-free', 'no chemicals' or a
@@ -16,6 +30,8 @@
 {{ 'kramsakon.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'component-slideshow.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -75,18 +91,45 @@
       align-self: end;
     }
 
-    /* The photograph spans both rows, so on desktop it takes its height from
-       the text + product column beside it rather than from its own aspect
-       ratio — that flush edge is what makes the block read as one composition
-       instead of two stacked things. The ratio setting still governs mobile,
-       where the image sits on its own. */
+    /* The lookbook spans both rows and keeps its own aspect ratio rather than
+       stretching to the column beside it. A single fixed image could safely be
+       stretched and cover-cropped; a rotating one cannot — these are full-
+       length figures, and a crop deep enough to match an arbitrary column
+       height takes the head or the feet off the model. */
     .kram-editorial__media {
-      align-self: stretch;
+      align-self: start;
     }
+  }
 
-    .kram-editorial__media > .kram-media {
-      height: 100%;
-      aspect-ratio: auto;
+  .kram-editorial__gallery-slide {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+
+  #Slider-{{ section.id }} {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .kram-editorial__gallery-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+  }
+
+  /* Dawn parks the autoplay button absolutely inside its banner; here the
+     controls are a plain centred row under the photograph. */
+  .kram-editorial__gallery-controls .slideshow__autoplay {
+    position: static;
+    width: 4.4rem;
+    height: 4.4rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #Slider-{{ section.id }} {
+      scroll-behavior: auto;
     }
   }
 
@@ -119,13 +162,130 @@
   <div class="page-width section-{{ section.id }}-padding">
     <div class="kram-editorial kram-editorial--image-{{ section.settings.image_position }}">
       <div class="kram-editorial__media">
-        {%- render 'kram-image-mockup',
-          image: section.settings.image,
-          ratio: section.settings.ratio,
-          label: section.settings.image_label,
-          alt: section.settings.image_alt,
-          sizes: '(min-width: 990px) 50vw, 100vw'
-        -%}
+        {%- if section.blocks.size > 0 -%}
+          <slideshow-component
+            class="kram-editorial__gallery"
+            role="region"
+            aria-roledescription="{{ 'sections.slideshow.carousel' | t }}"
+            aria-label="{{ section.settings.gallery_label | escape }}"
+          >
+            {%- comment -%}
+              aria-live and aria-atomic belong on the scroller: the component
+              marks every off-screen slide aria-hidden, so only the photograph
+              on show is announced. Same arrangement as Dawn's own slideshow.
+            {%- endcomment -%}
+            <div
+              id="Slider-{{ section.id }}"
+              class="kram-editorial__gallery-track slider slider--everywhere"
+              aria-live="polite"
+              aria-atomic="true"
+              data-autoplay="{{ section.settings.auto_rotate }}"
+              data-speed="{{ section.settings.change_slides_speed }}"
+            >
+              {%- for block in section.blocks -%}
+                <div
+                  id="Slide-{{ section.id }}-{{ forloop.index }}"
+                  class="kram-editorial__gallery-slide slideshow__slide slider__slide"
+                  role="group"
+                  aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
+                  aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- liquid
+                    comment
+                      'none' is the select's off value — passing it straight
+                      through would ask asset_url for a file called 'none'.
+                    endcomment
+                    assign bundled = block.settings.bundled_image
+                    if bundled == 'none'
+                      assign bundled = ''
+                    endif
+                  -%}
+                  {%- render 'kram-image-mockup',
+                    image: block.settings.image,
+                    asset: bundled,
+                    ratio: section.settings.ratio,
+                    label: block.settings.image_label,
+                    alt: block.settings.image_alt,
+                    sizes: '(min-width: 990px) 50vw, 100vw'
+                  -%}
+                </div>
+              {%- endfor -%}
+            </div>
+
+            {%- comment -%}
+              A single photograph is not a slideshow — controls under it would
+              be dead arrows.
+            {%- endcomment -%}
+            {%- if section.blocks.size > 1 -%}
+              <div class="kram-editorial__gallery-controls slider-buttons">
+                <button
+                  type="button"
+                  class="slider-button slider-button--prev"
+                  name="previous"
+                  aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
+                  aria-controls="Slider-{{ section.id }}"
+                >
+                  <span class="svg-wrapper">
+                    {{- 'icon-caret.svg' | inline_asset_content -}}
+                  </span>
+                </button>
+
+                <div class="slider-counter slider-counter--dots">
+                  <div class="slideshow__control-wrapper">
+                    {%- for block in section.blocks -%}
+                      <button
+                        type="button"
+                        class="slider-counter__link slider-counter__link--dots link"
+                        aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                        aria-controls="Slider-{{ section.id }}"
+                      >
+                        <span class="dot"></span>
+                      </button>
+                    {%- endfor -%}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  class="slider-button slider-button--next"
+                  name="next"
+                  aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
+                  aria-controls="Slider-{{ section.id }}"
+                >
+                  <span class="svg-wrapper">
+                    {{- 'icon-caret.svg' | inline_asset_content -}}
+                  </span>
+                </button>
+
+                {%- if section.settings.auto_rotate -%}
+                  <button
+                    type="button"
+                    class="slideshow__autoplay slider-button"
+                    aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}"
+                  >
+                    <span class="svg-wrapper">
+                      {{- 'icon-pause.svg' | inline_asset_content -}}
+                    </span>
+                    <span class="svg-wrapper">
+                      {{- 'icon-play.svg' | inline_asset_content -}}
+                    </span>
+                  </button>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </slideshow-component>
+        {%- else -%}
+          {%- comment -%}
+            Every photograph block removed — keep the frame so the column does
+            not collapse and the editor still shows what belongs here.
+          {%- endcomment -%}
+          {%- render 'kram-image-mockup',
+            ratio: section.settings.ratio,
+            label: section.settings.image_label,
+            sizes: '(min-width: 990px) 50vw, 100vw'
+          -%}
+        {%- endif -%}
       </div>
 
       <div
@@ -224,46 +384,62 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Story text and a small product grid beside one large photograph. Write truthfully: 'natural indigo', 'hand-dyed', 'handwoven' — never 'chemical-free' or '100% natural process'. No sale, discount or urgency content belongs in this section."
+      "content": "Story text and a small product grid beside a lookbook. Add a Photograph block per shot — several rotate one at a time. Write truthfully: 'natural indigo', 'hand-dyed', 'handwoven' — never 'chemical-free' or '100% natural process'. No sale, discount or urgency content belongs in this section."
     },
     {
       "type": "header",
-      "content": "Image [OWNER INPUT]"
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Photograph"
-    },
-    {
-      "type": "text",
-      "id": "image_label",
-      "label": "Placeholder brief",
-      "default": "Lifestyle photograph, natural daylight — pieces styled at home.",
-      "info": "Shown in the empty placeholder to tell the owner what belongs here."
-    },
-    {
-      "type": "text",
-      "id": "image_alt",
-      "label": "Alt text",
-      "info": "Describe the photograph for screen readers and search. Translate per locale in Translate & Adapt."
+      "content": "Lookbook"
     },
     {
       "type": "select",
       "id": "ratio",
       "label": "Photograph aspect ratio",
       "options": [
+        { "value": "3 / 5", "label": "Tall portrait (3:5)" },
         { "value": "4 / 5", "label": "Portrait (4:5)" },
         { "value": "1 / 1", "label": "Square (1:1)" },
         { "value": "3 / 2", "label": "Landscape (3:2)" },
         { "value": "16 / 9", "label": "Wide (16:9)" }
       ],
-      "default": "4 / 5"
+      "default": "3 / 5",
+      "info": "Shared by every photograph so the lookbook does not change height as it rotates. Anything that does not match this shape is cropped from the centre — for full-length figures, 3:5 is the safe choice."
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "Rotate automatically",
+      "default": true,
+      "info": "Only applies with more than one photograph. A pause button is shown alongside the arrows so the rotation can be stopped."
+    },
+    {
+      "type": "range",
+      "id": "change_slides_speed",
+      "label": "Change photograph every",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "default": 5,
+      "info": "Rotation also pauses on hover and while the lookbook has keyboard focus."
+    },
+    {
+      "type": "text",
+      "id": "gallery_label",
+      "label": "Lookbook description",
+      "default": "The collection, worn",
+      "info": "Announced by screen readers to introduce the rotating photographs."
+    },
+    {
+      "type": "text",
+      "id": "image_label",
+      "label": "Empty-state brief",
+      "default": "Lifestyle photograph, natural daylight — pieces styled at home.",
+      "info": "Shown only if every photograph block is removed."
     },
     {
       "type": "select",
       "id": "image_position",
-      "label": "Image side (desktop)",
+      "label": "Lookbook side (desktop)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "right", "label": "Right" }
@@ -365,9 +541,54 @@
       "default": 88
     }
   ],
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "model",
+      "name": "Photograph",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photograph",
+          "info": "Your own image, uploaded to Content → Files. Takes priority over the bundled lookbook shot below and gets a full responsive srcset, so prefer it once final photography exists."
+        },
+        {
+          "type": "select",
+          "id": "bundled_image",
+          "label": "Bundled lookbook shot",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "kram-model-01a.jpg", "label": "Look 1 — draped cloth" },
+            { "value": "kram-model-01b.jpg", "label": "Look 1 — striped dress" },
+            { "value": "kram-model-02a.jpg", "label": "Look 2 — shirt and tote" },
+            { "value": "kram-model-02b.jpg", "label": "Look 2 — indigo jacket" },
+            { "value": "kram-model-03a.jpg", "label": "Look 3 — striped shirtdress" },
+            { "value": "kram-model-03b.jpg", "label": "Look 3 — long coat" }
+          ],
+          "default": "none",
+          "info": "Lookbook photographs that ship with the theme (630 × 1043). Used only when nothing is uploaded above."
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Alt text",
+          "info": "Describe the photograph for screen readers and search. Translate per locale in Translate & Adapt."
+        },
+        {
+          "type": "text",
+          "id": "image_label",
+          "label": "Placeholder brief",
+          "default": "Lookbook photograph, natural daylight — the pieces worn.",
+          "info": "Shown in the empty placeholder when neither an upload nor a bundled shot is set."
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "KRAM · Editorial products"
+      "name": "KRAM · Editorial products",
+      "blocks": [{ "type": "model" }]
     }
   ]
 }

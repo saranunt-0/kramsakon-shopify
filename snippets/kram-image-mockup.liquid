@@ -19,6 +19,13 @@
   - class:      {String}  Extra classes on the wrapper.
   - preload:    {Boolean} true for above-the-fold images (hero LCP).
   - loading:    {String}  'eager' or 'lazy'. Default 'lazy'.
+  - asset:      {String}  Filename of a photograph bundled in assets/, used
+                          only when `image` is blank — the lookbook shots that
+                          ship with the theme so a page is not empty before the
+                          owner uploads their own. Theme assets are static
+                          files rather than image objects, so there is no
+                          srcset here; the .kram-media ratio box sizes the img,
+                          so nothing shifts either way.
 
   Usage:
     {% render 'kram-image-mockup',
@@ -54,6 +61,13 @@
         preload: preload,
         class: 'kram-media__image'
     }}
+  {%- elsif asset != blank -%}
+    <img
+      src="{{ asset | asset_url }}"
+      alt="{{ kram_alt | escape }}"
+      loading="{{ kram_loading }}"
+      class="kram-media__image"
+    >
   {%- else -%}
     {%- comment -%}
       Decorative-by-necessity: there is no image to describe yet. The brief for

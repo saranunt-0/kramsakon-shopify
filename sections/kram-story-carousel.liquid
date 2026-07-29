@@ -1,0 +1,434 @@
+{% comment %}
+  KRAMSAKON — Story carousel: the story blocks as one rotating panel
+  (guideline §7.1.4–6, §8.3).
+
+  Same content model and same visual language as KRAM · Story block — image
+  beside text, image side per slide — but the slides share one frame and
+  advance one at a time instead of stacking down the page.
+
+  Built on Dawn's own <slideshow-component> (assets/global.js) rather than a
+  hand-rolled carousel, so it inherits the behaviour the rest of the theme
+  already has: scroll-snap, keyboard-reachable arrows and dots, autoplay that
+  pauses on hover and on focus, and a visible pause control. Three things that
+  component requires and that are easy to get wrong:
+
+  - the scroller must be `id="Slider-{{ section.id }}"`, and each slide
+    `id="Slide-{{ section.id }}-{{ forloop.index }}"`, because it finds them by
+    id prefix;
+  - a `.slider-buttons` wrapper must exist or the component bails out of its
+    constructor and nothing rotates;
+  - when autoplay is on there must be a `.slideshow__autoplay` button —
+    setAutoPlay() reads `this.reducedMotion` on the branch taken when that
+    button is absent, and that property is only ever assigned for the
+    announcement bar, so without the button it throws.
+
+  Copy rule: truthful framings only — 'natural indigo', 'hand-dyed with natural
+  indigo', 'handwoven'. Never 'chemical-free', 'no chemicals' or a '100%
+  natural process'. No sale, discount or urgency content belongs here.
+{% endcomment %}
+
+{{ 'kramsakon.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'component-slideshow.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* The scroller. Dawn's .slider--everywhere brings the scroll-snap and the
+     hidden scrollbar; the flex row and the full-width slides are ours, because
+     Dawn's own slideshow leans on .grid/.grid--1-col for that and this section
+     does not use the grid system. */
+  #Slider-{{ section.id }} {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .kram-story-slideshow__slide {
+    flex: 0 0 100%;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Slides sit side by side in one scroller, so the frame is as tall as the
+     longest slide and shorter ones would jump the arrows around. Centring the
+     story inside its slide keeps every slide optically level. */
+  .kram-story-slideshow__slide .kram-story {
+    width: 100%;
+  }
+
+  .kram-story-slideshow__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: var(--kram-space-sm);
+  }
+
+  /* Dawn parks the autoplay button absolutely inside the banner; here the
+     controls are a plain centred row under the slides, so put it back in flow. */
+  .kram-story-slideshow__controls .slideshow__autoplay {
+    position: static;
+    width: 4.4rem;
+    height: 4.4rem;
+  }
+
+  /* Rotation itself stays available — the pause button is the accessible
+     escape hatch — but the gliding scroll becomes an instant cut, so nothing
+     travels across the screen for someone who asked for less movement. */
+  @media (prefers-reduced-motion: reduce) {
+    #Slider-{{ section.id }} {
+      scroll-behavior: auto;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div
+    class="
+      {% if section.settings.width == 'full' %}kram-section--flush{% else %}page-width{% endif %}
+      section-{{ section.id }}-padding
+    "
+  >
+    {%- if section.blocks.size > 0 -%}
+      <slideshow-component
+        class="kram-story-slideshow"
+        role="region"
+        aria-roledescription="{{ 'sections.slideshow.carousel' | t }}"
+        aria-label="{{ section.settings.accessibility_info | escape }}"
+      >
+        {%- comment -%}
+          aria-live and aria-atomic sit on the scroller, not on the slides —
+          the component marks every off-screen slide aria-hidden, so only the
+          slide on show is ever announced. Same arrangement as Dawn's own
+          slideshow. The reveal animation is a fade rather than a slide, to
+          keep a transform off an element whose scroll position drives the
+          component's page maths.
+        {%- endcomment -%}
+        <div
+          id="Slider-{{ section.id }}"
+          class="
+            kram-story-slideshow__track slider slider--everywhere
+            {%- if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}
+          "
+          aria-live="polite"
+          aria-atomic="true"
+          data-autoplay="{{ section.settings.auto_rotate }}"
+          data-speed="{{ section.settings.change_slides_speed }}"
+        >
+          {%- for block in section.blocks -%}
+            <div
+              id="Slide-{{ section.id }}-{{ forloop.index }}"
+              class="kram-story-slideshow__slide slideshow__slide slider__slide"
+              role="group"
+              aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
+              aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+              {{ block.shopify_attributes }}
+            >
+              <div class="kram-story kram-story--image-{{ block.settings.image_position }}">
+                <div class="kram-story__media">
+                  {%- render 'kram-image-mockup',
+                    image: block.settings.image,
+                    ratio: section.settings.ratio,
+                    label: block.settings.image_label,
+                    alt: block.settings.image_alt,
+                    sizes: '(min-width: 990px) 50vw, 100vw'
+                  -%}
+                </div>
+
+                <div class="kram-story__body">
+                  {%- if block.settings.eyebrow != blank -%}
+                    <p class="kram-eyebrow">{{ block.settings.eyebrow | escape }}</p>
+                  {%- endif -%}
+
+                  {%- if block.settings.heading != blank -%}
+                    <hr class="kram-rule" aria-hidden="true">
+                    <h2 class="kram-story__heading {{ section.settings.heading_size }}">
+                      {{ block.settings.heading | escape }}
+                    </h2>
+                  {%- endif -%}
+
+                  {%- if block.settings.text != blank -%}
+                    <div class="rte">{{ block.settings.text }}</div>
+                  {%- endif -%}
+
+                  {%- if block.settings.link_label != blank and block.settings.link != blank -%}
+                    <a href="{{ block.settings.link }}" class="kram-story__link link">
+                      {{ block.settings.link_label | escape }}
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%}
+          One slide needs no controls, and rendering them would leave a dead
+          pair of arrows under a static story.
+        {%- endcomment -%}
+        {%- if section.blocks.size > 1 -%}
+          <div class="kram-story-slideshow__controls slider-buttons">
+            <button
+              type="button"
+              class="slider-button slider-button--prev"
+              name="previous"
+              aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
+              aria-controls="Slider-{{ section.id }}"
+            >
+              <span class="svg-wrapper">
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </span>
+            </button>
+
+            <div class="slider-counter slider-counter--dots">
+              <div class="slideshow__control-wrapper">
+                {%- for block in section.blocks -%}
+                  <button
+                    type="button"
+                    class="slider-counter__link slider-counter__link--dots link"
+                    aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                    aria-controls="Slider-{{ section.id }}"
+                  >
+                    <span class="dot"></span>
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="slider-button slider-button--next"
+              name="next"
+              aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
+              aria-controls="Slider-{{ section.id }}"
+            >
+              <span class="svg-wrapper">
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </span>
+            </button>
+
+            {%- if section.settings.auto_rotate -%}
+              <button
+                type="button"
+                class="slideshow__autoplay slider-button"
+                aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}"
+              >
+                <span class="svg-wrapper">
+                  {{- 'icon-pause.svg' | inline_asset_content -}}
+                </span>
+                <span class="svg-wrapper">
+                  {{- 'icon-play.svg' | inline_asset_content -}}
+                </span>
+              </button>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </slideshow-component>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "KRAM · Story carousel",
+  "tag": "section",
+  "class": "kram-section-story-carousel",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "The story blocks in one rotating panel. Each block is a slide: image beside text, image side set per slide. Write truthfully: 'natural indigo', 'hand-dyed', 'handwoven' — never 'chemical-free' or '100% natural process'."
+    },
+    {
+      "type": "header",
+      "content": "Rotation"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "Rotate automatically",
+      "default": true,
+      "info": "A pause button is always shown alongside the arrows so the rotation can be stopped."
+    },
+    {
+      "type": "range",
+      "id": "change_slides_speed",
+      "label": "Change slides every",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "default": 7,
+      "info": "Long enough to finish reading the slide. Rotation also pauses on hover and while a link inside a slide has focus."
+    },
+    {
+      "type": "text",
+      "id": "accessibility_info",
+      "label": "Carousel description",
+      "default": "The KRAMSAKON story",
+      "info": "Announced by screen readers to introduce the rotating panel."
+    },
+    {
+      "type": "header",
+      "content": "Slides"
+    },
+    {
+      "type": "select",
+      "id": "ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        { "value": "4 / 5", "label": "Portrait (4:5)" },
+        { "value": "1 / 1", "label": "Square (1:1)" },
+        { "value": "3 / 2", "label": "Landscape (3:2)" },
+        { "value": "16 / 9", "label": "Wide (16:9)" }
+      ],
+      "default": "4 / 5",
+      "info": "Shared by every slide so the panel does not change height as it rotates."
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h3", "label": "Small" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "h1", "label": "Large" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "options": [
+        { "value": "page", "label": "Page width" },
+        { "value": "full", "label": "Full bleed" }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    }
+  ],
+  "blocks": [
+    {
+      "type": "story",
+      "name": "Story slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Image [OWNER INPUT]"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_label",
+          "label": "Placeholder brief",
+          "default": "Hands at work, indigo vat, or close-up weave — natural daylight.",
+          "info": "Shown in the empty placeholder to tell the owner what belongs here."
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Alt text",
+          "info": "Describe the photograph for screen readers and search. Translate per locale in Translate & Adapt."
+        },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image side (desktop)",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "header",
+          "content": "Text"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "info": "Optional small label above the heading."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "From the indigo plant"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Body",
+          "default": "<p>Our colour comes from the indigo plant — a natural dye at the heart of a craft passed down for generations in Sakon Nakhon. Every piece is dyed by hand, so no two are exactly alike.</p>"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label",
+          "info": "Optional. The link only renders when both a label and a link are set."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "KRAM · Story carousel",
+      "blocks": [{ "type": "story" }, { "type": "story" }, { "type": "story" }]
+    }
+  ]
+}
+{% endschema %}

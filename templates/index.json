@@ -41,23 +41,64 @@
         "padding_bottom": 56
       }
     },
-    "story_natural": {
-      "type": "kram-story-block",
+    "story_carousel": {
+      "type": "kram-story-carousel",
+      "blocks": {
+        "slide_natural": {
+          "type": "story",
+          "settings": {
+            "image_label": "Indigo plants, or indigo dye in the vat. Close, natural daylight.",
+            "image_alt": "Indigo plants growing near Sakon Nakhon",
+            "image_position": "left",
+            "eyebrow": "Natural",
+            "heading": "From the indigo plant",
+            "text": "<p>Our colour comes from the indigo plant — a natural dye at the heart of a craft passed down for generations in Sakon Nakhon. Every piece is dyed by hand, so no two are exactly alike.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "slide_handcraft": {
+          "type": "story",
+          "settings": {
+            "image_label": "Hands at work — dipping cloth, or at the loom. Show texture and process.",
+            "image_alt": "Hands dyeing cloth with natural indigo",
+            "image_position": "right",
+            "eyebrow": "Handcraft",
+            "heading": "Made by hand",
+            "text": "<p>Prepared, dyed, and woven by hand using traditional methods. The small variations in tone and pattern are the mark of real handcraft — and make every piece one of a kind.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "slide_community": {
+          "type": "story",
+          "settings": {
+            "image_label": "The community of makers together, or the place. Group or craft-in-context — never a single person as the brand's face.",
+            "image_alt": "Weavers and dyers of the Sakon Nakhon community at work",
+            "image_position": "left",
+            "eyebrow": "Made by local",
+            "heading": "Made by a local community",
+            "text": "<p>KRAMSAKON works hand in hand with growers, dyers, and weavers in Sakon Nakhon. As a social enterprise, we help the value of this craft return to the community that keeps it alive.</p>",
+            "link_label": "Read our story",
+            "link": "shopify://pages/our-story"
+          }
+        }
+      },
+      "block_order": [
+        "slide_natural",
+        "slide_handcraft",
+        "slide_community"
+      ],
       "settings": {
-        "image_label": "Indigo plants, or indigo dye in the vat. Close, natural daylight.",
-        "image_alt": "Indigo plants growing near Sakon Nakhon",
+        "auto_rotate": true,
+        "change_slides_speed": 7,
+        "accessibility_info": "The KRAMSAKON story",
         "ratio": "4 / 5",
-        "image_position": "left",
-        "eyebrow": "Natural",
-        "heading": "From the indigo plant",
         "heading_size": "h2",
-        "text": "<p>Our colour comes from the indigo plant — a natural dye at the heart of a craft passed down for generations in Sakon Nakhon. Every piece is dyed by hand, so no two are exactly alike.</p>",
-        "link_label": "",
-        "link": "",
         "width": "page",
         "color_scheme": "scheme-1",
         "padding_top": 88,
-        "padding_bottom": 40
+        "padding_bottom": 64
       }
     },
     "new_arrivals": {
@@ -85,25 +126,6 @@
         "columns_mobile": "2",
         "swipe_on_mobile": true,
         "padding_top": 40,
-        "padding_bottom": 56
-      }
-    },
-    "story_handcraft": {
-      "type": "kram-story-block",
-      "settings": {
-        "image_label": "Hands at work — dipping cloth, or at the loom. Show texture and process.",
-        "image_alt": "Hands dyeing cloth with natural indigo",
-        "ratio": "4 / 5",
-        "image_position": "right",
-        "eyebrow": "Handcraft",
-        "heading": "Made by hand",
-        "heading_size": "h2",
-        "text": "<p>Prepared, dyed, and woven by hand using traditional methods. The small variations in tone and pattern are the mark of real handcraft — and make every piece one of a kind.</p>",
-        "link_label": "",
-        "link": "",
-        "width": "page",
-        "color_scheme": "scheme-1",
-        "padding_top": 56,
         "padding_bottom": 56
       }
     },
@@ -178,9 +200,11 @@
     "editorial_products": {
       "type": "kram-editorial-products",
       "settings": {
-        "image_label": "Lifestyle: pieces styled simply at home or worn — natural daylight, unfussy.",
-        "image_alt": "Indigo-dyed textiles styled in natural light",
-        "ratio": "4 / 5",
+        "ratio": "3 / 5",
+        "auto_rotate": true,
+        "change_slides_speed": 5,
+        "gallery_label": "The collection, worn",
+        "image_label": "Lifestyle photograph, natural daylight — pieces styled at home.",
         "image_position": "right",
         "eyebrow": "The collection",
         "heading": "Woven for everyday",
@@ -192,26 +216,65 @@
         "color_scheme": "scheme-1",
         "padding_top": 88,
         "padding_bottom": 88
-      }
-    },
-    "story_community": {
-      "type": "kram-story-block",
-      "settings": {
-        "image_label": "The community of makers together, or the place. Group or craft-in-context — never a single person as the brand's face.",
-        "image_alt": "Weavers and dyers of the Sakon Nakhon community at work",
-        "ratio": "3 / 2",
-        "image_position": "left",
-        "eyebrow": "Made by local",
-        "heading": "Made by a local community",
-        "heading_size": "h2",
-        "text": "<p>KRAMSAKON works hand in hand with growers, dyers, and weavers in Sakon Nakhon. As a social enterprise, we help the value of this craft return to the community that keeps it alive.</p>",
-        "link_label": "Read our story",
-        "link": "shopify://pages/our-story",
-        "width": "page",
-        "color_scheme": "scheme-1",
-        "padding_top": 56,
-        "padding_bottom": 72
-      }
+      },
+      "blocks": {
+        "look_01a": {
+          "type": "model",
+          "settings": {
+            "bundled_image": "kram-model-01a.jpg",
+            "image_alt": "A model wearing a length of indigo-dyed cloth draped over the shoulder",
+            "image_label": "Lookbook photograph, natural daylight — the pieces worn."
+          }
+        },
+        "look_01b": {
+          "type": "model",
+          "settings": {
+            "bundled_image": "kram-model-01b.jpg",
+            "image_alt": "A model wearing a striped indigo-dyed shift dress",
+            "image_label": "Lookbook photograph, natural daylight — the pieces worn."
+          }
+        },
+        "look_02a": {
+          "type": "model",
+          "settings": {
+            "bundled_image": "kram-model-02a.jpg",
+            "image_alt": "A model wearing a striped shirt and carrying an indigo-dyed tote bag",
+            "image_label": "Lookbook photograph, natural daylight — the pieces worn."
+          }
+        },
+        "look_02b": {
+          "type": "model",
+          "settings": {
+            "bundled_image": "kram-model-02b.jpg",
+            "image_alt": "A model wearing an indigo-dyed jacket over a white shirt",
+            "image_label": "Lookbook photograph, natural daylight — the pieces worn."
+          }
+        },
+        "look_03a": {
+          "type": "model",
+          "settings": {
+            "bundled_image": "kram-model-03a.jpg",
+            "image_alt": "A model wearing a striped indigo-dyed shirtdress",
+            "image_label": "Lookbook photograph, natural daylight — the pieces worn."
+          }
+        },
+        "look_03b": {
+          "type": "model",
+          "settings": {
+            "bundled_image": "kram-model-03b.jpg",
+            "image_alt": "A model wearing a long indigo-dyed coat with a shoulder bag",
+            "image_label": "Lookbook photograph, natural daylight — the pieces worn."
+          }
+        }
+      },
+      "block_order": [
+        "look_01a",
+        "look_01b",
+        "look_02a",
+        "look_02b",
+        "look_03a",
+        "look_03b"
+      ]
     },
     "category_tiles": {
       "type": "collection-list",
@@ -284,12 +347,10 @@
   "order": [
     "hero",
     "essence",
-    "story_natural",
+    "story_carousel",
     "new_arrivals",
-    "story_handcraft",
     "craft_journey",
     "editorial_products",
-    "story_community",
     "category_tiles",
     "promo_band"
   ]
