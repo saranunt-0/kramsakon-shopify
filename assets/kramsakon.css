@@ -64,23 +64,19 @@
 /* --------------------------------------------------------------------------
    2. Typography — guideline §4.2
 
-   Latin and Thai are handled by different families in each stack:
-     Headings  Fraunces + Noto Serif Thai
-     Body/UI   Inter    + IBM Plex Sans Thai
+   The storefront is English-only, so one family per role:
+     Headings  Fraunces
+     Body/UI   Inter
 
-   Fraunces and Inter have no Thai glyphs. Font-family resolution is
-   per-character, so listing the Thai companion straight after the Latin face
-   means Latin picks up Fraunces/Inter and Thai picks up its companion — even
-   within one mixed sentence. The generic keyword at the end of each stack is
-   the last resort only; no Thai character can reach it, because the Thai face
-   always matches first.
+   The generic keyword at the end of each stack is the last resort only,
+   reached if the Google Fonts request fails.
    -------------------------------------------------------------------------- */
 :root {
-  --font-heading-family: 'Fraunces', 'Noto Serif Thai', Georgia, 'Times New Roman', serif;
+  --font-heading-family: 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-heading-style: normal;
   --font-heading-weight: 400;
 
-  --font-body-family: 'Inter', 'IBM Plex Sans Thai', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-body-style: normal;
   --font-body-weight: 400;
   --font-body-weight-bold: 600;
@@ -88,8 +84,7 @@
 
 /* Fraunces carries an optical-size axis: display sizes get the wider,
    more editorial cut, smaller headings a compact one. Only 'opsz' is named,
-   so font-weight keeps working normally on the 'wght' axis. Ignored
-   harmlessly by the Thai companion, which is not variable on this axis. */
+   so font-weight keeps working normally on the 'wght' axis. */
 h1,
 .h0,
 .h1,
@@ -111,18 +106,9 @@ h6,
   font-variation-settings: 'opsz' 36;
 }
 
-/* Thai has no italic tradition, and neither Thai face ships one — leaving
-   font-style: italic on Thai text would make the browser synthesise a slant,
-   which reads as a rendering fault. Latin keeps its true italic. */
-:lang(th) .kram-hero__tagline,
-:lang(th) .kram-quote__text {
-  font-style: normal;
-}
-
 body {
   color: var(--ink);
   letter-spacing: 0.01em;
-  /* Thai vowels/tone marks stack above and below the baseline — give them room. */
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
 }
@@ -143,7 +129,7 @@ h6,
   font-weight: 400;
   color: var(--kram-heading-color);
   letter-spacing: 0.005em;
-  line-height: 1.35; /* headroom for Thai tone marks at display sizes */
+  line-height: 1.35;
   text-wrap: balance;
 }
 
@@ -156,12 +142,6 @@ h6,
   text-transform: uppercase;
   color: var(--kram-accent);
   margin: 0 0 var(--kram-space-sm);
-}
-
-/* Thai text sets slightly larger than Latin at the same nominal size. */
-:lang(th) .kram-eyebrow {
-  letter-spacing: 0.08em;
-  text-transform: none;
 }
 
 .kram-lede {
@@ -421,10 +401,6 @@ h6,
   text-decoration-thickness: 1px;
 }
 
-:lang(th) .kram-essence__link {
-  text-transform: none;
-  letter-spacing: 0.04em;
-}
 
 /* --------------------------------------------------------------------------
    7. Story block — image + text, alternating sides (§7.1.4–6, §8.3)
@@ -587,10 +563,6 @@ h6,
   opacity: 0.75;
 }
 
-:lang(th) .kram-quote__attribution {
-  text-transform: none;
-  letter-spacing: 0.04em;
-}
 
 /* --------------------------------------------------------------------------
    10. Value grid — Seven Dimensions of Value (§10.2, optional block)
@@ -672,10 +644,6 @@ h6,
   color: var(--kram-accent);
 }
 
-:lang(th) .kram-contact__detail-label {
-  text-transform: none;
-  letter-spacing: 0.04em;
-}
 
 .kram-contact__detail-value {
   font-size: 1.6rem;
@@ -731,9 +699,6 @@ h6,
   transition: background-color 240ms var(--kram-ease), color 240ms var(--kram-ease);
 }
 
-:lang(th) .button {
-  letter-spacing: 0.02em;
-}
 
 /* When hero text sits over a photograph the buttons need their own contrast —
    the section colour scheme describes the page, not the image. With text
@@ -862,10 +827,6 @@ h6,
   padding: 0.4rem 0.8rem;
 }
 
-:lang(th) .card__badge .badge {
-  text-transform: none;
-  letter-spacing: 0.02em;
-}
 
 /* Collection intro / description reads as editorial copy, not a promo line. */
 .collection-hero__description,
@@ -928,9 +889,6 @@ h6,
   letter-spacing: 0.08em;
 }
 
-:lang(th) .header__menu-item {
-  letter-spacing: 0.02em;
-}
 
 .header-wrapper {
   border-bottom: var(--kram-rule);
