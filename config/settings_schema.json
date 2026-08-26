@@ -23,7 +23,7 @@
         "id": "kram_tagline",
         "label": "Tagline",
         "default": "Learning from Nature. Creating the Future.",
-        "info": "Translate per locale in Translate & Adapt. Thai: เรียนรู้จากธรรมชาติ สร้างสรรค์สู่อนาคต"
+        "info": "Shown under the brand mark in the footer."
       },
       {
         "type": "textarea",

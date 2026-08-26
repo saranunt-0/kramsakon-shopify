@@ -1,0 +1,7 @@
+# development_note/index.yaml
+last_updated: "2026-08-03"
+modules:
+  - name: localization
+    path: modules/localization/timeline.md
+    description: "Storefront language configuration — language selector, locale files, script-specific typography"
+standalone: []

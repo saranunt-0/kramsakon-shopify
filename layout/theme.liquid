@@ -18,22 +18,14 @@
     {%- comment -%}
       KRAMSAKON typography — guideline §4.2.
 
-      Four families, paired by script rather than one family per role:
-        Headings  Fraunces          (Latin display serif)
-                  Noto Serif Thai   (Thai serif companion)
-        Body/UI   Inter             (Latin UI sans)
-                  IBM Plex Sans Thai (Thai sans companion)
+      The storefront is English-only, so one family per role:
+        Headings  Fraunces  (display serif)
+        Body/UI   Inter     (UI sans)
 
-      Fraunces and Inter carry no Thai glyphs, so each stack lists its Thai
-      companion immediately after the Latin face. Browsers resolve font-family
-      per character, not per element: Latin renders in Fraunces/Inter and Thai
-      in Noto Serif Thai / IBM Plex Sans Thai, including inside a single mixed
-      sentence. Both Thai faces have full vowel and tone-mark coverage at every
-      weight loaded here, so no Thai character can ever fall back to a
-      Latin-only face. The stacks are bound in assets/kramsakon.css.
+      The stacks are bound in assets/kramsakon.css.
 
-      Shopify's own font library carries none of these families, so they are
-      loaded from Google Fonts.
+      Shopify's own font library carries neither family, so they are loaded
+      from Google Fonts.
 
       [VERIFY AT BUILD] If the store must avoid third-party font requests
       (China readiness, §5), download the woff2 files, drop them in assets/,
@@ -44,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@300..700&family=Noto+Serif+Thai:wght@300..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Inter:wght@300..700&display=swap"
     >
 
     <title>
@@ -62,12 +54,13 @@
 
     {%- comment -%}
       hreflang / locale subfolders (guideline §5).
-      Shopify emits <link rel="alternate" hreflang="…"> for every published
-      language and market automatically inside the content_for_header object.
-      We deliberately do NOT hand-roll them here — duplicate alternates are an
-      SEO defect. [VERIFY AT BUILD] After publishing Thai in Translate & Adapt,
-      view source on /en and /th and confirm one alternate per locale plus
-      x-default. See markdown/HANDOFF.md → "Internationalisation checklist".
+      The storefront is English-only: English is the sole published language,
+      so there are no locale subfolders and nothing to cross-reference.
+      Shopify still emits <link rel="alternate" hreflang="…"> for every
+      published language and market automatically inside the content_for_header
+      object, so we deliberately do NOT hand-roll them here — duplicate
+      alternates are an SEO defect. Should another language ever be published,
+      that automatic output is what must be verified; nothing here changes.
     {%- endcomment -%}
 
     {%- comment -%}
@@ -387,13 +380,13 @@
 
     {%- comment -%}
       Dawn preloads the fonts chosen in Theme settings here. KRAMSAKON renders
-      in Trirong/Sarabun (loaded above and bound in kramsakon.css), so
+      in Fraunces/Inter (loaded above and bound in kramsakon.css), so
       preloading the theme-setting fonts would download two typefaces the page
       never paints — a needless hit on a photography-heavy, mobile-first store
       (§8.5, performance). The preloads are intentionally omitted.
     {%- endcomment -%}
 
-    {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
+    {%- if localization.available_countries.size > 1 -%}
       {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
       <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}

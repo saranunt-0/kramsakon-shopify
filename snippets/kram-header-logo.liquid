@@ -2,10 +2,10 @@
   KRAMSAKON — the header brand mark.
 
   Dawn's stock behaviour is to print the shop name as *text* when no logo image
-  is set. That string comes from Settings → Store details, not from the theme's
-  locale files, so Translate & Adapt cannot switch it per language — an English
-  visitor would still be shown the Thai store name. The text fallback is
-  therefore gone, and the wordmark ships with the theme instead.
+  is set. That string comes from Settings → Store details, so the header would
+  silently follow whatever is typed there — including the placeholder store
+  name. The text fallback is therefore gone, and the wordmark ships with the
+  theme instead.
 
   Two sources, in order:
 
@@ -53,9 +53,8 @@
 {%- else -%}
   {%- comment -%}
     The alt text deliberately transcribes the words in the wordmark rather than
-    echoing shop.name. It is the same in every language — a brand mark is not
-    translatable content — and it stays correct even before the owner replaces
-    the placeholder store name in Settings → Store details.
+    echoing shop.name, so it stays correct even before the owner replaces the
+    placeholder store name in Settings → Store details.
 
     600 × 256 is the stored size; height is derived from the owner's chosen
     width so the box is reserved before the image loads and nothing shifts.
