@@ -267,16 +267,54 @@ h6,
 
 /* --------------------------------------------------------------------------
    5. Hero — large, calm, full-bleed (§4.3, §7.1.2)
+
+   One or many slides. The photograph, headline and tagline live in the
+   rotating track; the buttons and the slider controls sit in .kram-hero__foot,
+   a static layer over the bottom of the image, so the call to action never
+   moves as the hero turns. Each slide carries a hidden copy of that foot
+   (.kram-hero__foot--spacer) so its text stops exactly above the buttons —
+   see the comment at the top of sections/kram-hero.liquid.
    -------------------------------------------------------------------------- */
 .kram-hero {
   position: relative;
+}
+
+.kram-hero__slideshow {
   display: grid;
   isolation: isolate;
 }
 
-.kram-hero__media {
+/* Both the track and the static foot occupy the same grid cell; the cell is
+   as tall as the track, and the foot is pinned to its bottom edge. */
+.kram-hero__track,
+.kram-hero__foot {
   grid-area: 1 / 1;
+}
+
+.kram-hero__track {
+  display: flex;
+  align-items: stretch;
+  /* Dawn's .slider--everywhere leaves room for a scrollbar it then hides. */
+  margin-bottom: 0;
+}
+
+.kram-hero__slide {
+  flex: 0 0 100%;
   width: 100%;
+}
+
+/* Slides sit side by side in one scroller, so the frame is as tall as the
+   tallest slide. With text over the image the content hangs from the bottom
+   edge, which keeps every slide's headline optically level; with text below
+   it, the images align at the top instead and the text runs on beneath. */
+.kram-hero--overlay .kram-hero__slide {
+  justify-content: flex-end;
+}
+
+/* The hero is the one place where the frame differs between mobile and
+   desktop, so the wrapper owns the ratio and the image slot simply fills it.
+   Everywhere else the slot itself sets the ratio. */
+.kram-hero__media {
   aspect-ratio: var(--kram-ratio, 4 / 3);
 }
 
@@ -286,16 +324,39 @@ h6,
   }
 }
 
-/* The hero is the one place where the frame differs between mobile and
-   desktop, so the wrapper owns the ratio and the image slot simply fills it.
-   Everywhere else the slot itself sets the ratio. */
 .kram-hero__media > .kram-media {
   height: 100%;
   aspect-ratio: auto;
 }
 
+/* With text over the image the photograph is the backdrop of the whole slide,
+   so it leaves the flow and the track carries the ratio instead. */
+.kram-hero--overlay .kram-hero__track {
+  aspect-ratio: var(--kram-ratio, 4 / 3);
+  /* The ratio is a floor, not a cap: a long headline makes the hero taller
+     rather than scrolling inside its own frame, which is what a strict
+     aspect-ratio on a scroll container would otherwise do. */
+  min-height: fit-content;
+}
+
+@media screen and (min-width: 750px) {
+  .kram-hero--overlay .kram-hero__track {
+    aspect-ratio: var(--kram-ratio-desktop, 16 / 7);
+  }
+}
+
+.kram-hero--overlay .kram-hero__media,
+.kram-hero--overlay .kram-hero__overlay {
+  position: absolute;
+  inset: 0;
+  aspect-ratio: auto;
+}
+
+.kram-hero--overlay .kram-hero__media {
+  z-index: 0;
+}
+
 .kram-hero__overlay {
-  grid-area: 1 / 1;
   z-index: 1;
   background: linear-gradient(
     to bottom,
@@ -305,7 +366,7 @@ h6,
 }
 
 .kram-hero__content {
-  grid-area: 1 / 1;
+  position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -315,7 +376,7 @@ h6,
   /* Vertical only. The overlay variant adds its own gutter below; the
      text-below variant carries Dawn's .page-width, which supplies the
      horizontal padding — overriding it here would narrow the gutter. */
-  padding: var(--kram-space-md) 0 var(--kram-space-lg);
+  padding: var(--kram-space-md) 0 var(--kram-hero-pad-bottom, 72px);
   color: var(--cream);
 }
 
@@ -338,9 +399,38 @@ h6,
   font-style: italic;
   font-size: 1.7rem;
   letter-spacing: 0.04em;
-  margin: 0 0 var(--kram-space-md);
+  margin: 0;
   color: inherit;
   opacity: 0.95;
+}
+
+/* Buttons above, slider controls below — always stacked, never side by side,
+   so the foot's height is the sum of two known rows and the spacer inside each
+   slide reserves exactly that much whatever the button labels do. */
+.kram-hero__foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--kram-space-sm);
+  align-self: end;
+  z-index: 3;
+  padding-bottom: var(--kram-hero-pad-bottom, 72px);
+}
+
+/* Only the overlaid foot needs its own gutter — with text below the image the
+   foot carries Dawn's .page-width, which supplies one. */
+.kram-hero--overlay .kram-hero__foot:not(.kram-hero__foot--spacer) {
+  padding-inline: var(--kram-space-sm);
+}
+
+.kram-hero__foot--spacer {
+  /* In flow, so it reserves height; invisible, so nothing is drawn twice and
+     nothing inside it is focusable. The gutter is dropped because the slide's
+     own content box already carries it — this keeps the spacer's buttons the
+     same width as the real ones, so they wrap at the same point. */
+  visibility: hidden;
+  padding: 0;
+  margin-top: var(--kram-space-md);
 }
 
 .kram-hero__actions {
@@ -350,9 +440,57 @@ h6,
   justify-content: center;
 }
 
+/* Matches the height of a .slider-button row so the spacer reserves the
+   controls as well as the buttons. */
+.kram-hero__controls-spacer {
+  display: block;
+  height: 4.4rem;
+}
+
+/* The controls sit on the photograph, where the scheme's foreground colour is
+   the wrong one — the scheme describes the page, not the image. */
+.kram-hero--overlay .kram-hero__controls .slider-button {
+  color: rgba(var(--cream-rgb), 0.8);
+}
+
+.kram-hero--overlay .kram-hero__controls .slider-button:not([disabled]):hover {
+  color: var(--cream);
+}
+
+.kram-hero--overlay .kram-hero__controls .slider-counter__link--dots .dot {
+  border-color: rgba(var(--cream-rgb), 0.6);
+}
+
+.kram-hero--overlay .kram-hero__controls .slider-counter__link--dots:not(.slider-counter__link--active):hover .dot {
+  border-color: var(--cream);
+}
+
+.kram-hero--overlay .kram-hero__controls .slider-counter__link--active.slider-counter__link--dots .dot {
+  background-color: var(--cream);
+  border-color: var(--cream);
+}
+
+/* Dawn parks the autoplay button absolutely inside its own banner; here the
+   controls are a plain centred row, so put it back in flow. */
+.kram-hero__controls .slideshow__autoplay {
+  position: static;
+  width: 4.4rem;
+  height: 4.4rem;
+}
+
+/* Rotation itself stays available — the pause button is the accessible escape
+   hatch — but the gliding scroll becomes an instant cut, so nothing travels
+   across the screen for someone who asked for less movement. */
+@media (prefers-reduced-motion: reduce) {
+  .kram-hero__track {
+    scroll-behavior: auto;
+  }
+}
+
 /* Hero text placed under the image instead of over it — better contrast when
-   the owner's photograph is busy or light. */
-.kram-hero--text-below {
+   the owner's photograph is busy or light. The foot then sits in normal flow
+   under the slides, so nothing overlaps and no spacer is rendered. */
+.kram-hero--text-below .kram-hero__slideshow {
   display: block;
 }
 
@@ -363,6 +501,11 @@ h6,
 .kram-hero--text-below .kram-hero__content {
   padding-top: var(--kram-space-md);
   padding-bottom: 0;
+}
+
+.kram-hero--text-below .kram-hero__foot {
+  padding-bottom: 0;
+  margin-top: var(--kram-space-md);
 }
 
 /* --------------------------------------------------------------------------

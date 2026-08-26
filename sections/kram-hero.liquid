@@ -1,97 +1,309 @@
 {% comment %}
   KRAMSAKON — Story hero (guideline §7.1.2, §8.3).
 
-  A large, calm, full-bleed opener. Image is an owner-filled mockup slot.
-  Two layouts: text over the photograph, or text set beneath it — the second
-  is the safe choice when the owner's final image is light or busy, because it
-  keeps text contrast independent of the photo (§8.5, accessibility).
+  A large, calm, full-bleed opener that can hold one image or rotate through
+  several. Each slide is a theme-editor block carrying its own photograph,
+  headline and tagline; the buttons are section settings and are rendered
+  once, outside the rotating track, so the call to action never moves or
+  changes as the hero turns.
+
+  Two layouts, unchanged from the single-image hero: text over the photograph,
+  or text set beneath it — the second is the safe choice when the owner's final
+  image is light or busy, because it keeps text contrast independent of the
+  photo (§8.5, accessibility).
+
+  Built on Dawn's own <slideshow-component> (assets/global.js), like the story
+  carousel and the editorial lookbook, so it inherits scroll-snap, keyboard
+  arrows and dots, autoplay that pauses on hover and on focus, and a visible
+  pause button. The component finds its parts by selector inside itself, so:
+
+  - the scroller must be `id="Slider-{{ section.id }}"` and each slide
+    `id="Slide-{{ section.id }}-{{ forloop.index }}"`;
+  - a `.slider-buttons` wrapper and a `button[name="next"]` must exist inside
+    the component or it bails out of its constructor and nothing rotates —
+    which is exactly what we want for a single-slide hero;
+  - when autoplay is on there must be a `.slideshow__autoplay` button, or
+    setAutoPlay() reads a property only ever set for the announcement bar and
+    throws.
+
+  The foot — buttons plus slider controls — is a static layer over the bottom
+  of the photograph. Because it does not scroll with the slides, each slide
+  carries a `visibility: hidden` copy of it beneath its text, so the headline
+  always stops exactly above the buttons however long the button labels run or
+  however many lines the headline takes. The copy uses <span>, never <a>
+  or <button>: real controls duplicated inside the track would be picked up by
+  the component's own querySelector and break the dots.
 {% endcomment %}
 
 {{ 'kramsakon.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'component-slideshow.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign has_actions = false
+  if section.settings.button_label_1 != blank or section.settings.button_label_2 != blank
+    assign has_actions = true
+  endif
+
+  assign has_controls = false
+  if section.blocks.size > 1
+    assign has_controls = true
+  endif
+
+  assign has_foot = false
+  if has_actions or has_controls
+    assign has_foot = true
+  endif
+
+  comment
+    The spacer only earns its place where the foot floats over the photograph.
+    With text below the image the foot is in normal flow and nothing overlaps.
+  endcomment
+  assign show_spacer = false
+  if has_foot and section.settings.layout == 'overlay'
+    assign show_spacer = true
+  endif
+-%}
 
 {%- style -%}
   #shopify-section-{{ section.id }} .kram-hero {
     --kram-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
     --kram-ratio: {{ section.settings.ratio_mobile }};
     --kram-ratio-desktop: {{ section.settings.ratio_desktop }};
-  }
-
-  #shopify-section-{{ section.id }} .kram-hero__content {
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round: 0 }}px;
+    --kram-hero-pad-bottom: {{ section.settings.padding_bottom | times: 0.6 | round: 0 }}px;
   }
 
   @media screen and (min-width: 750px) {
-    #shopify-section-{{ section.id }} .kram-hero__content {
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+    #shopify-section-{{ section.id }} .kram-hero {
+      --kram-hero-pad-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
 {%- endstyle -%}
 
 <div class="kram-hero kram-hero--{{ section.settings.layout }} color-{{ section.settings.color_scheme }} gradient">
-  <div class="kram-hero__media">
-    {%- render 'kram-image-mockup',
-      image: section.settings.image,
-      ratio: section.settings.ratio_desktop,
-      label: section.settings.image_label,
-      alt: section.settings.image_alt,
-      sizes: '100vw',
-      loading: 'eager',
-      preload: true
-    -%}
-  </div>
-
-  {%- if section.settings.layout == 'overlay' -%}
-    <div class="kram-hero__overlay"></div>
-  {%- endif -%}
-
-  <div class="kram-hero__content{% if section.settings.layout == 'text-below' %} page-width{% endif %}">
+  <slideshow-component
+    class="kram-hero__slideshow"
+    {% if has_controls %}
+      role="region"
+      aria-roledescription="{{ 'sections.slideshow.carousel' | t }}"
+      aria-label="{{ section.settings.accessibility_info | escape }}"
+    {% endif %}
+  >
     {%- comment -%}
-      Heading level, not size — visual size stays on the class.
-
-      On the homepage Dawn wraps the header logo in the page's <h1>, so the
-      hero steps down to <h2> to avoid two first-level headings. The header
-      always renders a logo (uploaded, or the wordmark bundled at
-      assets/kram-logo.png), so that <h1> is always there. On any other page
-      the hero headline IS the page's first-level heading — without this the
-      page would ship with no <h1> at all.
+      aria-live and aria-atomic sit on the scroller, not on the slides — the
+      component marks every off-screen slide aria-hidden, so only the slide on
+      show is ever announced. Same arrangement as Dawn's own slideshow.
     {%- endcomment -%}
-    {%- liquid
-      assign heading_tag = 'h1'
-      if request.page_type == 'index'
-        assign heading_tag = 'h2'
-      endif
-    -%}
-    {%- if section.settings.heading != blank -%}
-      <{{ heading_tag }} class="kram-hero__heading {{ section.settings.heading_size }}">
-        {{ section.settings.heading | escape }}
-      </{{ heading_tag }}>
-    {%- endif -%}
+    <div
+      id="Slider-{{ section.id }}"
+      class="kram-hero__track slider slider--everywhere"
+      {% if has_controls %}
+        aria-live="polite"
+        aria-atomic="true"
+        data-autoplay="{{ section.settings.auto_rotate }}"
+        data-speed="{{ section.settings.change_slides_speed }}"
+      {% endif %}
+    >
+      {%- for block in section.blocks -%}
+        {%- liquid
+          comment
+            'none' is the select's off value — passing it straight through
+            would ask asset_url for a file called 'none'.
+          endcomment
+          assign bundled = block.settings.bundled_image
+          if bundled == 'none'
+            assign bundled = ''
+          endif
 
-    {%- if section.settings.tagline != blank -%}
-      <p class="kram-hero__tagline">{{ section.settings.tagline | escape }}</p>
-    {%- endif -%}
+          comment
+            Only the first slide is worth preloading: it is the LCP candidate.
+            The rest are off-screen and load lazily.
+          endcomment
+          assign slide_loading = 'lazy'
+          assign slide_preload = false
+          if forloop.first
+            assign slide_loading = 'eager'
+            assign slide_preload = true
+          endif
+        -%}
+        <div
+          id="Slide-{{ section.id }}-{{ forloop.index }}"
+          class="kram-hero__slide slideshow__slide slider__slide"
+          {% if has_controls %}
+            role="group"
+            aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
+            aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+          {% endif %}
+          {{ block.shopify_attributes }}
+        >
+          <div class="kram-hero__media">
+            {%- render 'kram-image-mockup',
+              image: block.settings.image,
+              asset: bundled,
+              ratio: section.settings.ratio_desktop,
+              label: block.settings.image_label,
+              alt: block.settings.image_alt,
+              sizes: '100vw',
+              loading: slide_loading,
+              preload: slide_preload
+            -%}
+          </div>
 
-    {%- if section.settings.button_label_1 != blank or section.settings.button_label_2 != blank -%}
-      <div class="kram-hero__actions">
-        {%- if section.settings.button_label_1 != blank -%}
-          <a
-            href="{{ section.settings.button_link_1 | default: routes.all_products_collection_url }}"
-            class="button"
-          >
-            {{ section.settings.button_label_1 | escape }}
-          </a>
+          {%- if section.settings.layout == 'overlay' -%}
+            <div class="kram-hero__overlay"></div>
+          {%- endif -%}
+
+          <div class="kram-hero__content{% if section.settings.layout == 'text-below' %} page-width{% endif %}">
+            {%- comment -%}
+              Heading level, not size — visual size stays on the class.
+
+              On the homepage Dawn wraps the header logo in the page's <h1>, so
+              the hero steps down to <h2> to avoid two first-level headings.
+              The header always renders a logo (uploaded, or the wordmark
+              bundled at assets/kram-logo.png), so that <h1> is always there.
+              On any other page the hero headline IS the page's first-level
+              heading — without this the page would ship with no <h1> at all.
+            {%- endcomment -%}
+            {%- liquid
+              assign heading_tag = 'h1'
+              if request.page_type == 'index' or forloop.first == false
+                assign heading_tag = 'h2'
+              endif
+            -%}
+            {%- if block.settings.heading != blank -%}
+              <{{ heading_tag }} class="kram-hero__heading {{ section.settings.heading_size }}">
+                {{ block.settings.heading | escape }}
+              </{{ heading_tag }}>
+            {%- endif -%}
+
+            {%- if block.settings.tagline != blank -%}
+              <p class="kram-hero__tagline">{{ block.settings.tagline | escape }}</p>
+            {%- endif -%}
+
+            {%- comment -%}
+              The spacer. Mirrors the static foot exactly — same flex column,
+              same button labels at the same width — so the text above it can
+              never run under the real buttons. Hidden from sight and from
+              screen readers, and built from <span>s so nothing here is
+              focusable or findable by the slideshow component.
+            {%- endcomment -%}
+            {%- if show_spacer -%}
+              <div class="kram-hero__foot kram-hero__foot--spacer" aria-hidden="true">
+                {%- if has_actions -%}
+                  <div class="kram-hero__actions">
+                    {%- if section.settings.button_label_1 != blank -%}
+                      <span class="button">{{ section.settings.button_label_1 | escape }}</span>
+                    {%- endif -%}
+                    {%- if section.settings.button_label_2 != blank -%}
+                      <span class="button button--secondary">
+                        {{- section.settings.button_label_2 | escape -}}
+                      </span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+                {%- if has_controls -%}
+                  <span class="kram-hero__controls-spacer"></span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if has_foot -%}
+      <div
+        class="
+          kram-hero__foot
+          {%- if section.settings.layout == 'text-below' %} page-width{% endif %}
+        "
+      >
+        {%- if has_actions -%}
+          <div class="kram-hero__actions">
+            {%- if section.settings.button_label_1 != blank -%}
+              <a
+                href="{{ section.settings.button_link_1 | default: routes.all_products_collection_url }}"
+                class="button"
+              >
+                {{ section.settings.button_label_1 | escape }}
+              </a>
+            {%- endif -%}
+            {%- if section.settings.button_label_2 != blank -%}
+              <a
+                href="{{ section.settings.button_link_2 | default: routes.root_url }}"
+                class="button button--secondary"
+              >
+                {{ section.settings.button_label_2 | escape }}
+              </a>
+            {%- endif -%}
+          </div>
         {%- endif -%}
-        {%- if section.settings.button_label_2 != blank -%}
-          <a
-            href="{{ section.settings.button_link_2 | default: routes.root_url }}"
-            class="button button--secondary"
-          >
-            {{ section.settings.button_label_2 | escape }}
-          </a>
+
+        {%- comment -%}
+          One slide needs no controls, and rendering them would leave a dead
+          pair of arrows under a static hero. Their absence is also what keeps
+          the slideshow component dormant on a single-slide hero.
+        {%- endcomment -%}
+        {%- if has_controls -%}
+          <div class="kram-hero__controls slider-buttons">
+            <button
+              type="button"
+              class="slider-button slider-button--prev"
+              name="previous"
+              aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}"
+              aria-controls="Slider-{{ section.id }}"
+            >
+              <span class="svg-wrapper">
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </span>
+            </button>
+
+            <div class="slider-counter slider-counter--dots">
+              <div class="slideshow__control-wrapper">
+                {%- for block in section.blocks -%}
+                  <button
+                    type="button"
+                    class="slider-counter__link slider-counter__link--dots link"
+                    aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                    aria-controls="Slider-{{ section.id }}"
+                  >
+                    <span class="dot"></span>
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="slider-button slider-button--next"
+              name="next"
+              aria-label="{{ 'sections.slideshow.next_slideshow' | t }}"
+              aria-controls="Slider-{{ section.id }}"
+            >
+              <span class="svg-wrapper">
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </span>
+            </button>
+
+            {%- if section.settings.auto_rotate -%}
+              <button
+                type="button"
+                class="slideshow__autoplay slider-button"
+                aria-label="{{ 'sections.slideshow.pause_slideshow' | t }}"
+              >
+                <span class="svg-wrapper">
+                  {{- 'icon-pause.svg' | inline_asset_content -}}
+                </span>
+                <span class="svg-wrapper">
+                  {{- 'icon-play.svg' | inline_asset_content -}}
+                </span>
+              </button>
+            {%- endif -%}
+          </div>
         {%- endif -%}
       </div>
     {%- endif -%}
-  </div>
+  </slideshow-component>
 </div>
 
 {% schema %}
@@ -99,33 +311,48 @@
   "name": "KRAM · Hero",
   "tag": "section",
   "class": "kram-section-hero",
+  "max_blocks": 5,
   "settings": [
     {
       "type": "paragraph",
-      "content": "The store's opening image. Keep the headline short and honest — no superlatives, no offers."
+      "content": "The store's opening image. Each slide is a block — one for a still hero, several to rotate. Keep every headline short and honest — no superlatives, no offers."
     },
     {
       "type": "header",
-      "content": "Image [OWNER INPUT]"
+      "content": "Rotation"
     },
     {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Hero image"
+      "type": "paragraph",
+      "content": "Only applies with two or more slides. A single slide renders as a still hero with no controls."
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "Rotate automatically",
+      "default": true,
+      "info": "A pause button is always shown alongside the arrows so the rotation can be stopped."
+    },
+    {
+      "type": "range",
+      "id": "change_slides_speed",
+      "label": "Change slides every",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "default": 6,
+      "info": "Long enough to read the headline. Rotation also pauses on hover and while a button has focus."
     },
     {
       "type": "text",
-      "id": "image_label",
-      "label": "Placeholder brief",
-      "default": "Indigo-dyed cloth or an indigo vat, natural daylight, full-bleed.",
-      "info": "Shown in the empty placeholder to tell the owner what belongs here. Disappears once an image is added."
+      "id": "accessibility_info",
+      "label": "Slideshow description",
+      "default": "KRAMSAKON opening images",
+      "info": "Announced by screen readers to introduce the rotating hero."
     },
     {
-      "type": "text",
-      "id": "image_alt",
-      "label": "Alt text",
-      "default": "Naturally indigo-dyed cloth from Sakon Nakhon",
-      "info": "Describe the photograph."
+      "type": "header",
+      "content": "Image"
     },
     {
       "type": "select",
@@ -148,7 +375,8 @@
         { "value": "1 / 1", "label": "Square (1:1)" },
         { "value": "4 / 3", "label": "Landscape (4:3)" }
       ],
-      "default": "4 / 5"
+      "default": "4 / 5",
+      "info": "Shared by every slide so the hero does not change height as it rotates."
     },
     {
       "type": "header",
@@ -163,7 +391,7 @@
         { "value": "text-below", "label": "Below the image" }
       ],
       "default": "overlay",
-      "info": "Choose 'Below the image' if the final photograph is light or busy — text contrast then no longer depends on the photo."
+      "info": "Choose 'Below the image' if the final photographs are light or busy — text contrast then no longer depends on the photo."
     },
     {
       "type": "range",
@@ -174,7 +402,7 @@
       "step": 5,
       "unit": "%",
       "default": 35,
-      "info": "Only applies when text sits over the image. Keep enough to hold WCAG contrast on the headline."
+      "info": "Only applies when text sits over the image, and applies to every slide. Keep enough to hold WCAG contrast on the darkest headline."
     },
     {
       "type": "color_scheme",
@@ -184,16 +412,6 @@
       "info": "Applies when text is set below the image."
     },
     {
-      "type": "header",
-      "content": "Text"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Headline",
-      "default": "Naturally dyed by hand, in Sakon Nakhon."
-    },
-    {
       "type": "select",
       "id": "heading_size",
       "label": "Headline size",
@@ -201,17 +419,16 @@
         { "value": "h1", "label": "Large" },
         { "value": "h0", "label": "Extra large" }
       ],
-      "default": "h0"
-    },
-    {
-      "type": "text",
-      "id": "tagline",
-      "label": "Tagline",
-      "default": "Learning from Nature. Creating the Future."
+      "default": "h0",
+      "info": "Shared by every slide."
     },
     {
       "type": "header",
       "content": "Buttons"
+    },
+    {
+      "type": "paragraph",
+      "content": "Rendered once, below the slides. They stay put while the hero rotates, so the call to action never moves or changes."
     },
     {
       "type": "text",
@@ -250,9 +467,74 @@
       "default": 72
     }
   ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Hero slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Image [OWNER INPUT]"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Hero image",
+          "info": "Your own image, uploaded to Content → Files. Takes priority over the bundled photograph below and gets a full responsive srcset, so prefer it once final photography exists."
+        },
+        {
+          "type": "select",
+          "id": "bundled_image",
+          "label": "Bundled photograph",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "kram-model-01a.jpg", "label": "Look 1 — draped cloth" },
+            { "value": "kram-model-01b.jpg", "label": "Look 1 — striped dress" },
+            { "value": "kram-model-02a.jpg", "label": "Look 2 — shirt and tote" },
+            { "value": "kram-model-02b.jpg", "label": "Look 2 — indigo jacket" },
+            { "value": "kram-model-03a.jpg", "label": "Look 3 — striped shirtdress" },
+            { "value": "kram-model-03b.jpg", "label": "Look 3 — long coat" }
+          ],
+          "default": "none",
+          "info": "A stand-in from the photographs that ship with the theme, for building the slideshow before final hero photography exists. They are portrait (630 × 1043) and will crop hard in a wide hero — replace them."
+        },
+        {
+          "type": "text",
+          "id": "image_label",
+          "label": "Placeholder brief",
+          "default": "Indigo-dyed cloth or an indigo vat, natural daylight, full-bleed.",
+          "info": "Shown in the empty placeholder when neither an upload nor a bundled photograph is set."
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Alt text",
+          "default": "Naturally indigo-dyed cloth from Sakon Nakhon",
+          "info": "Describe the photograph."
+        },
+        {
+          "type": "header",
+          "content": "Text"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Headline",
+          "default": "Naturally dyed by hand, in Sakon Nakhon."
+        },
+        {
+          "type": "text",
+          "id": "tagline",
+          "label": "Tagline",
+          "default": "Learning from Nature. Creating the Future."
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "KRAM · Hero"
+      "name": "KRAM · Hero",
+      "blocks": [{ "type": "slide" }]
     }
   ]
 }

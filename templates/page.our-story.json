@@ -2,17 +2,27 @@
   "sections": {
     "hero": {
       "type": "kram-hero",
+      "blocks": {
+        "slide_land": {
+          "type": "slide",
+          "settings": {
+            "bundled_image": "none",
+            "image_label": "The land, the indigo, or the community at work. Wide, quiet, natural daylight.",
+            "image_alt": "The land and community of Sakon Nakhon",
+            "heading": "Our Story",
+            "tagline": "Learning from Nature. Creating the Future."
+          }
+        }
+      },
+      "block_order": ["slide_land"],
       "settings": {
-        "image_label": "The land, the indigo, or the community at work. Wide, quiet, natural daylight.",
-        "image_alt": "The land and community of Sakon Nakhon",
+        "auto_rotate": false,
         "ratio_desktop": "2 / 1",
         "ratio_mobile": "4 / 5",
         "layout": "text-below",
         "overlay_opacity": 0,
         "color_scheme": "scheme-1",
-        "heading": "Our Story",
         "heading_size": "h0",
-        "tagline": "Learning from Nature. Creating the Future.",
         "button_label_1": "",
         "button_label_2": "",
         "padding_bottom": 24
