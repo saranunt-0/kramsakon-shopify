@@ -61,6 +61,16 @@
           style="--kram-columns: {{ section.blocks.size | at_most: 6 }};"
         >
           {%- for block in section.blocks -%}
+            {%- liquid
+              comment
+                'none' is the select's off value — passing it straight through
+                would ask asset_url for a file called 'none'.
+              endcomment
+              assign bundled = block.settings.bundled_image
+              if bundled == 'none'
+                assign bundled = ''
+              endif
+            -%}
             <li
               class="
                 kram-journey__step
@@ -76,6 +86,7 @@
                 <div class="kram-journey__step-media">
                   {%- render 'kram-image-mockup',
                     image: block.settings.image,
+                    asset: bundled,
                     ratio: section.settings.ratio,
                     label: block.settings.image_label,
                     alt: block.settings.image_alt,
@@ -216,7 +227,23 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image [OWNER INPUT]"
+          "label": "Image [OWNER INPUT]",
+          "info": "Your own upload from Content → Files. Takes priority over the bundled photograph below and gets a full responsive srcset, so prefer it."
+        },
+        {
+          "type": "select",
+          "id": "bundled_image",
+          "label": "Bundled photograph",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "kram-craft-plant.jpg", "label": "Indigo seedlings" },
+            { "value": "kram-craft-thread.jpg", "label": "Winding the thread" },
+            { "value": "kram-craft-vat.jpg", "label": "Dyeing at the vats" },
+            { "value": "kram-craft-loom.jpg", "label": "Weaving at the loom" },
+            { "value": "kram-craft-cloth.jpg", "label": "The finished cloth" }
+          ],
+          "default": "none",
+          "info": "Photographs that ship with the theme, already cropped square for the step cards."
         },
         {
           "type": "text",

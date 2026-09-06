@@ -126,6 +126,16 @@
           data-speed="{{ section.settings.change_slides_speed }}"
         >
           {%- for block in section.blocks -%}
+            {%- liquid
+              comment
+                'none' is the select's off value — passing it straight through
+                would ask asset_url for a file called 'none'.
+              endcomment
+              assign bundled = block.settings.bundled_image
+              if bundled == 'none'
+                assign bundled = ''
+              endif
+            -%}
             <div
               id="Slide-{{ section.id }}-{{ forloop.index }}"
               class="kram-story-slideshow__slide slideshow__slide slider__slide"
@@ -138,6 +148,7 @@
                 <div class="kram-story__media">
                   {%- render 'kram-image-mockup',
                     image: block.settings.image,
+                    asset: bundled,
                     ratio: section.settings.ratio,
                     label: block.settings.image_label,
                     alt: block.settings.image_alt,
@@ -363,7 +374,23 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Image",
+          "info": "Your own upload from Content → Files. Takes priority over the bundled photograph below and gets a full responsive srcset, so prefer it."
+        },
+        {
+          "type": "select",
+          "id": "bundled_image",
+          "label": "Bundled photograph",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "kram-story-plant.jpg", "label": "Indigo seedlings" },
+            { "value": "kram-story-vat.jpg", "label": "Dyeing at the vats" },
+            { "value": "kram-story-loom.jpg", "label": "Weaving at the loom" },
+            { "value": "kram-story-thread.jpg", "label": "Winding the thread" },
+            { "value": "kram-founder.jpg", "label": "The founder, hanging cloth" }
+          ],
+          "default": "none",
+          "info": "Photographs that ship with the theme, already cropped to 3:2 for this section."
         },
         {
           "type": "text",

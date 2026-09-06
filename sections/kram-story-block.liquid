@@ -25,6 +25,17 @@
   }
 {%- endstyle -%}
 
+{%- liquid
+  comment
+    'none' is the select's off value — passing it straight through would ask
+    asset_url for a file called 'none'.
+  endcomment
+  assign bundled = section.settings.bundled_image
+  if bundled == 'none'
+    assign bundled = ''
+  endif
+-%}
+
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <div
     class="
@@ -44,6 +55,7 @@
       <div class="kram-story__media">
         {%- render 'kram-image-mockup',
           image: section.settings.image,
+          asset: bundled,
           ratio: section.settings.ratio,
           label: section.settings.image_label,
           alt: section.settings.image_alt,
@@ -94,7 +106,26 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Image"
+      "label": "Image",
+      "info": "Your own upload from Content → Files. Takes priority over the bundled photograph below and gets a full responsive srcset, so prefer it."
+    },
+    {
+      "type": "select",
+      "id": "bundled_image",
+      "label": "Bundled photograph",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "kram-founder.jpg", "label": "The founder, hanging cloth (3:2)" },
+        { "value": "kram-story-plant.jpg", "label": "Indigo seedlings (3:2)" },
+        { "value": "kram-story-vat.jpg", "label": "Dyeing at the vats (3:2)" },
+        { "value": "kram-story-loom.jpg", "label": "Weaving at the loom (3:2)" },
+        { "value": "kram-story-thread.jpg", "label": "Winding the thread (3:2)" },
+        { "value": "kram-portrait-plant.jpg", "label": "Indigo seedlings (4:5)" },
+        { "value": "kram-portrait-cloth.jpg", "label": "Handwoven cloth (4:5)" },
+        { "value": "kram-portrait-loom.jpg", "label": "Weaving at the loom (4:5)" }
+      ],
+      "default": "none",
+      "info": "Photographs that ship with the theme. Match the crop in brackets to the aspect ratio set below, or the frame will crop it further."
     },
     {
       "type": "text",

@@ -14,7 +14,9 @@
           }
         }
       },
-      "block_order": ["slide_land"],
+      "block_order": [
+        "slide_land"
+      ],
       "settings": {
         "auto_rotate": false,
         "ratio_desktop": "2 / 1",
@@ -28,11 +30,30 @@
         "padding_bottom": 24
       }
     },
+    "founder": {
+      "type": "kram-story-block",
+      "settings": {
+        "bundled_image": "kram-founder.jpg",
+        "image_label": "The founder at work — hanging dyed cloth, or beside the vats.",
+        "image_alt": "Sakuna Saranan, founder of KRAMSAKON, hanging naturally dyed indigo cloth to dry",
+        "ratio": "3 / 2",
+        "image_position": "left",
+        "eyebrow": "Founded 2013",
+        "heading": "The founder",
+        "heading_size": "h2",
+        "text": "<p>Founded in 2013 by Sakuna Saranan, KRAMSAKON is a natural-indigo textile and clothing brand rooted in Sakon Nakhon, a province widely recognised for its distinctive indigo-dyeing tradition. Sakuna returned to her hometown after studying biotechnology, bringing scientific knowledge into her family’s long-standing garment business and using it to develop the region’s traditional indigo craft.</p><p>KRAMSAKON was created with a simple but ambitious purpose: to make Sakon Nakhon’s traditional indigo more accessible while preserving the knowledge and craftsmanship behind it. Rather than treating indigo merely as a traditional handicraft, Sakuna set out to connect local dyers and weavers with contemporary designers, customers, and new markets. The brand grew from making finished fashion pieces into an important link between village producers and the wider textile industry.</p>",
+        "link_label": "",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 72,
+        "padding_bottom": 40
+      }
+    },
     "belief": {
       "type": "kram-story-block",
       "settings": {
         "image_label": "Indigo plant, leaf, or the land at rest. Quiet and elemental.",
-        "image_alt": "An indigo plant growing in Sakon Nakhon",
+        "image_alt": "Young indigo plants growing in the soil near Sakon Nakhon",
         "ratio": "4 / 5",
         "image_position": "right",
         "eyebrow": "",
@@ -42,33 +63,35 @@
         "link_label": "",
         "width": "page",
         "color_scheme": "scheme-1",
-        "padding_top": 72,
-        "padding_bottom": 40
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "bundled_image": "kram-portrait-plant.jpg"
       }
     },
     "heritage": {
       "type": "kram-story-block",
       "settings": {
         "image_label": "Sakon Nakhon: the place, the land, or cloth drying in the open air.",
-        "image_alt": "Naturally dyed indigo cloth drying in Sakon Nakhon",
+        "image_alt": "A close view of handwoven cloth striped in natural indigo",
         "ratio": "4 / 5",
         "image_position": "left",
         "eyebrow": "",
         "heading": "A heritage of Sakon Nakhon",
         "heading_size": "h2",
-        "text": "<p>Sakon Nakhon holds a rare inheritance: natural indigo cloth, born of the relationship between the land, the indigo plant, its people, and knowledge passed down over generations. The colour comes from the indigo plant, and each piece is dyed and woven by hand.</p>",
+        "text": "<p>Sakon Nakhon holds a rare inheritance: natural indigo cloth, born of the relationship between the land, the indigo plant, its people, and knowledge passed down over generations. The colour comes from the indigo plant, and each piece is dyed and woven by hand.</p><p>The heart of KRAMSAKON is naturally dyed, handwoven cotton. The distinctive blue comes from khram, the local indigo plant, whose leaves are traditionally fermented to create an indigo vat. Sakon Nakhon’s natural indigo fabric was registered as a Geographical Indication in 2006, recognising the qualities and the traditional knowledge behind indigo textiles made in the province.</p>",
         "link_label": "",
         "width": "page",
         "color_scheme": "scheme-1",
         "padding_top": 40,
-        "padding_bottom": 40
+        "padding_bottom": 40,
+        "bundled_image": "kram-portrait-cloth.jpg"
       }
     },
     "community": {
       "type": "kram-story-block",
       "settings": {
         "image_label": "The makers together — a group, or hands at work. Celebrate the collective, never one individual as the brand's face.",
-        "image_alt": "Growers, dyers and weavers of the Sakon Nakhon community",
+        "image_alt": "A weaver of the Sakon Nakhon community working at a traditional loom",
         "ratio": "4 / 5",
         "image_position": "right",
         "eyebrow": "",
@@ -79,7 +102,8 @@
         "width": "page",
         "color_scheme": "scheme-1",
         "padding_top": 40,
-        "padding_bottom": 72
+        "padding_bottom": 72,
+        "bundled_image": "kram-portrait-loom.jpg"
       }
     },
     "quote": {
@@ -92,17 +116,18 @@
         "padding_bottom": 96
       }
     },
-    "social_enterprise": {
+    "science": {
       "type": "kram-story-block",
       "settings": {
-        "image_label": "The community benefiting from the craft — workshop, market, or makers together.",
-        "image_alt": "Makers of the KRAMSAKON community at work",
+        "bundled_image": "kram-story-thread.jpg",
+        "image_label": "Thread, spinning, or a new material under test — the craft meeting the laboratory.",
+        "image_alt": "A maker winding spun cotton thread onto a skein winder",
         "ratio": "3 / 2",
         "image_position": "left",
-        "eyebrow": "Social enterprise",
-        "heading": "A social enterprise",
+        "eyebrow": "Craft and science",
+        "heading": "Tradition, science, and design",
         "heading_size": "h2",
-        "text": "<p>KRAMSAKON is a social enterprise. We help the value of this craft flow back to the community of makers — creating income, opportunity, and an economy that grows together with Sakon Nakhon.</p>",
+        "text": "<p>Sakuna’s approach combines traditional craftsmanship with modern science and design. KRAMSAKON has experimented with new textile treatments, contemporary products, and an indigo powder intended to make natural dyeing easier for a new generation of makers. The brand works alongside local producers on everything from clothing and scarves to bags and household textiles.</p>",
         "link_label": "",
         "width": "page",
         "color_scheme": "scheme-1",
@@ -110,18 +135,87 @@
         "padding_bottom": 56
       }
     },
+    "social_enterprise": {
+      "type": "kram-story-block",
+      "settings": {
+        "image_label": "The community benefiting from the craft — workshop, market, or makers together.",
+        "image_alt": "A dyer lifting a hank of yarn from a natural indigo vat",
+        "ratio": "3 / 2",
+        "image_position": "right",
+        "eyebrow": "Social enterprise",
+        "heading": "A social enterprise",
+        "heading_size": "h2",
+        "text": "<p>KRAMSAKON is a social enterprise. We help the value of this craft flow back to the community of makers — creating income, opportunity, and an economy that grows together with Sakon Nakhon.</p><p>Today KRAMSAKON is more than an indigo clothing store. It is a meeting point between local wisdom, natural materials, scientific knowledge, design, and contemporary commerce — helping turn Sakon Nakhon’s traditional blue into a living craft that can keep evolving without losing its connection to the land and the people who make it.</p>",
+        "link_label": "",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "bundled_image": "kram-story-vat.jpg"
+      }
+    },
     "journey_path": {
       "type": "kram-craft-journey",
       "blocks": {
-        "p1": { "type": "step", "settings": { "title": "Nature", "text": "" } },
-        "p2": { "type": "step", "settings": { "title": "Wisdom", "text": "" } },
-        "p3": { "type": "step", "settings": { "title": "Culture", "text": "" } },
-        "p4": { "type": "step", "settings": { "title": "Innovation", "text": "" } },
-        "p5": { "type": "step", "settings": { "title": "Wellness", "text": "" } },
-        "p6": { "type": "step", "settings": { "title": "Community", "text": "" } },
-        "p7": { "type": "step", "settings": { "title": "Future", "text": "" } }
+        "p1": {
+          "type": "step",
+          "settings": {
+            "title": "Nature",
+            "text": ""
+          }
+        },
+        "p2": {
+          "type": "step",
+          "settings": {
+            "title": "Wisdom",
+            "text": ""
+          }
+        },
+        "p3": {
+          "type": "step",
+          "settings": {
+            "title": "Culture",
+            "text": ""
+          }
+        },
+        "p4": {
+          "type": "step",
+          "settings": {
+            "title": "Innovation",
+            "text": ""
+          }
+        },
+        "p5": {
+          "type": "step",
+          "settings": {
+            "title": "Wellness",
+            "text": ""
+          }
+        },
+        "p6": {
+          "type": "step",
+          "settings": {
+            "title": "Community",
+            "text": ""
+          }
+        },
+        "p7": {
+          "type": "step",
+          "settings": {
+            "title": "Future",
+            "text": ""
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6", "p7"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7"
+      ],
       "settings": {
         "layout": "path",
         "ratio": "4 / 5",
@@ -137,15 +231,65 @@
     "value_grid": {
       "type": "kram-value-grid",
       "blocks": {
-        "v1": { "type": "value", "settings": { "title": "Functional", "text": "" } },
-        "v2": { "type": "value", "settings": { "title": "Emotional", "text": "" } },
-        "v3": { "type": "value", "settings": { "title": "Cultural", "text": "" } },
-        "v4": { "type": "value", "settings": { "title": "Wellness", "text": "" } },
-        "v5": { "type": "value", "settings": { "title": "Community", "text": "" } },
-        "v6": { "type": "value", "settings": { "title": "Spiritual", "text": "" } },
-        "v7": { "type": "value", "settings": { "title": "Future", "text": "" } }
+        "v1": {
+          "type": "value",
+          "settings": {
+            "title": "Functional",
+            "text": ""
+          }
+        },
+        "v2": {
+          "type": "value",
+          "settings": {
+            "title": "Emotional",
+            "text": ""
+          }
+        },
+        "v3": {
+          "type": "value",
+          "settings": {
+            "title": "Cultural",
+            "text": ""
+          }
+        },
+        "v4": {
+          "type": "value",
+          "settings": {
+            "title": "Wellness",
+            "text": ""
+          }
+        },
+        "v5": {
+          "type": "value",
+          "settings": {
+            "title": "Community",
+            "text": ""
+          }
+        },
+        "v6": {
+          "type": "value",
+          "settings": {
+            "title": "Spiritual",
+            "text": ""
+          }
+        },
+        "v7": {
+          "type": "value",
+          "settings": {
+            "title": "Future",
+            "text": ""
+          }
+        }
       },
-      "block_order": ["v1", "v2", "v3", "v4", "v5", "v6", "v7"],
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4",
+        "v5",
+        "v6",
+        "v7"
+      ],
       "settings": {
         "eyebrow": "Optional",
         "heading": "Seven Dimensions of Value",
@@ -170,10 +314,12 @@
   },
   "order": [
     "hero",
+    "founder",
     "belief",
     "heritage",
     "community",
     "quote",
+    "science",
     "social_enterprise",
     "journey_path",
     "value_grid",
