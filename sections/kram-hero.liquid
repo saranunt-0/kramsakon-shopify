@@ -12,6 +12,12 @@
   image is light or busy, because it keeps text contrast independent of the
   photo (§8.5, accessibility).
 
+  Contrast over the photograph is held by three things, weakest first: the
+  global "Image darkening" gradient, a localized scrim behind the text block,
+  and a text shadow on the headline and tagline. The scrim is the one to reach
+  for — dimming the whole frame far enough to carry a pale photograph flattens
+  it, and the point of a full-bleed hero is the photograph.
+
   Built on Dawn's own <slideshow-component> (assets/global.js), like the story
   carousel and the editorial lookbook, so it inherits scroll-snap, keyboard
   arrows and dots, autoplay that pauses on hover and on focus, and a visible
@@ -68,6 +74,7 @@
 {%- style -%}
   #shopify-section-{{ section.id }} .kram-hero {
     --kram-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --kram-hero-scrim: {{ section.settings.scrim_opacity | divided_by: 100.0 }};
     --kram-ratio: {{ section.settings.ratio_mobile }};
     --kram-ratio-desktop: {{ section.settings.ratio_desktop }};
     --kram-hero-pad-bottom: {{ section.settings.padding_bottom | times: 0.6 | round: 0 }}px;
@@ -402,7 +409,18 @@
       "step": 5,
       "unit": "%",
       "default": 35,
-      "info": "Only applies when text sits over the image, and applies to every slide. Keep enough to hold WCAG contrast on the darkest headline."
+      "info": "Dims the whole photograph evenly. Only applies when text sits over the image, and applies to every slide. Reach for the setting below first — it holds contrast without flattening the picture."
+    },
+    {
+      "type": "range",
+      "id": "scrim_opacity",
+      "label": "Shade behind the text",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 75,
+      "info": "A soft ellipse of shade under the headline, tagline and buttons, so a light or busy photograph keeps its brightness at the top and corners while the text stays readable. Raise it for pale images."
     },
     {
       "type": "color_scheme",

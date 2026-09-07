@@ -277,6 +277,10 @@ h6,
    -------------------------------------------------------------------------- */
 .kram-hero {
   position: relative;
+  /* A deeper ink than --indigo-deep for text shadow. The brand navy is light
+     enough that at a usable alpha it reads as a blue smudge rather than as
+     shade, which is the opposite of what a legibility shadow is for. */
+  --kram-hero-shade: 12, 20, 34;
 }
 
 .kram-hero__slideshow {
@@ -356,13 +360,27 @@ h6,
   z-index: 0;
 }
 
+/* Two treatments in one layer.
+
+   Underneath, the global dim the owner sets with Overlay opacity. Over it, a
+   localized scrim: an ellipse of shade centred where the headline, tagline and
+   buttons actually sit, so a bright photograph keeps its light across the top
+   and the corners of the frame while the words keep their contrast. An ellipse
+   rather than a panel, so nothing draws a hard edge across the picture. */
 .kram-hero__overlay {
   z-index: 1;
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--indigo-deep-rgb), calc(var(--kram-overlay, 0.35) * 0.5)),
-    rgba(var(--indigo-deep-rgb), var(--kram-overlay, 0.35))
-  );
+  background-image:
+    radial-gradient(
+      ellipse 110% 70% at 50% 80%,
+      rgba(var(--indigo-deep-rgb), var(--kram-hero-scrim, 0.75)) 0%,
+      rgba(var(--indigo-deep-rgb), calc(var(--kram-hero-scrim, 0.75) * 0.5)) 70%,
+      rgba(var(--indigo-deep-rgb), 0) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(var(--indigo-deep-rgb), calc(var(--kram-overlay, 0.35) * 0.5)),
+      rgba(var(--indigo-deep-rgb), var(--kram-overlay, 0.35))
+    );
 }
 
 .kram-hero__content {
@@ -402,6 +420,19 @@ h6,
   margin: 0;
   color: inherit;
   opacity: 0.95;
+}
+
+/* The scrim carries most of the contrast; this finishes the job on the parts
+   of a photograph it cannot flatten. Two shadows, because one cannot do both:
+   a tight, near-opaque halo defines the edges of Fraunces' thin serifs, and a
+   wide faint one lifts the whole block off whatever is behind it. Overlay
+   layout only — with text set below the image it sits on the page background
+   and a shadow there would just look grubby. */
+.kram-hero--overlay .kram-hero__heading,
+.kram-hero--overlay .kram-hero__tagline {
+  text-shadow:
+    0 1px 2px rgba(var(--kram-hero-shade), 0.55),
+    0 2px 20px rgba(var(--kram-hero-shade), 0.4);
 }
 
 /* Buttons above, slider controls below — always stacked, never side by side,
