@@ -69,12 +69,26 @@
   if has_foot and section.settings.layout == 'overlay'
     assign show_spacer = true
   endif
+
+  comment
+    Fraunces carries an optical-size axis, and the theme puts the display cut
+    (opsz 96) on every hero headline. Scaled well down, that cut turns spindly,
+    and hairline serifs are exactly what a photograph swallows — so past a
+    quarter off, the headline takes the compact cut the theme already uses for
+    its smaller headings.
+  endcomment
+  assign hero_opsz = 96
+  if section.settings.text_scale < 75
+    assign hero_opsz = 36
+  endif
 -%}
 
 {%- style -%}
   #shopify-section-{{ section.id }} .kram-hero {
     --kram-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
     --kram-hero-scrim: {{ section.settings.scrim_opacity | divided_by: 100.0 }};
+    --kram-hero-text-scale: {{ section.settings.text_scale | divided_by: 100.0 }};
+    --kram-hero-opsz: {{ hero_opsz }};
     --kram-ratio: {{ section.settings.ratio_mobile }};
     --kram-ratio-desktop: {{ section.settings.ratio_desktop }};
     --kram-hero-pad-bottom: {{ section.settings.padding_bottom | times: 0.6 | round: 0 }}px;
@@ -439,6 +453,17 @@
       ],
       "default": "h0",
       "info": "Shared by every slide."
+    },
+    {
+      "type": "range",
+      "id": "text_scale",
+      "label": "Headline scale",
+      "min": 50,
+      "max": 110,
+      "step": 5,
+      "unit": "%",
+      "default": 100,
+      "info": "Fine adjustment on top of the size above. Below 75% the headline switches to the font's compact cut, which holds up better at a small size over a photograph. The tagline follows, but stops shrinking at around 13px so it stays readable."
     },
     {
       "type": "header",

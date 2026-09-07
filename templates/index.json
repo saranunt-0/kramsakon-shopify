@@ -62,6 +62,7 @@
         "scrim_opacity": 75,
         "color_scheme": "scheme-1",
         "heading_size": "h0",
+        "text_scale": 50,
         "button_label_1": "Shop",
         "button_link_1": "shopify://collections/all",
         "button_label_2": "Our Story",

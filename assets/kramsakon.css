@@ -410,12 +410,39 @@ h6,
   color: inherit;
   max-width: 20ch;
   margin: 0 0 var(--kram-space-sm);
+  font-variation-settings: 'opsz' var(--kram-hero-opsz, 96);
 }
 
+/* Dawn sizes .h0 and .h1 in rem off the site-wide heading scale; the hero
+   multiplies that by a factor of its own, so the headline can be brought down
+   against a busy photograph without touching type anywhere else on the store.
+   The rem values mirror base.css .h0/.h1 — if Dawn's type scale ever changes,
+   change them here too. */
+.kram-hero__heading.h0 {
+  font-size: calc(var(--font-heading-scale) * 4rem * var(--kram-hero-text-scale, 1));
+}
+
+.kram-hero__heading.h1 {
+  font-size: calc(var(--font-heading-scale) * 3rem * var(--kram-hero-text-scale, 1));
+}
+
+@media screen and (min-width: 750px) {
+  .kram-hero__heading.h0 {
+    font-size: calc(var(--font-heading-scale) * 5.2rem * var(--kram-hero-text-scale, 1));
+  }
+
+  .kram-hero__heading.h1 {
+    font-size: calc(var(--font-heading-scale) * 4rem * var(--kram-hero-text-scale, 1));
+  }
+}
+
+/* The tagline follows the headline down, but with a floor: scaled strictly in
+   proportion it would reach 8px at half size, which is neither readable nor
+   the point. */
 .kram-hero__tagline {
   font-family: var(--font-heading-family);
   font-style: italic;
-  font-size: 1.7rem;
+  font-size: calc(1.7rem * max(0.78, var(--kram-hero-text-scale, 1)));
   letter-spacing: 0.04em;
   margin: 0;
   color: inherit;
@@ -431,8 +458,9 @@ h6,
 .kram-hero--overlay .kram-hero__heading,
 .kram-hero--overlay .kram-hero__tagline {
   text-shadow:
-    0 1px 2px rgba(var(--kram-hero-shade), 0.55),
-    0 2px 20px rgba(var(--kram-hero-shade), 0.4);
+    0 1px 2px rgba(var(--kram-hero-shade), 0.7),
+    0 2px 8px rgba(var(--kram-hero-shade), 0.55),
+    0 4px 28px rgba(var(--kram-hero-shade), 0.45);
 }
 
 /* Buttons above, slider controls below — always stacked, never side by side,
