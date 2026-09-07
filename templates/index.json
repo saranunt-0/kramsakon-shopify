@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -6,7 +15,7 @@
         "slide_cloth": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/closeup_09.jpg",
+            "image": "shopify://shop_images/closeup_16.png",
             "bundled_image": "none",
             "image_label": "Full-bleed: indigo-dyed cloth hanging, or an indigo vat. Natural daylight, earthy, unretouched.",
             "image_alt": "Naturally indigo-dyed cloth from Sakon Nakhon",
@@ -17,7 +26,7 @@
         "slide_cloth_finished": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/closeup_13.jpg",
+            "image": "shopify://shop_images/2026-09-06_223426.png",
             "bundled_image": "none",
             "image_label": "Full-bleed: finished indigo cloth, folded or hanging. Show the depth of colour and the weave.",
             "image_alt": "Folded indigo-dyed cloth in natural light",
@@ -28,7 +37,7 @@
         "slide_community": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/process_05.png",
+            "image": "shopify://shop_images/2026-09-06_223348.png",
             "bundled_image": "none",
             "image_label": "Full-bleed: the community at work, or the land. Group or craft-in-context — never a single person as the brand's face.",
             "image_alt": "Weavers and dyers of the Sakon Nakhon community at work",
@@ -104,7 +113,7 @@
         "slide_natural": {
           "type": "story",
           "settings": {
-            "image": "",
+            "bundled_image": "kram-story-plant.jpg",
             "image_label": "Indigo plants, or indigo dye in the vat. Close, natural daylight.",
             "image_alt": "Young indigo plants growing in the soil near Sakon Nakhon",
             "image_position": "left",
@@ -112,14 +121,13 @@
             "heading": "From the indigo plant",
             "text": "<p>Our colour comes from the indigo plant — a natural dye at the heart of a craft passed down for generations in Sakon Nakhon. Every piece is dyed by hand, so no two are exactly alike.</p>",
             "link_label": "",
-            "link": "",
-            "bundled_image": "kram-story-plant.jpg"
+            "link": ""
           }
         },
         "slide_handcraft": {
           "type": "story",
           "settings": {
-            "image": "",
+            "bundled_image": "kram-story-vat.jpg",
             "image_label": "Hands at work — dipping cloth, or at the loom. Show texture and process.",
             "image_alt": "A dyer lifting a hank of yarn from a natural indigo vat",
             "image_position": "right",
@@ -127,14 +135,13 @@
             "heading": "Made by hand",
             "text": "<p>Prepared, dyed, and woven by hand using traditional methods. The small variations in tone and pattern are the mark of real handcraft — and make every piece one of a kind.</p>",
             "link_label": "",
-            "link": "",
-            "bundled_image": "kram-story-vat.jpg"
+            "link": ""
           }
         },
         "slide_community": {
           "type": "story",
           "settings": {
-            "image": "",
+            "bundled_image": "kram-story-loom.jpg",
             "image_label": "The community of makers together, or the place. Group or craft-in-context — never a single person as the brand's face.",
             "image_alt": "A weaver of the Sakon Nakhon community working at a traditional loom",
             "image_position": "left",
@@ -142,8 +149,7 @@
             "heading": "Made by a local community",
             "text": "<p>KRAMSAKON works hand in hand with growers, dyers, and weavers in Sakon Nakhon. As a social enterprise, we help the value of this craft return to the community that keeps it alive.</p>",
             "link_label": "Read our story",
-            "link": "shopify://pages/our-story",
-            "bundled_image": "kram-story-loom.jpg"
+            "link": "shopify://pages/our-story"
           }
         }
       },
@@ -252,7 +258,6 @@
           "settings": {
             "title": "The indigo plant",
             "text": "Indigo is grown and harvested on the land around Sakon Nakhon.",
-            "image": "",
             "bundled_image": "kram-craft-plant.jpg",
             "image_label": "Indigo plants in the field.",
             "image_alt": "Young indigo plants growing in the soil"
@@ -263,7 +268,6 @@
           "settings": {
             "title": "Spun and wound",
             "text": "Cotton is spun and wound into skeins by hand, ready for the vat.",
-            "image": "",
             "bundled_image": "kram-craft-thread.jpg",
             "image_label": "Winding spun cotton onto the skein winder.",
             "image_alt": "A maker winding spun cotton thread onto a skein winder"
@@ -274,7 +278,6 @@
           "settings": {
             "title": "Dyed in the vat",
             "text": "Cloth and yarn are dipped by hand, again and again, until the depth of colour is right.",
-            "image": "",
             "bundled_image": "kram-craft-vat.jpg",
             "image_label": "Hands lifting yarn from the indigo vat.",
             "image_alt": "A dyer lifting a hank of yarn from a natural indigo vat"
@@ -285,7 +288,6 @@
           "settings": {
             "title": "Woven by hand",
             "text": "Each piece is woven on the loom using traditional methods.",
-            "image": "",
             "bundled_image": "kram-craft-loom.jpg",
             "image_label": "Weaver at the loom.",
             "image_alt": "A weaver working at a traditional loom"
@@ -296,7 +298,6 @@
           "settings": {
             "title": "The finished piece",
             "text": "Small variations in tone and pattern are the mark of real handcraft.",
-            "image": "",
             "bundled_image": "kram-craft-cloth.jpg",
             "image_label": "Finished indigo cloth, natural light.",
             "image_alt": "A close view of handwoven cloth striped in natural indigo"

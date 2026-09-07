@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -6,6 +15,7 @@
         "slide_land": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/2026-09-07_010518.png",
             "bundled_image": "none",
             "image_label": "The land, the indigo, or the community at work. Wide, quiet, natural daylight.",
             "image_alt": "The land and community of Sakon Nakhon",
@@ -19,6 +29,8 @@
       ],
       "settings": {
         "auto_rotate": false,
+        "change_slides_speed": 6,
+        "accessibility_info": "KRAMSAKON opening images",
         "ratio_desktop": "2 / 1",
         "ratio_mobile": "4 / 5",
         "layout": "text-below",
@@ -26,7 +38,9 @@
         "color_scheme": "scheme-1",
         "heading_size": "h0",
         "button_label_1": "",
+        "button_link_1": "",
         "button_label_2": "",
+        "button_link_2": "",
         "padding_bottom": 24
       }
     },
@@ -43,6 +57,7 @@
         "heading_size": "h2",
         "text": "<p>Founded in 2013 by Sakuna Saranan, KRAMSAKON is a natural-indigo textile and clothing brand rooted in Sakon Nakhon, a province widely recognised for its distinctive indigo-dyeing tradition. Sakuna returned to her hometown after studying biotechnology, bringing scientific knowledge into her family’s long-standing garment business and using it to develop the region’s traditional indigo craft.</p><p>KRAMSAKON was created with a simple but ambitious purpose: to make Sakon Nakhon’s traditional indigo more accessible while preserving the knowledge and craftsmanship behind it. Rather than treating indigo merely as a traditional handicraft, Sakuna set out to connect local dyers and weavers with contemporary designers, customers, and new markets. The brand grew from making finished fashion pieces into an important link between village producers and the wider textile industry.</p>",
         "link_label": "",
+        "link": "",
         "width": "page",
         "color_scheme": "scheme-1",
         "padding_top": 72,
@@ -52,6 +67,7 @@
     "belief": {
       "type": "kram-story-block",
       "settings": {
+        "bundled_image": "kram-portrait-plant.jpg",
         "image_label": "Indigo plant, leaf, or the land at rest. Quiet and elemental.",
         "image_alt": "Young indigo plants growing in the soil near Sakon Nakhon",
         "ratio": "4 / 5",
@@ -61,16 +77,17 @@
         "heading_size": "h2",
         "text": "<p>KRAMSAKON didn't begin as an attempt to build a brand. It began from a simple belief — that nature is the origin of all wisdom, and that wisdom, guided in the right direction, can create lasting value for people, communities, and the world.</p>",
         "link_label": "",
+        "link": "",
         "width": "page",
         "color_scheme": "scheme-1",
         "padding_top": 40,
-        "padding_bottom": 40,
-        "bundled_image": "kram-portrait-plant.jpg"
+        "padding_bottom": 40
       }
     },
     "heritage": {
       "type": "kram-story-block",
       "settings": {
+        "bundled_image": "kram-portrait-cloth.jpg",
         "image_label": "Sakon Nakhon: the place, the land, or cloth drying in the open air.",
         "image_alt": "A close view of handwoven cloth striped in natural indigo",
         "ratio": "4 / 5",
@@ -80,16 +97,17 @@
         "heading_size": "h2",
         "text": "<p>Sakon Nakhon holds a rare inheritance: natural indigo cloth, born of the relationship between the land, the indigo plant, its people, and knowledge passed down over generations. The colour comes from the indigo plant, and each piece is dyed and woven by hand.</p><p>The heart of KRAMSAKON is naturally dyed, handwoven cotton. The distinctive blue comes from khram, the local indigo plant, whose leaves are traditionally fermented to create an indigo vat. Sakon Nakhon’s natural indigo fabric was registered as a Geographical Indication in 2006, recognising the qualities and the traditional knowledge behind indigo textiles made in the province.</p>",
         "link_label": "",
+        "link": "",
         "width": "page",
         "color_scheme": "scheme-1",
         "padding_top": 40,
-        "padding_bottom": 40,
-        "bundled_image": "kram-portrait-cloth.jpg"
+        "padding_bottom": 40
       }
     },
     "community": {
       "type": "kram-story-block",
       "settings": {
+        "bundled_image": "kram-portrait-loom.jpg",
         "image_label": "The makers together — a group, or hands at work. Celebrate the collective, never one individual as the brand's face.",
         "image_alt": "A weaver of the Sakon Nakhon community working at a traditional loom",
         "ratio": "4 / 5",
@@ -99,11 +117,11 @@
         "heading_size": "h2",
         "text": "<p>For a long time, this value went unrewarded. Growers, dyers, and weavers held precious know-how but lacked access to markets and a way to tell the story behind each piece. Sharing one belief, the community came together so that natural indigo would be not only an inheritance of the past, but an opportunity for the future. KRAMSAKON stands alongside this community of makers.</p>",
         "link_label": "",
+        "link": "",
         "width": "page",
         "color_scheme": "scheme-1",
         "padding_top": 40,
-        "padding_bottom": 72,
-        "bundled_image": "kram-portrait-loom.jpg"
+        "padding_bottom": 72
       }
     },
     "quote": {
@@ -129,6 +147,7 @@
         "heading_size": "h2",
         "text": "<p>Sakuna’s approach combines traditional craftsmanship with modern science and design. KRAMSAKON has experimented with new textile treatments, contemporary products, and an indigo powder intended to make natural dyeing easier for a new generation of makers. The brand works alongside local producers on everything from clothing and scarves to bags and household textiles.</p>",
         "link_label": "",
+        "link": "",
         "width": "page",
         "color_scheme": "scheme-1",
         "padding_top": 88,
@@ -138,6 +157,7 @@
     "social_enterprise": {
       "type": "kram-story-block",
       "settings": {
+        "bundled_image": "kram-story-vat.jpg",
         "image_label": "The community benefiting from the craft — workshop, market, or makers together.",
         "image_alt": "A dyer lifting a hank of yarn from a natural indigo vat",
         "ratio": "3 / 2",
@@ -147,11 +167,11 @@
         "heading_size": "h2",
         "text": "<p>KRAMSAKON is a social enterprise. We help the value of this craft flow back to the community of makers — creating income, opportunity, and an economy that grows together with Sakon Nakhon.</p><p>Today KRAMSAKON is more than an indigo clothing store. It is a meeting point between local wisdom, natural materials, scientific knowledge, design, and contemporary commerce — helping turn Sakon Nakhon’s traditional blue into a living craft that can keep evolving without losing its connection to the land and the people who make it.</p>",
         "link_label": "",
+        "link": "",
         "width": "page",
         "color_scheme": "scheme-1",
         "padding_top": 56,
-        "padding_bottom": 56,
-        "bundled_image": "kram-story-vat.jpg"
+        "padding_bottom": 56
       }
     },
     "journey_path": {
@@ -161,49 +181,70 @@
           "type": "step",
           "settings": {
             "title": "Nature",
-            "text": ""
+            "text": "",
+            "bundled_image": "none",
+            "image_label": "Photograph for this step, natural daylight.",
+            "image_alt": ""
           }
         },
         "p2": {
           "type": "step",
           "settings": {
             "title": "Wisdom",
-            "text": ""
+            "text": "",
+            "bundled_image": "none",
+            "image_label": "Photograph for this step, natural daylight.",
+            "image_alt": ""
           }
         },
         "p3": {
           "type": "step",
           "settings": {
             "title": "Culture",
-            "text": ""
+            "text": "",
+            "bundled_image": "none",
+            "image_label": "Photograph for this step, natural daylight.",
+            "image_alt": ""
           }
         },
         "p4": {
           "type": "step",
           "settings": {
             "title": "Innovation",
-            "text": ""
+            "text": "",
+            "bundled_image": "none",
+            "image_label": "Photograph for this step, natural daylight.",
+            "image_alt": ""
           }
         },
         "p5": {
           "type": "step",
           "settings": {
             "title": "Wellness",
-            "text": ""
+            "text": "",
+            "bundled_image": "none",
+            "image_label": "Photograph for this step, natural daylight.",
+            "image_alt": ""
           }
         },
         "p6": {
           "type": "step",
           "settings": {
             "title": "Community",
-            "text": ""
+            "text": "",
+            "bundled_image": "none",
+            "image_label": "Photograph for this step, natural daylight.",
+            "image_alt": ""
           }
         },
         "p7": {
           "type": "step",
           "settings": {
             "title": "Future",
-            "text": ""
+            "text": "",
+            "bundled_image": "none",
+            "image_label": "Photograph for this step, natural daylight.",
+            "image_alt": ""
           }
         }
       },
