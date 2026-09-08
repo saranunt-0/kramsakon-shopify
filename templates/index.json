@@ -84,7 +84,7 @@
     "new_arrivals": {
       "type": "featured-collection",
       "settings": {
-        "collection": "",
+        "collection": "frontpage",
         "products_to_show": 4,
         "title": "New arrivals",
         "heading_size": "h2",
@@ -243,7 +243,7 @@
         "eyebrow": "The collection",
         "heading": "Woven for everyday",
         "intro": "<p>Pieces dyed with natural indigo and woven by hand — made to be lived with.</p>",
-        "collection": "",
+        "collection": "frontpage",
         "products_to_show": 4,
         "image_ratio": "adapt",
         "link_label": "View all",
@@ -331,13 +331,13 @@
         "cat_1": {
           "type": "featured_collection",
           "settings": {
-            "collection": ""
+            "collection": "frontpage"
           }
         },
         "cat_2": {
           "type": "featured_collection",
           "settings": {
-            "collection": ""
+            "collection": "test"
           }
         },
         "cat_3": {
