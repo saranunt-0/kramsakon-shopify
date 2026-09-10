@@ -4,6 +4,7 @@
       "type": "kram-contact",
       "settings": {
         "heading": "Contact",
+        "heading_level": "h1",
         "heading_size": "h1",
         "intro": "<p>We'd love to hear from you. For product enquiries or to visit us, reach out below.</p>",
         "details_heading": "Find us",
@@ -16,5 +17,7 @@
       }
     }
   },
-  "order": ["contact"]
+  "order": [
+    "contact"
+  ]
 }

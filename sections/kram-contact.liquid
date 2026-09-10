@@ -59,8 +59,17 @@
           data-cascade
         {% endif %}
       >
+        {%- comment -%}
+          Level, not size — the size stays on the class. This section is the
+          whole of the Contact page, where its heading is the page's <h1>, but
+          it also sits at the foot of the Workshop page under a hero that has
+          already supplied one, and a page gets exactly one first-level
+          heading.
+        {%- endcomment -%}
         {%- if section.settings.heading != blank -%}
-          <h1 class="{{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h1>
+          <{{ section.settings.heading_level }} class="{{ section.settings.heading_size }}">
+            {{- section.settings.heading | escape -}}
+          </{{ section.settings.heading_level }}>
         {%- endif -%}
         {%- if section.settings.intro != blank -%}
           <div class="rte kram-lede">{{ section.settings.intro }}</div>
@@ -202,6 +211,12 @@
             <span class="kram-contact__detail-value">
               {%- if settings.kram_phone != blank -%}
                 <a href="tel:{{ settings.kram_phone | remove: ' ' | remove: '-' }}">{{ settings.kram_phone }}</a>
+                {%- if settings.kram_phone_alt != blank -%}
+                  <br>
+                  <a href="tel:{{ settings.kram_phone_alt | remove: ' ' | remove: '-' }}">
+                    {{- settings.kram_phone_alt -}}
+                  </a>
+                {%- endif -%}
               {%- else -%}
                 <span class="kram-contact__pending">{{ 'kramsakon.contact.phone_pending' | t }}</span>
               {%- endif -%}
@@ -287,6 +302,17 @@
       "id": "heading",
       "label": "Heading",
       "default": "Contact"
+    },
+    {
+      "type": "select",
+      "id": "heading_level",
+      "label": "Heading level",
+      "options": [
+        { "value": "h1", "label": "Page heading" },
+        { "value": "h2", "label": "Section heading" }
+      ],
+      "default": "h1",
+      "info": "Set this to 'Section heading' when the page already has a heading above this section — a page should carry exactly one first-level heading."
     },
     {
       "type": "select",

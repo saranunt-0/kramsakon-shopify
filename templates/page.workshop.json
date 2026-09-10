@@ -1,0 +1,108 @@
+{
+  "sections": {
+    "hero": {
+      "type": "kram-hero",
+      "blocks": {
+        "slide_vats": {
+          "type": "slide",
+          "settings": {
+            "bundled_image": "kram-workshop-hero.jpg",
+            "image_label": "Full-bleed: a workshop in progress at the vats. Natural daylight, unposed.",
+            "image_alt": "Workshop participants dipping tied cloth into a natural indigo vat at KRAMSAKON",
+            "heading": "Dye your own indigo cloth.",
+            "tagline": "Workshops at KRAMSAKON, in Sakon Nakhon."
+          }
+        }
+      },
+      "block_order": ["slide_vats"],
+      "settings": {
+        "auto_rotate": false,
+        "ratio_desktop": "2 / 1",
+        "ratio_mobile": "4 / 3",
+        "layout": "overlay",
+        "overlay_opacity": 40,
+        "scrim_opacity": 75,
+        "color_scheme": "scheme-1",
+        "heading_size": "h0",
+        "text_scale": 50,
+        "button_label_1": "",
+        "button_label_2": "",
+        "padding_bottom": 48
+      }
+    },
+    "intro": {
+      "type": "kram-story-block",
+      "settings": {
+        "bundled_image": "kram-workshop-pieces.jpg",
+        "image_label": "Two makers holding up the pieces they dyed. Natural daylight.",
+        "image_alt": "Two workshop participants laughing as they hold up the indigo-dyed cloths they made",
+        "ratio": "1 / 1",
+        "image_position": "right",
+        "eyebrow": "Workshops",
+        "heading": "Try the craft for yourself",
+        "heading_size": "h2",
+        "text": "<p>We run indigo workshops where the dyeing happens, at our place in Sakon Nakhon. You fold and tie your own cloth, dip it in a natural indigo vat, and take home the piece you made — the same vat and the same hand method the makers here use every day.</p><p>No experience is needed. The makers guide every step, and a session suits anything from a couple of visitors to a full group.</p>",
+        "link_label": "",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 72,
+        "padding_bottom": 40
+      }
+    },
+    "visitors": {
+      "type": "kram-story-block",
+      "settings": {
+        "bundled_image": "kram-workshop-visitors.jpg",
+        "image_label": "Visitors with the cloths they dyed, outside the workshop.",
+        "image_alt": "Three visitors holding up the indigo-dyed cloths they made at a KRAMSAKON workshop",
+        "ratio": "3 / 2",
+        "image_position": "left",
+        "eyebrow": "",
+        "heading": "Everyone is welcome",
+        "heading_size": "h2",
+        "text": "<p>Visitors come from across Thailand and from abroad. Every session runs at the pace of the people in it, and there is nothing to prepare beforehand — just bring clothes you do not mind getting indigo on.</p>",
+        "link_label": "",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "children": {
+      "type": "kram-story-block",
+      "settings": {
+        "bundled_image": "kram-workshop-children.jpg",
+        "image_label": "A school group holding up the cloths they dyed.",
+        "image_alt": "A group of children holding up the indigo-dyed cloths they made at a KRAMSAKON workshop",
+        "ratio": "3 / 2",
+        "image_position": "right",
+        "eyebrow": "",
+        "heading": "Good for families and school groups",
+        "heading_size": "h2",
+        "text": "<p>Children take to indigo quickly: fold, tie, dip, and unwrap a pattern nobody can predict. We host school groups and families often, and can set the length of the session and the size of the piece to suit younger hands.</p>",
+        "link_label": "",
+        "width": "page",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 72
+      }
+    },
+    "booking": {
+      "type": "kram-contact",
+      "settings": {
+        "heading": "Book a workshop",
+        "heading_level": "h2",
+        "heading_size": "h2",
+        "intro": "<p>Workshops are arranged directly with us — there is no online booking. Send the date you have in mind, how many people are coming, and roughly how long you have, or call and we will talk it through. The workshop runs at the address below.</p>",
+        "details_heading": "Where to find us",
+        "show_phone_field": true,
+        "line_url": "",
+        "show_social": true,
+        "color_scheme": "scheme-2",
+        "padding_top": 72,
+        "padding_bottom": 88
+      }
+    }
+  },
+  "order": ["hero", "intro", "visitors", "children", "booking"]
+}

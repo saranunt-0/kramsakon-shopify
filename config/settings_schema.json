@@ -86,6 +86,12 @@
       },
       {
         "type": "text",
+        "id": "kram_phone_alt",
+        "label": "Second phone",
+        "info": "Optional. Shown under the first number on the contact details, with its own tel: link."
+      },
+      {
+        "type": "text",
         "id": "kram_line_id",
         "label": "LINE ID",
         "default": "@kramsakon1"
